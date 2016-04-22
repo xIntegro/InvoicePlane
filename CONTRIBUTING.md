@@ -5,7 +5,7 @@
 Every help is welcome, you don't have to be a professional PHP developer or SQL database engineer.
 If you are not familiar with PHP or coding in general you could also help us in other ways.
 
-### 1. Community links
+### 1. Community link
 
 [![Wiki](https://img.shields.io/badge/Help%3A-Official%20Wiki-429ae1.svg)](https://wiki.invoiceplane.com/)    
 [![Community Forums](https://img.shields.io/badge/Help%3A-Community%20Forums-429ae1.svg)](https://community.invoiceplane.com/)    
