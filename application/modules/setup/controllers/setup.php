@@ -4,15 +4,15 @@ if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
 /*
- * InvoicePlane
+ * Xintegrocore
  * 
  * A free and open source web based invoicing system
  *
- * @package		InvoicePlane
- * @author		Kovah (www.kovah.de)
- * @copyright	Copyright (c) 2012 - 2015 InvoicePlane.com
- * @license		https://invoiceplane.com/license.txt
- * @link		https://invoiceplane.com
+ * @package		xintegrocore
+ * @author		dhaval (www.codeembassy.in	)
+ * @copyright	Copyright (c) 2012 - 2015 xintegrocore.com
+ * @license		https://xintegrocore.com/license.txt
+ * @link		https://xintegrocore.com
  * 
  */
 
@@ -35,11 +35,11 @@ class Setup extends MX_Controller
 
         $this->load->module('layout');
 
-        if (!$this->session->userdata('ip_lang')) {
-            $this->session->set_userdata('ip_lang', 'english');
+        if (!$this->session->userdata('xc_lang')) {
+            $this->session->set_userdata('xc_lang', 'english');
         }
 
-        $this->lang->load('ip', $this->session->userdata('ip_lang'));
+        $this->lang->load('ip', $this->session->userdata('xc_lang'));
     }
 
     public function index()
@@ -50,7 +50,7 @@ class Setup extends MX_Controller
     public function language()
     {
         if ($this->input->post('btn_continue')) {
-            $this->session->set_userdata('ip_lang', $this->input->post('ip_lang'));
+            $this->session->set_userdata('xc_lang', $this->input->post('xc_lang'));
             $this->session->set_userdata('install_step', 'prerequisites');
             redirect('setup/prerequisites');
         }
@@ -103,7 +103,7 @@ class Setup extends MX_Controller
             $this->load_ci_database();
 
             // This might be an upgrade - check if it is
-            if (!$this->db->table_exists('ip_versions')) {
+            if (!$this->db->table_exists('xc_versions')) {
                 // This appears to be an install
                 $this->session->set_userdata('install_step', 'install_tables');
                 redirect('setup/install_tables');
@@ -218,7 +218,7 @@ class Setup extends MX_Controller
         // Check if this is an update or the first install
         // First get all version entries from the database and format them
         $this->load_ci_database();
-        $versions = $this->db->query('SELECT * FROM ip_versions');
+        $versions = $this->db->query('SELECT * FROM xc_versions');
         if ($versions->num_rows() > 0) {
             foreach ($versions->result() as $row):
                 $data[] = $row;

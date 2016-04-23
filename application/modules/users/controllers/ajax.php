@@ -4,15 +4,15 @@ if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
 /*
- * InvoicePlane
+ * Xintegrocore
  * 
  * A free and open source web based invoicing system
  *
- * @package		InvoicePlane
- * @author		Kovah (www.kovah.de)
- * @copyright	Copyright (c) 2012 - 2015 InvoicePlane.com
- * @license		https://invoiceplane.com/license.txt
- * @link		https://invoiceplane.com
+ * @package		xintegrocore
+ * @author		dhaval (www.codeembassy.in	)
+ * @copyright	Copyright (c) 2012 - 2015 xintegrocore.com
+ * @license		https://xintegrocore.com/license.txt
+ * @link		https://xintegrocore.com
  * 
  */
 
@@ -37,7 +37,7 @@ class Ajax extends Admin_Controller
             if ($user_id) {
                 // Existing user - go ahead and save the entries
 
-                $user_client = $this->mdl_user_clients->where('ip_user_clients.user_id', $user_id)->where('ip_user_clients.client_id', $client_id)->get();
+                $user_client = $this->mdl_user_clients->where('xc_user_clients.user_id', $user_id)->where('xc_user_clients.client_id', $client_id)->get();
 
                 if (!$user_client->num_rows()) {
                     $this->mdl_user_clients->save(NULL, array('user_id' => $user_id, 'client_id' => $client_id));
@@ -60,14 +60,14 @@ class Ajax extends Admin_Controller
 
             $data = array(
                 'id' => NULL,
-                'user_clients' => $this->mdl_clients->where_in('ip_clients.client_id', $session_user_clients)->get()->result()
+                'user_clients' => $this->mdl_clients->where_in('xc_clients.client_id', $session_user_clients)->get()->result()
             );
         } else {
             $this->load->model('users/mdl_user_clients');
 
             $data = array(
                 'id' => $this->input->post('user_id'),
-                'user_clients' => $this->mdl_user_clients->where('ip_user_clients.user_id', $this->input->post('user_id'))->get()->result()
+                'user_clients' => $this->mdl_user_clients->where('xc_user_clients.user_id', $this->input->post('user_id'))->get()->result()
             );
         }
 

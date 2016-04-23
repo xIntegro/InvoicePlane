@@ -1,4 +1,4 @@
-CREATE TABLE `ip_client_custom` (
+CREATE TABLE `xc_client_custom` (
   `client_custom_id` INT(11) NOT NULL AUTO_INCREMENT,
   `client_id`        INT(11) NOT NULL,
   PRIMARY KEY (`client_custom_id`),
@@ -7,7 +7,7 @@ CREATE TABLE `ip_client_custom` (
   ENGINE = MyISAM
   DEFAULT CHARSET = utf8;
 
-CREATE TABLE `ip_client_notes` (
+CREATE TABLE `xc_client_notes` (
   `client_note_id`   INT(11)  NOT NULL AUTO_INCREMENT,
   `client_id`        INT(11)  NOT NULL,
   `client_note_date` DATE     NOT NULL,
@@ -18,7 +18,7 @@ CREATE TABLE `ip_client_notes` (
   ENGINE = MyISAM
   DEFAULT CHARSET = utf8;
 
-CREATE TABLE `ip_clients` (
+CREATE TABLE `xc_clients` (
   `client_id`            INT(11)      NOT NULL AUTO_INCREMENT,
   `client_date_created`  DATETIME     NOT NULL,
   `client_date_modified` DATETIME     NOT NULL,
@@ -41,7 +41,7 @@ CREATE TABLE `ip_clients` (
   ENGINE = MyISAM
   DEFAULT CHARSET = utf8;
 
-CREATE TABLE `ip_custom_fields` (
+CREATE TABLE `xc_custom_fields` (
   `custom_field_id`     INT(11)     NOT NULL AUTO_INCREMENT,
   `custom_field_table`  VARCHAR(35) NOT NULL,
   `custom_field_label`  VARCHAR(64) NOT NULL,
@@ -52,7 +52,7 @@ CREATE TABLE `ip_custom_fields` (
   ENGINE = MyISAM
   DEFAULT CHARSET = utf8;
 
-CREATE TABLE `ip_email_templates` (
+CREATE TABLE `xc_email_templates` (
   `email_template_id`    INT(11)      NOT NULL AUTO_INCREMENT,
   `email_template_title` VARCHAR(255) NOT NULL,
   `email_template_body`  LONGTEXT     NOT NULL,
@@ -61,7 +61,7 @@ CREATE TABLE `ip_email_templates` (
   ENGINE = MyISAM
   DEFAULT CHARSET = utf8;
 
-CREATE TABLE `ip_import_details` (
+CREATE TABLE `xc_import_details` (
   `import_detail_id`  INT(11)     NOT NULL AUTO_INCREMENT,
   `import_id`         INT(11)     NOT NULL,
   `import_lang_key`   VARCHAR(35) NOT NULL,
@@ -73,7 +73,7 @@ CREATE TABLE `ip_import_details` (
   ENGINE = MyISAM
   DEFAULT CHARSET = utf8;
 
-CREATE TABLE `ip_imports` (
+CREATE TABLE `xc_imports` (
   `import_id`   INT(11)  NOT NULL AUTO_INCREMENT,
   `import_date` DATETIME NOT NULL,
   PRIMARY KEY (`import_id`)
@@ -81,7 +81,7 @@ CREATE TABLE `ip_imports` (
   ENGINE = MyISAM
   DEFAULT CHARSET = utf8;
 
-CREATE TABLE `ip_invoice_amounts` (
+CREATE TABLE `xc_invoice_amounts` (
   `invoice_amount_id`      INT(11) NOT NULL AUTO_INCREMENT,
   `invoice_id`             INT(11) NOT NULL,
   `invoice_item_subtotal`  DECIMAL(10, 2)   DEFAULT '0.00',
@@ -97,7 +97,7 @@ CREATE TABLE `ip_invoice_amounts` (
   ENGINE = MyISAM
   DEFAULT CHARSET = utf8;
 
-CREATE TABLE `ip_invoice_custom` (
+CREATE TABLE `xc_invoice_custom` (
   `invoice_custom_id` INT(11) NOT NULL AUTO_INCREMENT,
   `invoice_id`        INT(11) NOT NULL,
   PRIMARY KEY (`invoice_custom_id`),
@@ -106,7 +106,7 @@ CREATE TABLE `ip_invoice_custom` (
   ENGINE = MyISAM
   DEFAULT CHARSET = utf8;
 
-CREATE TABLE `ip_invoice_groups` (
+CREATE TABLE `xc_invoice_groups` (
   `invoice_group_id`           INT(11)     NOT NULL AUTO_INCREMENT,
   `invoice_group_name`         VARCHAR(50) NOT NULL DEFAULT '',
   `invoice_group_prefix`       VARCHAR(10) NOT NULL DEFAULT '',
@@ -122,7 +122,7 @@ CREATE TABLE `ip_invoice_groups` (
   AUTO_INCREMENT = 3
   DEFAULT CHARSET = utf8;
 
-CREATE TABLE `ip_invoice_item_amounts` (
+CREATE TABLE `xc_invoice_item_amounts` (
   `item_amount_id` INT(11)        NOT NULL AUTO_INCREMENT,
   `item_id`        INT(11)        NOT NULL,
   `item_subtotal`  DECIMAL(10, 2) NOT NULL,
@@ -134,7 +134,7 @@ CREATE TABLE `ip_invoice_item_amounts` (
   ENGINE = MyISAM
   DEFAULT CHARSET = utf8;
 
-CREATE TABLE `ip_invoice_items` (
+CREATE TABLE `xc_invoice_items` (
   `item_id`          INT(11)        NOT NULL AUTO_INCREMENT,
   `invoice_id`       INT(11)        NOT NULL,
   `item_tax_rate_id` INT(11)        NOT NULL DEFAULT '0',
@@ -150,7 +150,7 @@ CREATE TABLE `ip_invoice_items` (
   ENGINE = MyISAM
   DEFAULT CHARSET = utf8;
 
-CREATE TABLE `ip_invoice_tax_rates` (
+CREATE TABLE `xc_invoice_tax_rates` (
   `invoice_tax_rate_id`     INT(11)        NOT NULL AUTO_INCREMENT,
   `invoice_id`              INT(11)        NOT NULL,
   `tax_rate_id`             INT(11)        NOT NULL,
@@ -162,7 +162,7 @@ CREATE TABLE `ip_invoice_tax_rates` (
   ENGINE = MyISAM
   DEFAULT CHARSET = utf8;
 
-CREATE TABLE `ip_invoices` (
+CREATE TABLE `xc_invoices` (
   `invoice_id`            INT(11)     NOT NULL AUTO_INCREMENT,
   `user_id`               INT(11)     NOT NULL,
   `client_id`             INT(11)     NOT NULL,
@@ -182,7 +182,7 @@ CREATE TABLE `ip_invoices` (
   ENGINE = MyISAM
   DEFAULT CHARSET = utf8;
 
-CREATE TABLE `ip_invoices_recurring` (
+CREATE TABLE `xc_invoices_recurring` (
   `invoice_recurring_id` INT(11) NOT NULL AUTO_INCREMENT,
   `invoice_id`           INT(11) NOT NULL,
   `recur_start_date`     DATE    NOT NULL,
@@ -195,7 +195,7 @@ CREATE TABLE `ip_invoices_recurring` (
   ENGINE = MyISAM
   DEFAULT CHARSET = utf8;
 
-CREATE TABLE `ip_item_lookups` (
+CREATE TABLE `xc_item_lookups` (
   `item_lookup_id`   INT(11)        NOT NULL AUTO_INCREMENT,
   `item_name`        VARCHAR(100)   NOT NULL DEFAULT '',
   `item_description` LONGTEXT       NOT NULL,
@@ -205,7 +205,7 @@ CREATE TABLE `ip_item_lookups` (
   ENGINE = MyISAM
   DEFAULT CHARSET = utf8;
 
-CREATE TABLE `ip_merchant_responses` (
+CREATE TABLE `xc_merchant_responses` (
   `merchant_response_id`        INT(11)      NOT NULL AUTO_INCREMENT,
   `invoice_id`                  INT(11)      NOT NULL,
   `merchant_response_date`      DATE         NOT NULL,
@@ -219,7 +219,7 @@ CREATE TABLE `ip_merchant_responses` (
   ENGINE = MyISAM
   DEFAULT CHARSET = utf8;
 
-CREATE TABLE `ip_payment_custom` (
+CREATE TABLE `xc_payment_custom` (
   `payment_custom_id` INT(11) NOT NULL AUTO_INCREMENT,
   `payment_id`        INT(11) NOT NULL,
   PRIMARY KEY (`payment_custom_id`),
@@ -228,7 +228,7 @@ CREATE TABLE `ip_payment_custom` (
   ENGINE = MyISAM
   DEFAULT CHARSET = utf8;
 
-CREATE TABLE `ip_payment_methods` (
+CREATE TABLE `xc_payment_methods` (
   `payment_method_id`   INT(11)     NOT NULL AUTO_INCREMENT,
   `payment_method_name` VARCHAR(35) NOT NULL,
   PRIMARY KEY (`payment_method_id`)
@@ -236,7 +236,7 @@ CREATE TABLE `ip_payment_methods` (
   ENGINE = MyISAM
   DEFAULT CHARSET = utf8;
 
-CREATE TABLE `ip_payments` (
+CREATE TABLE `xc_payments` (
   `payment_id`        INT(11)        NOT NULL AUTO_INCREMENT,
   `invoice_id`        INT(11)        NOT NULL,
   `payment_method_id` INT(11)        NOT NULL DEFAULT '0',
@@ -251,7 +251,7 @@ CREATE TABLE `ip_payments` (
   ENGINE = MyISAM
   DEFAULT CHARSET = utf8;
 
-CREATE TABLE `ip_quote_amounts` (
+CREATE TABLE `xc_quote_amounts` (
   `quote_amount_id`      INT(11)        NOT NULL AUTO_INCREMENT,
   `quote_id`             INT(11)        NOT NULL,
   `quote_item_subtotal`  DECIMAL(10, 2) NOT NULL DEFAULT '0.00',
@@ -264,7 +264,7 @@ CREATE TABLE `ip_quote_amounts` (
   ENGINE = MyISAM
   DEFAULT CHARSET = utf8;
 
-CREATE TABLE `ip_quote_custom` (
+CREATE TABLE `xc_quote_custom` (
   `quote_custom_id` INT(11) NOT NULL AUTO_INCREMENT,
   `quote_id`        INT(11) NOT NULL,
   PRIMARY KEY (`quote_custom_id`),
@@ -273,7 +273,7 @@ CREATE TABLE `ip_quote_custom` (
   ENGINE = MyISAM
   DEFAULT CHARSET = utf8;
 
-CREATE TABLE `ip_quote_item_amounts` (
+CREATE TABLE `xc_quote_item_amounts` (
   `item_amount_id` INT(11)        NOT NULL AUTO_INCREMENT,
   `item_id`        INT(11)        NOT NULL,
   `item_subtotal`  DECIMAL(10, 2) NOT NULL DEFAULT '0.00',
@@ -285,7 +285,7 @@ CREATE TABLE `ip_quote_item_amounts` (
   ENGINE = MyISAM
   DEFAULT CHARSET = utf8;
 
-CREATE TABLE `ip_quote_items` (
+CREATE TABLE `xc_quote_items` (
   `item_id`          INT(11)        NOT NULL AUTO_INCREMENT,
   `quote_id`         INT(11)        NOT NULL,
   `item_tax_rate_id` INT(11)        NOT NULL,
@@ -302,7 +302,7 @@ CREATE TABLE `ip_quote_items` (
   ENGINE = MyISAM
   DEFAULT CHARSET = utf8;
 
-CREATE TABLE `ip_quote_tax_rates` (
+CREATE TABLE `xc_quote_tax_rates` (
   `quote_tax_rate_id`     INT(11)        NOT NULL AUTO_INCREMENT,
   `quote_id`              INT(11)        NOT NULL,
   `tax_rate_id`           INT(11)        NOT NULL,
@@ -315,7 +315,7 @@ CREATE TABLE `ip_quote_tax_rates` (
   ENGINE = MyISAM
   DEFAULT CHARSET = utf8;
 
-CREATE TABLE `ip_quotes` (
+CREATE TABLE `xc_quotes` (
   `quote_id`            INT(11)     NOT NULL AUTO_INCREMENT,
   `invoice_id`          INT(11)     NOT NULL DEFAULT '0',
   `user_id`             INT(11)     NOT NULL,
@@ -335,7 +335,7 @@ CREATE TABLE `ip_quotes` (
   ENGINE = MyISAM
   DEFAULT CHARSET = utf8;
 
-CREATE TABLE `ip_settings` (
+CREATE TABLE `xc_settings` (
   `setting_id`    INT(11)     NOT NULL AUTO_INCREMENT,
   `setting_key`   VARCHAR(50) NOT NULL,
   `setting_value` LONGTEXT    NOT NULL,
@@ -346,7 +346,7 @@ CREATE TABLE `ip_settings` (
   AUTO_INCREMENT = 19
   DEFAULT CHARSET = utf8;
 
-CREATE TABLE `ip_tax_rates` (
+CREATE TABLE `xc_tax_rates` (
   `tax_rate_id`      INT(11)       NOT NULL AUTO_INCREMENT,
   `tax_rate_name`    VARCHAR(25)   NOT NULL,
   `tax_rate_percent` DECIMAL(5, 2) NOT NULL,
@@ -355,7 +355,7 @@ CREATE TABLE `ip_tax_rates` (
   ENGINE = MyISAM
   DEFAULT CHARSET = utf8;
 
-CREATE TABLE `ip_user_clients` (
+CREATE TABLE `xc_user_clients` (
   `user_client_id` INT(11) NOT NULL AUTO_INCREMENT,
   `user_id`        INT(11) NOT NULL,
   `client_id`      INT(11) NOT NULL,
@@ -365,7 +365,7 @@ CREATE TABLE `ip_user_clients` (
   ENGINE = MyISAM
   DEFAULT CHARSET = utf8;
 
-CREATE TABLE `ip_user_custom` (
+CREATE TABLE `xc_user_custom` (
   `user_custom_id` INT(11) NOT NULL AUTO_INCREMENT,
   `user_id`        INT(11) NOT NULL,
   PRIMARY KEY (`user_custom_id`),
@@ -374,7 +374,7 @@ CREATE TABLE `ip_user_custom` (
   ENGINE = MyISAM
   DEFAULT CHARSET = utf8;
 
-CREATE TABLE `ip_users` (
+CREATE TABLE `xc_users` (
   `user_id`            INT(11)      NOT NULL AUTO_INCREMENT,
   `user_type`          INT(1)       NOT NULL DEFAULT '0',
   `user_date_created`  DATETIME     NOT NULL,
@@ -399,7 +399,7 @@ CREATE TABLE `ip_users` (
   ENGINE = MyISAM
   DEFAULT CHARSET = utf8;
 
-CREATE TABLE `ip_versions` (
+CREATE TABLE `xc_versions` (
   `version_id`           INT(11)     NOT NULL AUTO_INCREMENT,
   `version_date_applied` VARCHAR(14) NOT NULL,
   `version_file`         VARCHAR(45) NOT NULL,

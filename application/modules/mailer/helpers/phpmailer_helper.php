@@ -4,15 +4,15 @@ if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
 /*
- * InvoicePlane
+ * Xintegrocore
  * 
  * A free and open source web based invoicing system
  *
- * @package		InvoicePlane
- * @author		Kovah (www.kovah.de)
- * @copyright	Copyright (c) 2012 - 2015 InvoicePlane.com
- * @license		https://invoiceplane.com/license.txt
- * @link		https://invoiceplane.com
+ * @package		xintegrocore
+ * @author		dhaval (www.codeembassy.in	)
+ * @copyright	Copyright (c) 2012 - 2015 xintegrocore.com
+ * @license		https://xintegrocore.com/license.txt
+ * @link		https://xintegrocore.com
  * 
  */
 
@@ -103,7 +103,7 @@ function phpmail_send($from, $to, $subject, $message, $attachment_path = NULL, $
         // Get email address of admin account and push it to the array
         $CI->load->model('users/mdl_users');
         $CI->db->where('user_id', 1);
-        $admin = $CI->db->get('ip_users')->row();
+        $admin = $CI->db->get('xc_users')->row();
         $mail->addBCC($admin->user_email);
     }
 

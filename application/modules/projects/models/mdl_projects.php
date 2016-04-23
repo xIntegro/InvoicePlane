@@ -4,23 +4,23 @@ if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
 /*
- * InvoicePlane
+ * Xintegrocore
  * 
  * A free and open source web based invoicing system
  *
- * @package		InvoicePlane
- * @author		Kovah (www.kovah.de)
- * @copyright	Copyright (c) 2012 - 2014 InvoicePlane.com
- * @license		https://invoiceplane.com/license.txt
- * @link		https://invoiceplane.com
+ * @package		xintegrocore
+ * @author		dhaval (www.codeembassy.in	)
+ * @copyright	Copyright (c) 2012 - 2015 xintegrocore.com
+ * @license		https://xintegrocore.com/license.txt
+ * @link		https://xintegrocore.com
  * 
  */
 
 class Mdl_Projects extends Response_Model
 {
 
-    public $table = 'ip_projects';
-    public $primary_key = 'ip_projects.project_id';
+    public $table = 'xc_projects';
+    public $primary_key = 'xc_projects.project_id';
 
     public function default_select()
     {
@@ -29,13 +29,13 @@ class Mdl_Projects extends Response_Model
 
     public function default_order_by()
     {
-        $this->db->order_by('ip_projects.project_id');
+        $this->db->order_by('xc_projects.project_id');
     }
 
     public function default_join()
     {
-        //$this->db->join('ip_projects', 'ip_projects.project_id = ip_client.project_id', 'left');
-        $this->db->join('ip_clients', 'ip_clients.client_id = ip_projects.client_id', 'left');
+        //$this->db->join('xc_projects', 'xc_projects.project_id = xc_client.project_id', 'left');
+        $this->db->join('xc_clients', 'xc_clients.client_id = xc_projects.client_id', 'left');
     }
 
     public function validation_rules()

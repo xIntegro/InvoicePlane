@@ -4,15 +4,15 @@ if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
 /*
- * InvoicePlane
+ * Xintegrocore
  * 
  * A free and open source web based invoicing system
  *
- * @package		InvoicePlane
- * @author		Kovah (www.kovah.de)
- * @copyright	Copyright (c) 2012 - 2015 InvoicePlane.com
- * @license		https://invoiceplane.com/license.txt
- * @link		https://invoiceplane.com
+ * @package		xintegrocore
+ * @author		dhaval (www.codeembassy.in	)
+ * @copyright	Copyright (c) 2012 - 2015 xintegrocore.com
+ * @license		https://xintegrocore.com/license.txt
+ * @link		https://xintegrocore.com
  * 
  */
 
@@ -44,9 +44,9 @@ class Mdl_Quote_Amounts extends CI_Model
 		        SUM(item_tax_total) AS quote_item_tax_total,
 		        SUM(item_subtotal) + SUM(item_tax_total) AS quote_total,
 		        SUM(item_discount) AS quote_item_discount
-		    FROM ip_quote_item_amounts
+		    FROM xc_quote_item_amounts
 		    WHERE item_id
-		        IN (SELECT item_id FROM ip_quote_items WHERE quote_id = " . $this->db->escape($quote_id) . ")
+		        IN (SELECT item_id FROM xc_quote_items WHERE quote_id = " . $this->db->escape($quote_id) . ")
             ");
 
         $quote_amounts = $query->row();
@@ -64,13 +64,13 @@ class Mdl_Quote_Amounts extends CI_Model
         );
 
         $this->db->where('quote_id', $quote_id);
-        if ($this->db->get('ip_quote_amounts')->num_rows()) {
+        if ($this->db->get('xc_quote_amounts')->num_rows()) {
             // The record already exists; update it
             $this->db->where('quote_id', $quote_id);
-            $this->db->update('ip_quote_amounts', $db_array);
+            $this->db->update('xc_quote_amounts', $db_array);
         } else {
             // The record does not yet exist; insert it
-            $this->db->insert('ip_quote_amounts', $db_array);
+            $this->db->insert('xc_quote_amounts', $db_array);
         }
 
         // Calculate the quote taxes
@@ -86,7 +86,7 @@ class Mdl_Quote_Amounts extends CI_Model
         if ($quote_tax_rates) {
             // There are quote taxes applied
             // Get the current quote amount record
-            $quote_amount = $this->db->where('quote_id', $quote_id)->get('ip_quote_amounts')->row();
+            $quote_amount = $this->db->where('quote_id', $quote_id)->get('xc_quote_amounts')->row();
 
             // Loop through the quote taxes and update the amount for each of the applied quote taxes
             foreach ($quote_tax_rates as $quote_tax_rate) {
@@ -103,14 +103,14 @@ class Mdl_Quote_Amounts extends CI_Model
                     'quote_tax_rate_amount' => $quote_tax_rate_amount
                 );
                 $this->db->where('quote_tax_rate_id', $quote_tax_rate->quote_tax_rate_id);
-                $this->db->update('ip_quote_tax_rates', $db_array);
+                $this->db->update('xc_quote_tax_rates', $db_array);
             }
 
             // Update the quote amount record with the total quote tax amount
-            $this->db->query("UPDATE ip_quote_amounts SET quote_tax_total = (SELECT SUM(quote_tax_rate_amount) FROM ip_quote_tax_rates WHERE quote_id = " . $this->db->escape($quote_id) . ") WHERE quote_id = " . $this->db->escape($quote_id));
+            $this->db->query("UPDATE xc_quote_amounts SET quote_tax_total = (SELECT SUM(quote_tax_rate_amount) FROM xc_quote_tax_rates WHERE quote_id = " . $this->db->escape($quote_id) . ") WHERE quote_id = " . $this->db->escape($quote_id));
 
             // Get the updated quote amount record
-            $quote_amount = $this->db->where('quote_id', $quote_id)->get('ip_quote_amounts')->row();
+            $quote_amount = $this->db->where('quote_id', $quote_id)->get('xc_quote_amounts')->row();
 
             // Recalculate the quote total
             $quote_total = $quote_amount->quote_item_subtotal + $quote_amount->quote_item_tax_total + $quote_amount->quote_tax_total;
@@ -123,7 +123,7 @@ class Mdl_Quote_Amounts extends CI_Model
             );
 
             $this->db->where('quote_id', $quote_id);
-            $this->db->update('ip_quote_amounts', $db_array);
+            $this->db->update('xc_quote_amounts', $db_array);
         } else {
             // No quote taxes applied
 
@@ -132,14 +132,14 @@ class Mdl_Quote_Amounts extends CI_Model
             );
 
             $this->db->where('quote_id', $quote_id);
-            $this->db->update('ip_quote_amounts', $db_array);
+            $this->db->update('xc_quote_amounts', $db_array);
         }
     }
 
     public function calculate_discount($quote_id, $quote_total)
     {
         $this->db->where('quote_id', $quote_id);
-        $quote_data = $this->db->get('ip_quotes')->row();
+        $quote_data = $this->db->get('xc_quotes')->row();
 
         $total = (float)number_format($quote_total, 2, '.', '');
         $discount_amount = (float)number_format($quote_data->quote_discount_amount, 2, '.', '');
@@ -157,33 +157,33 @@ class Mdl_Quote_Amounts extends CI_Model
             case 'month':
                 return $this->db->query("
 					SELECT SUM(quote_total) AS total_quoted 
-					FROM ip_quote_amounts
+					FROM xc_quote_amounts
 					WHERE quote_id IN 
-					(SELECT quote_id FROM ip_quotes
+					(SELECT quote_id FROM xc_quotes
 					WHERE MONTH(quote_date_created) = MONTH(NOW()) 
 					AND YEAR(quote_date_created) = YEAR(NOW()))")->row()->total_quoted;
             case 'last_month':
                 return $this->db->query("
 					SELECT SUM(quote_total) AS total_quoted 
-					FROM ip_quote_amounts
+					FROM xc_quote_amounts
 					WHERE quote_id IN 
-					(SELECT quote_id FROM ip_quotes
+					(SELECT quote_id FROM xc_quotes
 					WHERE MONTH(quote_date_created) = MONTH(NOW() - INTERVAL 1 MONTH)
 					AND YEAR(quote_date_created) = YEAR(NOW() - INTERVAL 1 MONTH))")->row()->total_quoted;
             case 'year':
                 return $this->db->query("
 					SELECT SUM(quote_total) AS total_quoted 
-					FROM ip_quote_amounts
+					FROM xc_quote_amounts
 					WHERE quote_id IN 
-					(SELECT quote_id FROM ip_quotes WHERE YEAR(quote_date_created) = YEAR(NOW()))")->row()->total_quoted;
+					(SELECT quote_id FROM xc_quotes WHERE YEAR(quote_date_created) = YEAR(NOW()))")->row()->total_quoted;
             case 'last_year':
                 return $this->db->query("
 					SELECT SUM(quote_total) AS total_quoted 
-					FROM ip_quote_amounts
+					FROM xc_quote_amounts
 					WHERE quote_id IN 
-					(SELECT quote_id FROM ip_quotes WHERE YEAR(quote_date_created) = YEAR(NOW() - INTERVAL 1 YEAR))")->row()->total_quoted;
+					(SELECT quote_id FROM xc_quotes WHERE YEAR(quote_date_created) = YEAR(NOW() - INTERVAL 1 YEAR))")->row()->total_quoted;
             default:
-                return $this->db->query("SELECT SUM(quote_total) AS total_quoted FROM ip_quote_amounts")->row()->total_quoted;
+                return $this->db->query("SELECT SUM(quote_total) AS total_quoted FROM xc_quote_amounts")->row()->total_quoted;
         }
     }
 
@@ -196,64 +196,64 @@ class Mdl_Quote_Amounts extends CI_Model
 					SELECT quote_status_id,
 					    SUM(quote_total) AS sum_total,
 					    COUNT(*) AS num_total
-					FROM ip_quote_amounts
-					JOIN ip_quotes ON ip_quotes.quote_id = ip_quote_amounts.quote_id
-                        AND MONTH(ip_quotes.quote_date_created) = MONTH(NOW())
-                        AND YEAR(ip_quotes.quote_date_created) = YEAR(NOW())
-					GROUP BY ip_quotes.quote_status_id")->result_array();
+					FROM xc_quote_amounts
+					JOIN xc_quotes ON xc_quotes.quote_id = xc_quote_amounts.quote_id
+                        AND MONTH(xc_quotes.quote_date_created) = MONTH(NOW())
+                        AND YEAR(xc_quotes.quote_date_created) = YEAR(NOW())
+					GROUP BY xc_quotes.quote_status_id")->result_array();
                 break;
             case 'last-month':
                 $results = $this->db->query("
 					SELECT quote_status_id,
 					    SUM(quote_total) AS sum_total,
 					    COUNT(*) AS num_total
-					FROM ip_quote_amounts
-					JOIN ip_quotes ON ip_quotes.quote_id = ip_quote_amounts.quote_id
-                        AND MONTH(ip_quotes.quote_date_created) = MONTH(NOW() - INTERVAL 1 MONTH)
-                        AND YEAR(ip_quotes.quote_date_created) = YEAR(NOW())
-					GROUP BY ip_quotes.quote_status_id")->result_array();
+					FROM xc_quote_amounts
+					JOIN xc_quotes ON xc_quotes.quote_id = xc_quote_amounts.quote_id
+                        AND MONTH(xc_quotes.quote_date_created) = MONTH(NOW() - INTERVAL 1 MONTH)
+                        AND YEAR(xc_quotes.quote_date_created) = YEAR(NOW())
+					GROUP BY xc_quotes.quote_status_id")->result_array();
                 break;
             case 'this-quarter':
                 $results = $this->db->query("
 					SELECT quote_status_id,
 					    SUM(quote_total) AS sum_total,
 					    COUNT(*) AS num_total
-					FROM ip_quote_amounts
-					JOIN ip_quotes ON ip_quotes.quote_id = ip_quote_amounts.quote_id
-                        AND QUARTER(ip_quotes.quote_date_created) = QUARTER(NOW())
-                        AND YEAR(ip_quotes.quote_date_created) = YEAR(NOW())
-					GROUP BY ip_quotes.quote_status_id")->result_array();
+					FROM xc_quote_amounts
+					JOIN xc_quotes ON xc_quotes.quote_id = xc_quote_amounts.quote_id
+                        AND QUARTER(xc_quotes.quote_date_created) = QUARTER(NOW())
+                        AND YEAR(xc_quotes.quote_date_created) = YEAR(NOW())
+					GROUP BY xc_quotes.quote_status_id")->result_array();
                 break;
             case 'last-quarter':
                 $results = $this->db->query("
 					SELECT quote_status_id,
 					    SUM(quote_total) AS sum_total,
 					    COUNT(*) AS num_total
-					FROM ip_quote_amounts
-					JOIN ip_quotes ON ip_quotes.quote_id = ip_quote_amounts.quote_id
-                        AND QUARTER(ip_quotes.quote_date_created) = QUARTER(NOW() - INTERVAL 1 QUARTER)
-                        AND YEAR(ip_quotes.quote_date_created) = YEAR(NOW())
-					GROUP BY ip_quotes.quote_status_id")->result_array();
+					FROM xc_quote_amounts
+					JOIN xc_quotes ON xc_quotes.quote_id = xc_quote_amounts.quote_id
+                        AND QUARTER(xc_quotes.quote_date_created) = QUARTER(NOW() - INTERVAL 1 QUARTER)
+                        AND YEAR(xc_quotes.quote_date_created) = YEAR(NOW())
+					GROUP BY xc_quotes.quote_status_id")->result_array();
                 break;
             case 'this-year':
                 $results = $this->db->query("
 					SELECT quote_status_id,
 					    SUM(quote_total) AS sum_total,
 					    COUNT(*) AS num_total
-					FROM ip_quote_amounts
-					JOIN ip_quotes ON ip_quotes.quote_id = ip_quote_amounts.quote_id
-                        AND YEAR(ip_quotes.quote_date_created) = YEAR(NOW())
-					GROUP BY ip_quotes.quote_status_id")->result_array();
+					FROM xc_quote_amounts
+					JOIN xc_quotes ON xc_quotes.quote_id = xc_quote_amounts.quote_id
+                        AND YEAR(xc_quotes.quote_date_created) = YEAR(NOW())
+					GROUP BY xc_quotes.quote_status_id")->result_array();
                 break;
             case 'last-year':
                 $results = $this->db->query("
 					SELECT quote_status_id,
 					    SUM(quote_total) AS sum_total,
 					    COUNT(*) AS num_total
-					FROM ip_quote_amounts
-					JOIN ip_quotes ON ip_quotes.quote_id = ip_quote_amounts.quote_id
-                        AND YEAR(ip_quotes.quote_date_created) = YEAR(NOW() - INTERVAL 1 YEAR)
-					GROUP BY ip_quotes.quote_status_id")->result_array();
+					FROM xc_quote_amounts
+					JOIN xc_quotes ON xc_quotes.quote_id = xc_quote_amounts.quote_id
+                        AND YEAR(xc_quotes.quote_date_created) = YEAR(NOW() - INTERVAL 1 YEAR)
+					GROUP BY xc_quotes.quote_status_id")->result_array();
                 break;
         }
 

@@ -1,5 +1,5 @@
 # VAT ID and VAT Code added (see #76)
-ALTER TABLE `ip_email_templates`
+ALTER TABLE `xc_email_templates`
 ADD COLUMN `email_template_type` VARCHAR(255) NULL
 AFTER `email_template_title`,
 ADD COLUMN `email_template_subject` VARCHAR(255) NULL
@@ -15,13 +15,13 @@ AFTER `email_template_cc`,
 ADD COLUMN `email_template_pdf_template` VARCHAR(255) NULL
 AFTER `email_template_bcc`;
 
-ALTER TABLE `ip_clients`
+ALTER TABLE `xc_clients`
 ADD COLUMN `client_vat_id` VARCHAR(100) NOT NULL DEFAULT ''
 AFTER `client_web`,
 ADD COLUMN `client_tax_code` VARCHAR(100) NOT NULL DEFAULT ''
 AFTER `client_vat_id`;
 
-ALTER TABLE `ip_users`
+ALTER TABLE `xc_users`
 ADD COLUMN `user_vat_id` VARCHAR(100) NOT NULL DEFAULT ''
 AFTER `user_web`,
 ADD COLUMN `user_tax_code` VARCHAR(100) NOT NULL DEFAULT ''
@@ -32,13 +32,13 @@ ADD COLUMN `user_active` BOOLEAN DEFAULT TRUE
 AFTER `user_type`;
 
 # Allow quote/invoice amounts to be higher (see #84)
-ALTER TABLE ip_quote_amounts MODIFY COLUMN quote_item_subtotal DECIMAL(20, 2);
-ALTER TABLE ip_quote_amounts MODIFY COLUMN quote_item_tax_total DECIMAL(20, 2);
-ALTER TABLE ip_quote_amounts MODIFY COLUMN quote_tax_total DECIMAL(20, 2);
-ALTER TABLE ip_quote_amounts MODIFY COLUMN quote_total DECIMAL(20, 2);
-ALTER TABLE ip_invoice_amounts MODIFY COLUMN invoice_item_subtotal DECIMAL(20, 2);
-ALTER TABLE ip_invoice_amounts MODIFY COLUMN invoice_item_tax_total DECIMAL(20, 2);
-ALTER TABLE ip_invoice_amounts MODIFY COLUMN invoice_tax_total DECIMAL(20, 2);
-ALTER TABLE ip_invoice_amounts MODIFY COLUMN invoice_total DECIMAL(20, 2);
-ALTER TABLE ip_invoice_amounts MODIFY COLUMN invoice_paid DECIMAL(20, 2);
-ALTER TABLE ip_invoice_amounts MODIFY COLUMN invoice_balance DECIMAL(20, 2);
+ALTER TABLE xc_quote_amounts MODIFY COLUMN quote_item_subtotal DECIMAL(20, 2);
+ALTER TABLE xc_quote_amounts MODIFY COLUMN quote_item_tax_total DECIMAL(20, 2);
+ALTER TABLE xc_quote_amounts MODIFY COLUMN quote_tax_total DECIMAL(20, 2);
+ALTER TABLE xc_quote_amounts MODIFY COLUMN quote_total DECIMAL(20, 2);
+ALTER TABLE xc_invoice_amounts MODIFY COLUMN invoice_item_subtotal DECIMAL(20, 2);
+ALTER TABLE xc_invoice_amounts MODIFY COLUMN invoice_item_tax_total DECIMAL(20, 2);
+ALTER TABLE xc_invoice_amounts MODIFY COLUMN invoice_tax_total DECIMAL(20, 2);
+ALTER TABLE xc_invoice_amounts MODIFY COLUMN invoice_total DECIMAL(20, 2);
+ALTER TABLE xc_invoice_amounts MODIFY COLUMN invoice_paid DECIMAL(20, 2);
+ALTER TABLE xc_invoice_amounts MODIFY COLUMN invoice_balance DECIMAL(20, 2);

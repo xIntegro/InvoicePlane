@@ -4,18 +4,17 @@ if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
 /*
- * InvoicePlane
+ * Xintegrocore
  * 
  * A free and open source web based invoicing system
  *
- * @package		InvoicePlane
- * @author		Kovah (www.kovah.de)
- * @copyright	Copyright (c) 2012 - 2015 InvoicePlane.com
- * @license		https://invoiceplane.com/license.txt
- * @link		https://invoiceplane.com
+ * @package		xintegrocore
+ * @author		dhaval (www.codeembassy.in	)
+ * @copyright	Copyright (c) 2012 - 2015 xintegrocore.com
+ * @license		https://xintegrocore.com/license.txt
+ * @link		https://xintegrocore.com
  * 
  */
-
 class Users extends Admin_Controller
 {
     public function __construct()
@@ -87,8 +86,8 @@ class Users extends Admin_Controller
             array(
                 'id' => $id,
                 'user_types' => $this->mdl_users->user_types(),
-                'user_clients' => $this->mdl_user_clients->where('ip_user_clients.user_id', $id)->get()->result(),
-                'custom_fields' => $this->mdl_custom_fields->by_table('ip_user_custom')->get()->result(),
+                'user_clients' => $this->mdl_user_clients->where('xc_user_clients.user_id', $id)->get()->result(),
+                'custom_fields' => $this->mdl_custom_fields->by_table('xc_user_custom')->get()->result(),
                 'countries' => get_country_list(lang('cldr')),
                 'selected_country' => $this->mdl_users->form_value('user_country') ?:
                     $this->mdl_settings->setting('default_country')

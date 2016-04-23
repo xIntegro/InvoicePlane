@@ -4,15 +4,15 @@ if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
 /*
- * InvoicePlane
+ * Xintegrocore
  * 
  * A free and open source web based invoicing system
  *
- * @package		InvoicePlane
- * @author		Kovah (www.kovah.de)
- * @copyright	Copyright (c) 2012 - 2015 InvoicePlane.com
- * @license		https://invoiceplane.com/license.txt
- * @link		https://invoiceplane.com
+ * @package		xintegrocore
+ * @author		dhaval (www.codeembassy.in	)
+ * @copyright	Copyright (c) 2012 - 2015 xintegrocore.com
+ * @license		https://xintegrocore.com/license.txt
+ * @link		https://xintegrocore.com
  * 
  */
 
@@ -189,7 +189,7 @@ class Ajax extends Admin_Controller
                 'client_id' => $client_id,
             );
             $this->db->where('quote_id', $quote_id);
-            $this->db->update('ip_quotes', $db_array);
+            $this->db->update('xc_quotes', $db_array);
 
             $response = array(
                 'success' => 1,
@@ -245,7 +245,7 @@ class Ajax extends Admin_Controller
             'invoice_groups' => $this->mdl_invoice_groups->get()->result(),
             'tax_rates' => $this->mdl_tax_rates->get()->result(),
             'quote_id' => $this->input->post('quote_id'),
-            'quote' => $this->mdl_quotes->where('ip_quotes.quote_id', $this->input->post('quote_id'))->get()->row()
+            'quote' => $this->mdl_quotes->where('xc_quotes.quote_id', $this->input->post('quote_id'))->get()->row()
         );
 
         $this->layout->load_view('quotes/modal_copy_quote', $data);
@@ -286,7 +286,7 @@ class Ajax extends Admin_Controller
         $data = array(
             'invoice_groups' => $this->mdl_invoice_groups->get()->result(),
             'quote_id' => $quote_id,
-            'quote' => $this->mdl_quotes->where('ip_quotes.quote_id', $quote_id)->get()->row()
+            'quote' => $this->mdl_quotes->where('xc_quotes.quote_id', $quote_id)->get()->row()
         );
 
         $this->load->view('quotes/modal_quote_to_invoice', $data);
@@ -310,7 +310,7 @@ class Ajax extends Admin_Controller
 
             $this->db->where('quote_id', $this->input->post('quote_id'));
             $this->db->set('invoice_id', $invoice_id);
-            $this->db->update('ip_quotes');
+            $this->db->update('xc_quotes');
 
             $quote_items = $this->mdl_quote_items->where('quote_id', $this->input->post('quote_id'))->get()->result();
 

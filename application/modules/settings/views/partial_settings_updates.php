@@ -7,8 +7,8 @@
         var current_version = "<?php echo $current_version; ?>";
         current_version = current_version.replace(/\./g, ''); // Remove the dots from the version
 
-        // Get the latest version from updates.invoiceplane.com
-        $.getJSON("https://ids.invoiceplane.com/updatecheck", function (data) {
+        // Get the latest version from updates.xintegrocore.com
+        $.getJSON("https://ids.xintegrocore.com/updatecheck", function (data) {
             <?php echo (IP_DEBUG ? 'console.log(data);' : ''); ?>
             
             var updatecheck = data.current_version.replace(/\./g, '');
@@ -31,7 +31,7 @@
         });
 
         // Get the latest news
-        $.getJSON("https://ids.invoiceplane.com/get_news", function (data) {
+        $.getJSON("https://ids.xintegrocore.com/get_news", function (data) {
             <?php echo (IP_DEBUG ? 'console.log(data);' : ''); ?>
             
             setTimeout(function () {
@@ -75,7 +75,7 @@
             <?php echo lang('updatecheck_failed'); ?>
         </span>
 
-        <a href="https://invoiceplane.com/downloads" id="updatecheck-updates-available"
+        <a href="https://xintegrocore.com/downloads" id="updatecheck-updates-available"
            class="btn btn-success btn-sm hidden" target="_blank">
             <?php echo lang('updates_available'); ?>
         </a>
@@ -83,7 +83,7 @@
 
     <hr/>
 
-    <h4><?php echo lang('invoiceplane_news'); ?></h4>
+    <h4><?php echo lang('xintegrocore_news'); ?></h4>
 
     <div id="ipnews-results">
         <span id="ipnews-loading" class="btn btn-default btn-sm disabled">

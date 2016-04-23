@@ -4,22 +4,22 @@ if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
 /*
- * InvoicePlane
+ * Xintegrocore
  * 
  * A free and open source web based invoicing system
  *
- * @package		InvoicePlane
- * @author		Kovah (www.kovah.de)
- * @copyright	Copyright (c) 2012 - 2015 InvoicePlane.com
- * @license		https://invoiceplane.com/license.txt
- * @link		https://invoiceplane.com
+ * @package		xintegrocore
+ * @author		dhaval (www.codeembassy.in	)
+ * @copyright	Copyright (c) 2012 - 2015 xintegrocore.com
+ * @license		https://xintegrocore.com/license.txt
+ * @link		https://xintegrocore.com
  * 
  */
 
 class Mdl_Client_Custom extends MY_Model
 {
-    public $table = 'ip_client_custom';
-    public $primary_key = 'ip_client_custom.client_custom_id';
+    public $table = 'xc_client_custom';
+    public $primary_key = 'xc_client_custom.client_custom_id';
 
     public function save_custom($client_id, $db_array)
     {

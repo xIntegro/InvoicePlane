@@ -4,15 +4,15 @@ if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
 /*
- * InvoicePlane
+ * Xintegrocore
  * 
  * A free and open source web based invoicing system
  *
- * @package		InvoicePlane
- * @author		Kovah (www.kovah.de)
- * @copyright	Copyright (c) 2012 - 2015 InvoicePlane.com
- * @license		https://invoiceplane.com/license.txt
- * @link		https://invoiceplane.com
+ * @package		xintegrocore
+ * @author		dhaval (www.codeembassy.in	)
+ * @copyright	Copyright (c) 2012 - 2015 xintegrocore.com
+ * @license		https://xintegrocore.com/license.txt
+ * @link		https://xintegrocore.com
  * 
  */
 
@@ -36,10 +36,10 @@ class Invoices extends Guest_Controller
         // Determine which group of invoices to load
         switch ($status) {
             case 'paid':
-                $this->mdl_invoices->is_paid()->where_in('ip_invoices.client_id', $this->user_clients);
+                $this->mdl_invoices->is_paid()->where_in('xc_invoices.client_id', $this->user_clients);
                 break;
             default:
-                $this->mdl_invoices->is_open()->where_in('ip_invoices.client_id', $this->user_clients);
+                $this->mdl_invoices->is_open()->where_in('xc_invoices.client_id', $this->user_clients);
                 break;
 
         }
@@ -63,7 +63,7 @@ class Invoices extends Guest_Controller
         $this->load->model('invoices/mdl_items');
         $this->load->model('invoices/mdl_invoice_tax_rates');
 
-        $invoice = $this->mdl_invoices->where('ip_invoices.invoice_id', $invoice_id)->where_in('ip_invoices.client_id', $this->user_clients)->get()->row();
+        $invoice = $this->mdl_invoices->where('xc_invoices.invoice_id', $invoice_id)->where_in('xc_invoices.client_id', $this->user_clients)->get()->row();
 
         if (!$invoice) {
             show_404();

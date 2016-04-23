@@ -4,15 +4,15 @@ if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
 /*
- * InvoicePlane
+ * Xintegrocore
  * 
  * A free and open source web based invoicing system
  *
- * @package		InvoicePlane
- * @author		Kovah (www.kovah.de)
- * @copyright	Copyright (c) 2012 - 2015 InvoicePlane.com
- * @license		https://invoiceplane.com/license.txt
- * @link		https://invoiceplane.com
+ * @package		xintegrocore
+ * @author		dhaval (www.codeembassy.in	)
+ * @copyright	Copyright (c) 2012 - 2015 xintegrocore.com
+ * @license		https://xintegrocore.com/license.txt
+ * @link		https://xintegrocore.com
  * 
  */
 
@@ -46,11 +46,11 @@ class Mdl_Item_Amounts extends CI_Model
         );
 
         $this->db->where('item_id', $item_id);
-        if ($this->db->get('ip_invoice_item_amounts')->num_rows()) {
+        if ($this->db->get('xc_invoice_item_amounts')->num_rows()) {
             $this->db->where('item_id', $item_id);
-            $this->db->update('ip_invoice_item_amounts', $db_array);
+            $this->db->update('xc_invoice_item_amounts', $db_array);
         } else {
-            $this->db->insert('ip_invoice_item_amounts', $db_array);
+            $this->db->insert('xc_invoice_item_amounts', $db_array);
         }
     }
 

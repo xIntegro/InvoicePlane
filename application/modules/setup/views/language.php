@@ -1,7 +1,7 @@
 <div class="container">
     <div class="install-panel">
 
-        <h1 id="logo"><span>InvoicePlane</span></h1>
+        <h1 id="logo"><span>Xintegrocore</span></h1>
 
         <form method="post" action="<?php echo site_url($this->uri->uri_string()); ?>">
 
@@ -9,7 +9,7 @@
 
             <p><?php echo lang('setup_choose_language_message'); ?></p>
 
-            <select name="ip_lang" class="form-control">
+            <select name="xc_lang" class="form-control">
                 <?php foreach ($languages as $language) { ?>
                     <option value="<?php echo $language; ?>"
                             <?php if ($language == 'english') { ?>selected="selected"<?php } ?>><?php echo ucfirst($language); ?></option>

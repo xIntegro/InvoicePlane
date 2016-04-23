@@ -4,16 +4,16 @@ if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
 /*
- * InvoicePlane
- *
+ * Xintegrocore
+ * 
  * A free and open source web based invoicing system
  *
- * @package		InvoicePlane
- * @author		Kovah (www.kovah.de)
- * @copyright	Copyright (c) 2012 - 2015 InvoicePlane.com
- * @license		https://invoiceplane.com/license.txt
- * @link		https://invoiceplane.com
- *
+ * @package		xintegrocore
+ * @author		dhaval (www.codeembassy.in	)
+ * @copyright	Copyright (c) 2012 - 2015 xintegrocore.com
+ * @license		https://xintegrocore.com/license.txt
+ * @link		https://xintegrocore.com
+ * 
  */
 
 class Mailer extends Admin_Controller
@@ -43,7 +43,7 @@ class Mailer extends Admin_Controller
         $this->load->model('email_templates/mdl_email_templates');
         $this->load->helper('template');
 
-        $invoice = $this->mdl_invoices->where('ip_invoices.invoice_id', $invoice_id)->get()->row();
+        $invoice = $this->mdl_invoices->where('xc_invoices.invoice_id', $invoice_id)->get()->row();
 
         $email_template_id = select_email_invoice_template($invoice);
 
@@ -85,7 +85,7 @@ class Mailer extends Admin_Controller
         $this->layout->set('selected_pdf_template', $this->mdl_settings->setting('pdf_quote_template'));
         $this->layout->set('selected_email_template', $email_template_id);
         $this->layout->set('email_templates', $this->mdl_email_templates->where('email_template_type', 'quote')->get()->result());
-        $this->layout->set('quote', $this->mdl_quotes->where('ip_quotes.quote_id', $quote_id)->get()->row());
+        $this->layout->set('quote', $this->mdl_quotes->where('xc_quotes.quote_id', $quote_id)->get()->row());
         $this->layout->set('pdf_templates', $this->mdl_templates->get_quote_templates());
         $this->layout->buffer('content', 'mailer/quote');
         $this->layout->render();

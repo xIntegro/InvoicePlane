@@ -4,22 +4,22 @@ if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
 /*
- * InvoicePlane
+ * Xintegrocore
  * 
  * A free and open source web based invoicing system
  *
- * @package		InvoicePlane
- * @author		Kovah (www.kovah.de)
- * @copyright	Copyright (c) 2012 - 2015 InvoicePlane.com
- * @license		https://invoiceplane.com/license.txt
- * @link		https://invoiceplane.com
+ * @package		xintegrocore
+ * @author		dhaval (www.codeembassy.in	)
+ * @copyright	Copyright (c) 2012 - 2015 xintegrocore.com
+ * @license		https://xintegrocore.com/license.txt
+ * @link		https://xintegrocore.com
  * 
  */
 
 class Mdl_Invoice_Groups extends Response_Model
 {
-    public $table = 'ip_invoice_groups';
-    public $primary_key = 'ip_invoice_groups.invoice_group_id';
+    public $table = 'xc_invoice_groups';
+    public $primary_key = 'xc_invoice_groups.invoice_group_id';
 
     public function default_select()
     {
@@ -28,7 +28,7 @@ class Mdl_Invoice_Groups extends Response_Model
 
     public function default_order_by()
     {
-        $this->db->order_by('ip_invoice_groups.invoice_group_name');
+        $this->db->order_by('xc_invoice_groups.invoice_group_name');
     }
 
     public function validation_rules()

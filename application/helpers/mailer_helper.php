@@ -4,16 +4,16 @@ if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
 /*
- * InvoicePlane
- *
+ * Xintegrocore
+ * 
  * A free and open source web based invoicing system
  *
- * @package		InvoicePlane
- * @author		Kovah (www.kovah.de)
- * @copyright	Copyright (c) 2012 - 2015 InvoicePlane.com
- * @license		https://invoiceplane.com/license.txt
- * @link		https://invoiceplane.com
- *
+ * @package		xintegrocore
+ * @author		dhaval (www.codeembassy.in	)
+ * @copyright	Copyright (c) 2012 - 2015 xintegrocore.com
+ * @license		https://xintegrocore.com/license.txt
+ * @link		https://xintegrocore.com
+ * 
  */
 
 function mailer_configured()
@@ -37,7 +37,7 @@ function email_invoice($invoice_id, $invoice_template, $from, $to, $subject, $bo
 
     $invoice = generate_invoice_pdf($invoice_id, FALSE, $invoice_template);
 
-    $db_invoice = $CI->mdl_invoices->where('ip_invoices.invoice_id', $invoice_id)->get()->row();
+    $db_invoice = $CI->mdl_invoices->where('xc_invoices.invoice_id', $invoice_id)->get()->row();
 
     $message = parse_template($db_invoice, $body);
     $subject = parse_template($db_invoice, $subject);
@@ -58,7 +58,7 @@ function email_quote($quote_id, $quote_template, $from, $to, $subject, $body, $c
 
     $quote = generate_quote_pdf($quote_id, FALSE, $quote_template);
 
-    $db_quote = $CI->mdl_quotes->where('ip_quotes.quote_id', $quote_id)->get()->row();
+    $db_quote = $CI->mdl_quotes->where('xc_quotes.quote_id', $quote_id)->get()->row();
 
     $message = parse_template($db_quote, $body);
     $subject = parse_template($db_quote, $subject);
@@ -84,7 +84,7 @@ function email_quote_status($quote_id, $status)
     $CI = &get_instance();
     $CI->load->helper('mailer/phpmailer');
 
-    $quote = $CI->mdl_quotes->where('ip_quotes.quote_id', $quote_id)->get()->row();
+    $quote = $CI->mdl_quotes->where('xc_quotes.quote_id', $quote_id)->get()->row();
     $base_url = base_url('/quotes/view/' . $quote_id);
 
     $user_email = $quote->user_email;

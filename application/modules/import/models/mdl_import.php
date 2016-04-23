@@ -4,22 +4,22 @@ if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
 /*
- * InvoicePlane
+ * Xintegrocore
  * 
  * A free and open source web based invoicing system
  *
- * @package		InvoicePlane
- * @author		Kovah (www.kovah.de)
- * @copyright	Copyright (c) 2012 - 2015 InvoicePlane.com
- * @license		https://invoiceplane.com/license.txt
- * @link		https://invoiceplane.com
+ * @package		xintegrocore
+ * @author		dhaval (www.codeembassy.in	)
+ * @copyright	Copyright (c) 2012 - 2015 xintegrocore.com
+ * @license		https://xintegrocore.com/license.txt
+ * @link		https://xintegrocore.com
  * 
  */
 
 class Mdl_Import extends Response_Model
 {
-    public $table = 'ip_imports';
-    public $primary_key = 'ip_imports.import_id';
+    public $table = 'xc_imports';
+    public $primary_key = 'xc_imports.import_id';
     public $expected_headers = array(
         'clients.csv' => array(
             'client_name',
@@ -62,10 +62,10 @@ class Mdl_Import extends Response_Model
         )
     );
     public $primary_keys = array(
-        'ip_clients' => 'client_id',
-        'ip_invoices' => 'invoice_id',
-        'ip_invoice_items' => 'item_id',
-        'ip_payments' => 'payment_id'
+        'xc_clients' => 'client_id',
+        'xc_invoices' => 'invoice_id',
+        'xc_invoice_items' => 'item_id',
+        'xc_payments' => 'payment_id'
     );
 
     public function __construct()
@@ -76,16 +76,16 @@ class Mdl_Import extends Response_Model
 
     public function default_select()
     {
-        $this->db->select("SQL_CALC_FOUND_ROWS ip_imports.*,
-            (SELECT COUNT(*) FROM ip_import_details WHERE import_table_name = 'ip_clients' AND ip_import_details.import_id = ip_imports.import_id) AS num_clients,
-            (SELECT COUNT(*) FROM ip_import_details WHERE import_table_name = 'ip_invoices' AND ip_import_details.import_id = ip_imports.import_id) AS num_invoices,
-            (SELECT COUNT(*) FROM ip_import_details WHERE import_table_name = 'ip_invoice_items' AND ip_import_details.import_id = ip_imports.import_id) AS num_invoice_items,
-            (SELECT COUNT(*) FROM ip_import_details WHERE import_table_name = 'ip_payments' AND ip_import_details.import_id = ip_imports.import_id) AS num_payments", FALSE);
+        $this->db->select("SQL_CALC_FOUND_ROWS xc_imports.*,
+            (SELECT COUNT(*) FROM xc_import_details WHERE import_table_name = 'xc_clients' AND xc_import_details.import_id = xc_imports.import_id) AS num_clients,
+            (SELECT COUNT(*) FROM xc_import_details WHERE import_table_name = 'xc_invoices' AND xc_import_details.import_id = xc_imports.import_id) AS num_invoices,
+            (SELECT COUNT(*) FROM xc_import_details WHERE import_table_name = 'xc_invoice_items' AND xc_import_details.import_id = xc_imports.import_id) AS num_invoice_items,
+            (SELECT COUNT(*) FROM xc_import_details WHERE import_table_name = 'xc_payments' AND xc_import_details.import_id = xc_imports.import_id) AS num_payments", FALSE);
     }
 
     public function default_order_by()
     {
-        $this->db->order_by('ip_imports.import_date DESC');
+        $this->db->order_by('xc_imports.import_date DESC');
     }
 
     public function start_import()
@@ -94,7 +94,7 @@ class Mdl_Import extends Response_Model
             'import_date' => date('Y-m-d H:i:s')
         );
 
-        $this->db->insert('ip_imports', $db_array);
+        $this->db->insert('xc_imports', $db_array);
 
         return $this->db->insert_id();
     }
@@ -177,7 +177,7 @@ class Mdl_Import extends Response_Model
                     if ($header == 'user_email') {
                         // Attempt to replace email address with user id
                         $this->db->where('user_email', $data[$key]);
-                        $user = $this->db->get('ip_users');
+                        $user = $this->db->get('xc_users');
                         if ($user->num_rows()) {
                             $header = 'user_id';
                             $data[$key] = $user->row()->user_id;
@@ -189,7 +189,7 @@ class Mdl_Import extends Response_Model
                         // Replace client name with client id
                         $header = 'client_id';
                         $this->db->where('client_name', $data[$key]);
-                        $client = $this->db->get('ip_clients');
+                        $client = $this->db->get('xc_clients');
                         if ($client->num_rows()) {
                             // Existing client found
                             $data[$key] = $client->row()->client_id;
@@ -201,7 +201,7 @@ class Mdl_Import extends Response_Model
                                 'client_date_modified' => date('Y-m-d')
                             );
 
-                            $this->db->insert('ip_clients', $client_db_array);
+                            $this->db->insert('xc_clients', $client_db_array);
                             $data[$key] = $this->db->insert_id();
                         }
                     }
@@ -255,7 +255,7 @@ class Mdl_Import extends Response_Model
                     if ($header == 'invoice_number') {
                         // Replace invoice_number with invoice_id
                         $this->db->where('invoice_number', $data[$key]);
-                        $user = $this->db->get('ip_invoices');
+                        $user = $this->db->get('xc_invoices');
                         if ($user->num_rows()) {
                             $header = 'invoice_id';
                             $data[$key] = $user->row()->invoice_id;
@@ -267,11 +267,11 @@ class Mdl_Import extends Response_Model
                         $header = 'item_tax_rate_id';
                         if ($data[$key] > 0) {
                             $this->db->where('tax_rate_percent', $data[$key]);
-                            $tax_rate = $this->db->get('ip_tax_rates');
+                            $tax_rate = $this->db->get('xc_tax_rates');
                             if ($tax_rate->num_rows()) {
                                 $data[$key] = $tax_rate->row()->tax_rate_id;
                             } else {
-                                $this->db->insert('ip_tax_rates', array('tax_rate_name' => $data[$key], 'tax_rate_percent' => $data[$key]));
+                                $this->db->insert('xc_tax_rates', array('tax_rate_name' => $data[$key], 'tax_rate_percent' => $data[$key]));
                                 $data[$key] = $this->db->insert_id();
                             }
                         } else {
@@ -316,7 +316,7 @@ class Mdl_Import extends Response_Model
                 foreach ($headers as $key => $header) {
                     if ($header == 'invoice_number') {
                         $this->db->where('invoice_number', $data[$key]);
-                        $user = $this->db->get('ip_invoices');
+                        $user = $this->db->get('xc_invoices');
                         if ($user->num_rows()) {
                             $header = 'invoice_id';
                             $data[$key] = $user->row()->invoice_id;
@@ -328,11 +328,11 @@ class Mdl_Import extends Response_Model
 
                         if ($data[$key]) {
                             $this->db->where('payment_method_name', $data[$key]);
-                            $payment_method = $this->db->get('ip_payment_methods');
+                            $payment_method = $this->db->get('xc_payment_methods');
                             if ($payment_method->num_rows()) {
                                 $data[$key] = $payment_method->row()->payment_method_id;
                             } else {
-                                $this->db->insert('ip_payment_methods', array('payment_method_name' => $data[$key]));
+                                $this->db->insert('xc_payment_methods', array('payment_method_name' => $data[$key]));
                                 $data[$key] = $this->db->insert_id();
                             }
                         } else {
@@ -365,14 +365,14 @@ class Mdl_Import extends Response_Model
                 'import_record_id' => $id
             );
 
-            $this->db->insert('ip_import_details', $db_array);
+            $this->db->insert('xc_import_details', $db_array);
         }
     }
 
     public function delete($import_id)
     {
         // Gather the import details
-        $import_details = $this->db->where('import_id', $import_id)->get('ip_import_details')->result();
+        $import_details = $this->db->where('import_id', $import_id)->get('xc_import_details')->result();
 
         // Loop through details and delete each of the imported records
         foreach ($import_details as $import_detail) {
@@ -384,7 +384,7 @@ class Mdl_Import extends Response_Model
 
         // Delete the detail records
         $this->db->where('import_id', $import_id);
-        $this->db->delete('ip_import_details');
+        $this->db->delete('xc_import_details');
 
         // Delete any orphaned records
         $this->load->helper('orphan');

@@ -4,22 +4,22 @@ if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
 /*
- * InvoicePlane
+ * Xintegrocore
  * 
  * A free and open source web based invoicing system
  *
- * @package		InvoicePlane
- * @author		Kovah (www.kovah.de)
- * @copyright	Copyright (c) 2012 - 2015 InvoicePlane.com
- * @license		https://invoiceplane.com/license.txt
- * @link		https://invoiceplane.com
+ * @package		xintegrocore
+ * @author		dhaval (www.codeembassy.in	)
+ * @copyright	Copyright (c) 2012 - 2015 xintegrocore.com
+ * @license		https://xintegrocore.com/license.txt
+ * @link		https://xintegrocore.com
  * 
  */
 
 class Mdl_Invoices_Recurring extends Response_Model
 {
-    public $table = 'ip_invoices_recurring';
-    public $primary_key = 'ip_invoices_recurring.invoice_recurring_id';
+    public $table = 'xc_invoices_recurring';
+    public $primary_key = 'xc_invoices_recurring.invoice_recurring_id';
     public $recur_frequencies = array(
         '7D' => 'calendar_week',
         '1M' => 'calendar_month',
@@ -30,16 +30,16 @@ class Mdl_Invoices_Recurring extends Response_Model
 
     public function default_select()
     {
-        $this->db->select("SQL_CALC_FOUND_ROWS ip_invoices.*,
-            ip_clients.client_name,
-            ip_invoices_recurring.*,
+        $this->db->select("SQL_CALC_FOUND_ROWS xc_invoices.*,
+            xc_clients.client_name,
+            xc_invoices_recurring.*,
             IF(recur_end_date > date(NOW()) OR recur_end_date = '0000-00-00', 'active', 'inactive') AS recur_status", FALSE);
     }
 
     public function default_join()
     {
-        $this->db->join('ip_invoices', 'ip_invoices.invoice_id = ip_invoices_recurring.invoice_id');
-        $this->db->join('ip_clients', 'ip_clients.client_id = ip_invoices.client_id');
+        $this->db->join('xc_invoices', 'xc_invoices.invoice_id = xc_invoices_recurring.invoice_id');
+        $this->db->join('xc_clients', 'xc_clients.client_id = xc_invoices.client_id');
     }
 
     public function validation_rules()
@@ -90,7 +90,7 @@ class Mdl_Invoices_Recurring extends Response_Model
         );
 
         $this->db->where('invoice_recurring_id', $invoice_recurring_id);
-        $this->db->update('ip_invoices_recurring', $db_array);
+        $this->db->update('xc_invoices_recurring', $db_array);
     }
 
     /**
@@ -114,7 +114,7 @@ class Mdl_Invoices_Recurring extends Response_Model
         );
 
         $this->db->where('invoice_recurring_id', $invoice_recurring_id);
-        $this->db->update('ip_invoices_recurring', $db_array);
+        $this->db->update('xc_invoices_recurring', $db_array);
     }
 
 }

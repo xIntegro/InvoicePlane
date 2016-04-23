@@ -4,16 +4,16 @@ if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
 /*
- * InvoicePlane
- *
+ * Xintegrocore
+ * 
  * A free and open source web based invoicing system
  *
- * @package		InvoicePlane
- * @author		Kovah (www.kovah.de)
- * @copyright	Copyright (c) 2012 - 2015 InvoicePlane.com
- * @license		https://invoiceplane.com/license.txt
- * @link		https://invoiceplane.com
- *
+ * @package		xintegrocore
+ * @author		dhaval (www.codeembassy.in	)
+ * @copyright	Copyright (c) 2012 - 2015 xintegrocore.com
+ * @license		https://xintegrocore.com/license.txt
+ * @link		https://xintegrocore.com
+ * 
  */
 
 class View extends Base_Controller
@@ -124,7 +124,7 @@ class View extends Base_Controller
         $this->load->helper('mailer');
 
         $this->mdl_quotes->approve_quote_by_key($quote_url_key);
-        email_quote_status($this->mdl_quotes->where('ip_quotes.quote_url_key', $quote_url_key)->get()->row()->quote_id, "approved");
+        email_quote_status($this->mdl_quotes->where('xc_quotes.quote_url_key', $quote_url_key)->get()->row()->quote_id, "approved");
 
         redirect('guest/view/quote/' . $quote_url_key);
     }
@@ -135,7 +135,7 @@ class View extends Base_Controller
         $this->load->helper('mailer');
 
         $this->mdl_quotes->reject_quote_by_key($quote_url_key);
-        email_quote_status($this->mdl_quotes->where('ip_quotes.quote_url_key', $quote_url_key)->get()->row()->quote_id, "rejected");
+        email_quote_status($this->mdl_quotes->where('xc_quotes.quote_url_key', $quote_url_key)->get()->row()->quote_id, "rejected");
 
         redirect('guest/view/quote/' . $quote_url_key);
     }

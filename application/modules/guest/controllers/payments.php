@@ -4,15 +4,15 @@ if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
 /*
- * InvoicePlane
+ * Xintegrocore
  * 
  * A free and open source web based invoicing system
  *
- * @package		InvoicePlane
- * @author		Kovah (www.kovah.de)
- * @copyright	Copyright (c) 2012 - 2015 InvoicePlane.com
- * @license		https://invoiceplane.com/license.txt
- * @link		https://invoiceplane.com
+ * @package		xintegrocore
+ * @author		dhaval (www.codeembassy.in	)
+ * @copyright	Copyright (c) 2012 - 2015 xintegrocore.com
+ * @license		https://xintegrocore.com/license.txt
+ * @link		https://xintegrocore.com
  * 
  */
 
@@ -27,7 +27,7 @@ class Payments extends Guest_Controller
 
     public function index($page = 0)
     {
-        $this->mdl_payments->where('(ip_payments.invoice_id IN (SELECT invoice_id FROM ip_invoices WHERE client_id IN (' . implode(',', $this->user_clients) . ')))');
+        $this->mdl_payments->where('(xc_payments.invoice_id IN (SELECT invoice_id FROM xc_invoices WHERE client_id IN (' . implode(',', $this->user_clients) . ')))');
         $this->mdl_payments->paginate(site_url('guest/payments/index'), $page);
         $payments = $this->mdl_payments->result();
 

@@ -4,15 +4,15 @@ if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
 /*
- * InvoicePlane
+ * Xintegrocore
  * 
  * A free and open source web based invoicing system
  *
- * @package		InvoicePlane
- * @author		Kovah (www.kovah.de)
- * @copyright	Copyright (c) 2012 - 2015 InvoicePlane.com
- * @license		https://invoiceplane.com/license.txt
- * @link		https://invoiceplane.com
+ * @package		xintegrocore
+ * @author		dhaval (www.codeembassy.in	)
+ * @copyright	Copyright (c) 2012 - 2015 xintegrocore.com
+ * @license		https://xintegrocore.com/license.txt
+ * @link		https://xintegrocore.com
  * 
  */
 
@@ -32,7 +32,7 @@ class Sessions extends Base_Controller
         if ($this->input->post('btn_login')) {
 
             $this->db->where('user_email', $this->input->post('email'));
-            $query = $this->db->get('ip_users');
+            $query = $this->db->get('xc_users');
             $user = $query->row();
 
             // Check if the user exists
@@ -90,7 +90,7 @@ class Sessions extends Base_Controller
         // Check if a token was provided
         if ($token) {
             $this->db->where('user_passwordreset_token', $token);
-            $user = $this->db->get('ip_users');
+            $user = $this->db->get('xc_users');
             $user = $user->row();
 
             if (empty($user)) {
@@ -129,7 +129,7 @@ class Sessions extends Base_Controller
             );
 
             $this->db->where('user_id', $user_id);
-            $this->db->update('ip_users', $db_array);
+            $this->db->update('xc_users', $db_array);
 
             // Redirect back to the login form
             redirect('sessions/login');
@@ -156,7 +156,7 @@ class Sessions extends Base_Controller
                 );
 
                 $this->db->where('user_email', $email);
-                $this->db->update('ip_users', $db_array);
+                $this->db->update('xc_users', $db_array);
 
                 // Send the email with reset link
                 $this->load->library('email');

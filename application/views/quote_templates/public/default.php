@@ -15,7 +15,7 @@
         if ($this->mdl_settings->setting('custom_title') != '') {
             echo $this->mdl_settings->setting('custom_title');
         } else {
-            echo 'InvoicePlane';
+            echo 'Xintegrocore';
         } ?> - <?php echo lang('quote'); ?> <?php echo $quote->quote_number; ?></title>
 
         <meta name="viewport" content="width=device-width,initial-scale=1">

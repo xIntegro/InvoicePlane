@@ -2,17 +2,16 @@
 
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
-
 /*
- * InvoicePlane
+ * Xintegrocore
  * 
  * A free and open source web based invoicing system
  *
- * @package		InvoicePlane
- * @author		Kovah (www.kovah.de)
- * @copyright	Copyright (c) 2012 - 2015 InvoicePlane.com
- * @license		https://invoiceplane.com/license.txt
- * @link		https://invoiceplane.com
+ * @package		xintegrocore
+ * @author		dhaval (www.codeembassy.in	)
+ * @copyright	Copyright (c) 2012 - 2015 xintegrocore.com
+ * @license		https://xintegrocore.com/license.txt
+ * @link		https://xintegrocore.com
  * 
  */
 
@@ -42,7 +41,7 @@ class Families extends Admin_Controller
         }
 
         if ($this->input->post('is_update') == 0 && $this->input->post('family_name') != '') {
-            $check = $this->db->get_where('ip_families', array('family_name' => $this->input->post('family_name')))->result();
+            $check = $this->db->get_where('xc_families', array('family_name' => $this->input->post('family_name')))->result();
             if (!empty($check)) {
                 $this->session->set_flashdata('alert_error', lang('family_already_exists'));
                 redirect('families/form');

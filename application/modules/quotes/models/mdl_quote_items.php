@@ -4,38 +4,37 @@ if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
 /*
- * InvoicePlane
+ * Xintegrocore
  * 
  * A free and open source web based invoicing system
  *
- * @package		InvoicePlane
- * @author		Kovah (www.kovah.de)
- * @copyright	Copyright (c) 2012 - 2015 InvoicePlane.com
- * @license		https://invoiceplane.com/license.txt
- * @link		https://invoiceplane.com
+ * @package		xintegrocore
+ * @author		dhaval (www.codeembassy.in	)
+ * @copyright	Copyright (c) 2012 - 2015 xintegrocore.com
+ * @license		https://xintegrocore.com/license.txt
+ * @link		https://xintegrocore.com
  * 
  */
-
 class Mdl_Quote_Items extends Response_Model
 {
-    public $table = 'ip_quote_items';
-    public $primary_key = 'ip_quote_items.item_id';
+    public $table = 'xc_quote_items';
+    public $primary_key = 'xc_quote_items.item_id';
     public $date_created_field = 'item_date_added';
 
     public function default_select()
     {
-        $this->db->select('ip_quote_item_amounts.*, ip_quote_items.*, item_tax_rates.tax_rate_percent AS item_tax_rate_percent');
+        $this->db->select('xc_quote_item_amounts.*, xc_quote_items.*, item_tax_rates.tax_rate_percent AS item_tax_rate_percent');
     }
 
     public function default_order_by()
     {
-        $this->db->order_by('ip_quote_items.item_order');
+        $this->db->order_by('xc_quote_items.item_order');
     }
 
     public function default_join()
     {
-        $this->db->join('ip_quote_item_amounts', 'ip_quote_item_amounts.item_id = ip_quote_items.item_id', 'left');
-        $this->db->join('ip_tax_rates AS item_tax_rates', 'item_tax_rates.tax_rate_id = ip_quote_items.item_tax_rate_id', 'left');
+        $this->db->join('xc_quote_item_amounts', 'xc_quote_item_amounts.item_id = xc_quote_items.item_id', 'left');
+        $this->db->join('xc_tax_rates AS item_tax_rates', 'item_tax_rates.tax_rate_id = xc_quote_items.item_tax_rate_id', 'left');
     }
 
     public function validation_rules()
@@ -95,14 +94,14 @@ class Mdl_Quote_Items extends Response_Model
         // Get the quote id so we can recalculate quote amounts
         $this->db->select('quote_id');
         $this->db->where('item_id', $item_id);
-        $quote_id = $this->db->get('ip_quote_items')->row()->quote_id;
+        $quote_id = $this->db->get('xc_quote_items')->row()->quote_id;
 
         // Delete the item
         parent::delete($item_id);
 
         // Delete the item amounts
         $this->db->where('item_id', $item_id);
-        $this->db->delete('ip_quote_item_amounts');
+        $this->db->delete('xc_quote_item_amounts');
 
         // Recalculate quote amounts
         $this->load->model('quotes/mdl_quote_amounts');

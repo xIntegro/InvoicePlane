@@ -4,15 +4,15 @@ if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
 /*
- * InvoicePlane
+ * Xintegrocore
  * 
  * A free and open source web based invoicing system
  *
- * @package		InvoicePlane
- * @author		Kovah (www.kovah.de)
- * @copyright	Copyright (c) 2012 - 2015 InvoicePlane.com
- * @license		https://invoiceplane.com/license.txt
- * @link		https://invoiceplane.com
+ * @package		xintegrocore
+ * @author		dhaval (www.codeembassy.in	)
+ * @copyright	Copyright (c) 2012 - 2015 xintegrocore.com
+ * @license		https://xintegrocore.com/license.txt
+ * @link		https://xintegrocore.com
  * 
  */
 
@@ -55,8 +55,8 @@ class Mdl_Setup extends CI_Model
             if (substr($sql_file, -4) == '.sql') {
                 // $this->db->select('COUNT(*) AS update_applied');
                 $this->db->where('version_file', $sql_file);
-                // $update_applied = $this->db->get('ip_versions')->row()->update_applied;
-                $update_applied = $this->db->get('ip_versions');
+                // $update_applied = $this->db->get('xc_versions')->row()->update_applied;
+                $update_applied = $this->db->get('xc_versions');
 
                 // if (!$update_applied)
                 if (!$update_applied->num_rows()) {
@@ -100,8 +100,8 @@ class Mdl_Setup extends CI_Model
 
     public function install_default_data()
     {
-        $this->db->insert('ip_invoice_groups', array('invoice_group_name' => 'Invoice Default', 'invoice_group_next_id' => 1));
-        $this->db->insert('ip_invoice_groups', array('invoice_group_name' => 'Quote Default', 'invoice_group_prefix' => 'QUO', 'invoice_group_next_id' => 1));
+        $this->db->insert('xc_invoice_groups', array('invoice_group_name' => 'Invoice Default', 'invoice_group_next_id' => 1));
+        $this->db->insert('xc_invoice_groups', array('invoice_group_name' => 'Quote Default', 'invoice_group_prefix' => 'QUO', 'invoice_group_next_id' => 1));
     }
 
     private function install_default_settings()
@@ -109,7 +109,7 @@ class Mdl_Setup extends CI_Model
         $this->load->helper('string');
 
         $default_settings = array(
-            'default_language' => $this->session->userdata('ip_lang'),
+            'default_language' => $this->session->userdata('xc_lang'),
             'date_format' => 'm/d/Y',
             'currency_symbol' => '$',
             'currency_symbol_placement' => 'before',
@@ -133,13 +133,13 @@ class Mdl_Setup extends CI_Model
         foreach ($default_settings as $setting_key => $setting_value) {
             $this->db->where('setting_key', $setting_key);
 
-            if (!$this->db->get('ip_settings')->num_rows()) {
+            if (!$this->db->get('xc_settings')->num_rows()) {
                 $db_array = array(
                     'setting_key' => $setting_key,
                     'setting_value' => $setting_value
                 );
 
-                $this->db->insert('ip_settings', $db_array);
+                $this->db->insert('xc_settings', $db_array);
             }
         }
     }
@@ -152,7 +152,7 @@ class Mdl_Setup extends CI_Model
             'version_sql_errors' => count($this->errors)
         );
 
-        $this->db->insert('ip_versions', $version_db_array);
+        $this->db->insert('xc_versions', $version_db_array);
     }
 
     /*
@@ -194,7 +194,7 @@ class Mdl_Setup extends CI_Model
          * greater than 100 and if v1.2.0 was not installed within this update process
          */
         $this->db->where_in("version_file", array("006_1.2.0.sql", "005_1.1.2.sql"));
-        $versions = $this->db->get('ip_versions')->result();
+        $versions = $this->db->get('xc_versions')->result();
         $upgrade_diff = $versions[1]->version_date_applied - $versions[0]->version_date_applied;
 
         if ($this->session->userdata('is_upgrade') && $upgrade_diff > 100 && $versions[1]->version_date_applied > (time() - 100)) {

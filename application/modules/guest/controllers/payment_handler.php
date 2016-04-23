@@ -5,18 +5,17 @@ if (!defined('BASEPATH')) {
 }
 
 /*
- * InvoicePlane
+ * Xintegrocore
  * 
  * A free and open source web based invoicing system
  *
- * @package		InvoicePlane
- * @author		Kovah (www.kovah.de)
- * @copyright	Copyright (c) 2012 - 2015 InvoicePlane.com
- * @license		https://invoiceplane.com/license.txt
- * @link		https://invoiceplane.com
+ * @package		xintegrocore
+ * @author		dhaval (www.codeembassy.in	)
+ * @copyright	Copyright (c) 2012 - 2015 xintegrocore.com
+ * @license		https://xintegrocore.com/license.txt
+ * @link		https://xintegrocore.com
  * 
  */
-
 class Payment_Handler extends Base_Controller
 {
     public function __construct()
@@ -153,7 +152,7 @@ class Payment_Handler extends Base_Controller
             // Determine if it was successful or not
             $merchant_response = ($response->success()) ? 1 : 0;
 
-            // Create the record for ip_merchant_responses
+            // Create the record for xc_merchant_responses
             $db_array = array(
                 'invoice_id' => $invoice->invoice_id,
                 'merchant_response_date' => date('Y-m-d'),
@@ -162,7 +161,7 @@ class Payment_Handler extends Base_Controller
                 'merchant_response_reference' => ($response->reference()) ? $response->reference() : ''
             );
 
-            $this->db->insert('ip_merchant_responses', $db_array);
+            $this->db->insert('xc_merchant_responses', $db_array);
 
             return $merchant_response;
         }

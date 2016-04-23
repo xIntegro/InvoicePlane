@@ -1,7 +1,7 @@
 <div class="container">
     <div class="install-panel">
 
-        <h1 id="logo"><span>InvoicePlane</span></h1>
+        <h1 id="logo"><span>Xintegrocore</span></h1>
 
         <form method="post" class="form-horizontal"
               action="<?php echo site_url($this->uri->uri_string()); ?>">

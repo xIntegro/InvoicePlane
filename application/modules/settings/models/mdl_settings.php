@@ -4,15 +4,15 @@ if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
 /*
- * InvoicePlane
+ * Xintegrocore
  * 
  * A free and open source web based invoicing system
  *
- * @package		InvoicePlane
- * @author		Kovah (www.kovah.de)
- * @copyright	Copyright (c) 2012 - 2015 InvoicePlane.com
- * @license		https://invoiceplane.com/license.txt
- * @link		https://invoiceplane.com
+ * @package		xintegrocore
+ * @author		dhaval (www.codeembassy.in	)
+ * @copyright	Copyright (c) 2012 - 2015 xintegrocore.com
+ * @license		https://xintegrocore.com/license.txt
+ * @link		https://xintegrocore.com
  * 
  */
 
@@ -24,7 +24,7 @@ class Mdl_Settings extends CI_Model
     {
         $this->db->select('setting_value');
         $this->db->where('setting_key', $key);
-        $query = $this->db->get('ip_settings');
+        $query = $this->db->get('xc_settings');
 
         if ($query->row()) {
             return $query->row()->setting_value;
@@ -42,23 +42,23 @@ class Mdl_Settings extends CI_Model
 
         if ($this->get($key) !== NULL) {
             $this->db->where('setting_key', $key);
-            $this->db->update('ip_settings', $db_array);
+            $this->db->update('xc_settings', $db_array);
         } else {
-            $this->db->insert('ip_settings', $db_array);
+            $this->db->insert('xc_settings', $db_array);
         }
     }
 
     public function delete($key)
     {
         $this->db->where('setting_key', $key);
-        $this->db->delete('ip_settings');
+        $this->db->delete('xc_settings');
     }
 
     public function load_settings()
     {
-        $ip_settings = $this->db->get('ip_settings')->result();
+        $xc_settings = $this->db->get('xc_settings')->result();
 
-        foreach ($ip_settings as $data) {
+        foreach ($xc_settings as $data) {
             $this->settings[$data->setting_key] = $data->setting_value;
         }
     }

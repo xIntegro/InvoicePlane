@@ -4,15 +4,15 @@ if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
 /*
- * InvoicePlane
+ * Xintegrocore
  * 
  * A free and open source web based invoicing system
  *
- * @package		InvoicePlane
- * @author		Kovah (www.kovah.de)
- * @copyright	Copyright (c) 2012 - 2015 InvoicePlane.com
- * @license		https://invoiceplane.com/license.txt
- * @link		https://invoiceplane.com
+ * @package		xintegrocore
+ * @author		dhaval (www.codeembassy.in	)
+ * @copyright	Copyright (c) 2012 - 2015 xintegrocore.com
+ * @license		https://xintegrocore.com/license.txt
+ * @link		https://xintegrocore.com
  * 
  */
 
@@ -147,7 +147,7 @@ class Invoices extends Admin_Controller
                 'tax_rates' => $this->mdl_tax_rates->get()->result(),
                 'invoice_tax_rates' => $this->mdl_invoice_tax_rates->where('invoice_id', $invoice_id)->get()->result(),
                 'payment_methods' => $this->mdl_payment_methods->get()->result(),
-                'custom_fields' => $this->mdl_custom_fields->by_table('ip_invoice_custom')->get()->result(),
+                'custom_fields' => $this->mdl_custom_fields->by_table('xc_invoice_custom')->get()->result(),
                 'custom_js_vars' => array(
                     'currency_symbol' => $this->mdl_settings->setting('currency_symbol'),
                     'currency_symbol_placement' => $this->mdl_settings->setting('currency_symbol_placement'),
@@ -223,7 +223,7 @@ class Invoices extends Admin_Controller
     public function recalculate_all_invoices()
     {
         $this->db->select('invoice_id');
-        $invoice_ids = $this->db->get('ip_invoices')->result();
+        $invoice_ids = $this->db->get('xc_invoices')->result();
 
         $this->load->model('mdl_invoice_amounts');
 

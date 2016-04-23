@@ -4,22 +4,22 @@ if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
 /*
- * InvoicePlane
+ * Xintegrocore
  * 
  * A free and open source web based invoicing system
  *
- * @package		InvoicePlane
- * @author		Kovah (www.kovah.de)
- * @copyright	Copyright (c) 2012 - 2015 InvoicePlane.com
- * @license		https://invoiceplane.com/license.txt
- * @link		https://invoiceplane.com
+ * @package		xintegrocore
+ * @author		dhaval (www.codeembassy.in	)
+ * @copyright	Copyright (c) 2012 - 2015 xintegrocore.com
+ * @license		https://xintegrocore.com/license.txt
+ * @link		https://xintegrocore.com
  * 
  */
 
 class Mdl_Users extends Response_Model
 {
-    public $table = 'ip_users';
-    public $primary_key = 'ip_users.user_id';
+    public $table = 'xc_users';
+    public $primary_key = 'xc_users.user_id';
     public $date_created_field = 'user_date_created';
     public $date_modified_field = 'user_date_modified';
 
@@ -33,17 +33,17 @@ class Mdl_Users extends Response_Model
 
     public function default_select()
     {
-        $this->db->select('SQL_CALC_FOUND_ROWS ip_user_custom.*, ip_users.*', FALSE);
+        $this->db->select('SQL_CALC_FOUND_ROWS xc_user_custom.*, xc_users.*', FALSE);
     }
 
     public function default_join()
     {
-        $this->db->join('ip_user_custom', 'ip_user_custom.user_id = ip_users.user_id', 'left');
+        $this->db->join('xc_user_custom', 'xc_user_custom.user_id = xc_users.user_id', 'left');
     }
 
     public function default_order_by()
     {
-        $this->db->order_by('ip_users.user_name');
+        $this->db->order_by('xc_users.user_name');
     }
 
     public function validation_rules()
@@ -57,7 +57,7 @@ class Mdl_Users extends Response_Model
             'user_email' => array(
                 'field' => 'user_email',
                 'label' => lang('email'),
-                'rules' => 'required|valid_email|is_unique[ip_users.user_email]'
+                'rules' => 'required|valid_email|is_unique[xc_users.user_email]'
             ),
             'user_name' => array(
                 'field' => 'user_name',
@@ -226,7 +226,7 @@ class Mdl_Users extends Response_Model
         );
 
         $this->db->where('user_id', $user_id);
-        $this->db->update('ip_users', $db_array);
+        $this->db->update('xc_users', $db_array);
 
         $this->session->set_flashdata('alert_success', 'Password Successfully Changed');
     }

@@ -4,22 +4,22 @@ if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
 /*
- * InvoicePlane
+ * Xintegrocore
  * 
  * A free and open source web based invoicing system
  *
- * @package		InvoicePlane
- * @author		Kovah (www.kovah.de)
- * @copyright	Copyright (c) 2012 - 2015 InvoicePlane.com
- * @license		https://invoiceplane.com/license.txt
- * @link		https://invoiceplane.com
+ * @package		xintegrocore
+ * @author		dhaval (www.codeembassy.in	)
+ * @copyright	Copyright (c) 2012 - 2015 xintegrocore.com
+ * @license		https://xintegrocore.com/license.txt
+ * @link		https://xintegrocore.com
  * 
  */
 
 class Mdl_Custom_Fields extends MY_Model
 {
-    public $table = 'ip_custom_fields';
-    public $primary_key = 'ip_custom_fields.custom_field_id';
+    public $table = 'xc_custom_fields';
+    public $primary_key = 'xc_custom_fields.custom_field_id';
 
     public function default_select()
     {
@@ -29,11 +29,11 @@ class Mdl_Custom_Fields extends MY_Model
     public function custom_tables()
     {
         return array(
-            'ip_client_custom' => 'client',
-            'ip_invoice_custom' => 'invoice',
-            'ip_payment_custom' => 'payment',
-            'ip_quote_custom' => 'quote',
-            'ip_user_custom' => 'user'
+            'xc_client_custom' => 'client',
+            'xc_invoice_custom' => 'invoice',
+            'xc_payment_custom' => 'payment',
+            'xc_quote_custom' => 'quote',
+            'xc_user_custom' => 'user'
         );
     }
 
@@ -91,7 +91,7 @@ class Mdl_Custom_Fields extends MY_Model
         // Create the record
         $db_array = ($db_array) ? $db_array : $this->db_array();
 
-        // Save the record to ip_custom_fields
+        // Save the record to xc_custom_fields
         $id = parent::save($id, $db_array);
 
         if (isset($original_record)) {

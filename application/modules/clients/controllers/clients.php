@@ -2,20 +2,18 @@
 
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
-
 /*
- * InvoicePlane
+ * Xintegrocore
  * 
  * A free and open source web based invoicing system
  *
- * @package		InvoicePlane
- * @author		Kovah (www.kovah.de)
- * @copyright	Copyright (c) 2012 - 2015 InvoicePlane.com
- * @license		https://invoiceplane.com/license.txt
- * @link		https://invoiceplane.com
+ * @package		xintegrocore
+ * @author		dhaval (www.codeembassy.in	)
+ * @copyright	Copyright (c) 2012 - 2015 xintegrocore.com
+ * @license		https://xintegrocore.com/license.txt
+ * @link		https://xintegrocore.com
  * 
  */
-
 class Clients extends Admin_Controller
 {
     public function __construct()
@@ -62,7 +60,7 @@ class Clients extends Admin_Controller
 
         // Set validation rule based on is_update
         if ($this->input->post('is_update') == 0 && $this->input->post('client_name') != '') {
-            $check = $this->db->get_where('ip_clients', array('client_name' => $this->input->post('client_name')))->result();
+            $check = $this->db->get_where('xc_clients', array('client_name' => $this->input->post('client_name')))->result();
             if (!empty($check)) {
                 $this->session->set_flashdata('alert_error', lang('client_already_exists'));
                 redirect('clients/form');
@@ -109,7 +107,7 @@ class Clients extends Admin_Controller
         $this->load->model('custom_fields/mdl_custom_fields');
         $this->load->helper('country');
 
-        $this->layout->set('custom_fields', $this->mdl_custom_fields->by_table('ip_client_custom')->get()->result());
+        $this->layout->set('custom_fields', $this->mdl_custom_fields->by_table('xc_client_custom')->get()->result());
         $this->layout->set('countries', get_country_list(lang('cldr')));
         $this->layout->set('selected_country', $this->mdl_clients->form_value('client_country') ?:
             $this->mdl_settings->setting('default_country'));
@@ -126,7 +124,7 @@ class Clients extends Admin_Controller
         $this->load->model('payments/mdl_payments');
         $this->load->model('custom_fields/mdl_custom_fields');
 
-        $client = $this->mdl_clients->with_total()->with_total_balance()->with_total_paid()->where('ip_clients.client_id', $client_id)->get()->row();
+        $client = $this->mdl_clients->with_total()->with_total_balance()->with_total_paid()->where('xc_clients.client_id', $client_id)->get()->row();
 
         if (!$client) {
             show_404();
@@ -139,7 +137,7 @@ class Clients extends Admin_Controller
                 'invoices'         => $this->mdl_invoices->by_client($client_id)->limit(20)->get()->result(),
                 'quotes'           => $this->mdl_quotes->by_client($client_id)->limit(20)->get()->result(),
                 'payments'         => $this->mdl_payments->by_client($client_id)->limit(20)->get()->result(),
-                'custom_fields'    => $this->mdl_custom_fields->by_table('ip_client_custom')->get()->result(),
+                'custom_fields'    => $this->mdl_custom_fields->by_table('xc_client_custom')->get()->result(),
                 'quote_statuses'   => $this->mdl_quotes->statuses(),
                 'invoice_statuses' => $this->mdl_invoices->statuses(),
             )

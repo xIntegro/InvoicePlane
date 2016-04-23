@@ -4,38 +4,38 @@ if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
 /*
- * InvoicePlane
+ * Xintegrocore
  * 
  * A free and open source web based invoicing system
  *
- * @package		InvoicePlane
- * @author		Kovah (www.kovah.de)
- * @copyright	Copyright (c) 2012 - 2015 InvoicePlane.com
- * @license		https://invoiceplane.com/license.txt
- * @link		https://invoiceplane.com
+ * @package		xintegrocore
+ * @author		dhaval (www.codeembassy.in	)
+ * @copyright	Copyright (c) 2012 - 2015 xintegrocore.com
+ * @license		https://xintegrocore.com/license.txt
+ * @link		https://xintegrocore.com
  * 
  */
 
 class Mdl_Clients extends Response_Model
 {
-    public $table = 'ip_clients';
-    public $primary_key = 'ip_clients.client_id';
+    public $table = 'xc_clients';
+    public $primary_key = 'xc_clients.client_id';
     public $date_created_field = 'client_date_created';
     public $date_modified_field = 'client_date_modified';
 
     public function default_select()
     {
-        $this->db->select('SQL_CALC_FOUND_ROWS ip_client_custom.*, ip_clients.*', FALSE);
+        $this->db->select('SQL_CALC_FOUND_ROWS xc_client_custom.*, xc_clients.*', FALSE);
     }
 
     public function default_join()
     {
-        $this->db->join('ip_client_custom', 'ip_client_custom.client_id = ip_clients.client_id', 'left');
+        $this->db->join('xc_client_custom', 'xc_client_custom.client_id = xc_clients.client_id', 'left');
     }
 
     public function default_order_by()
     {
-        $this->db->order_by('ip_clients.client_name');
+        $this->db->order_by('xc_clients.client_name');
     }
 
     public function validation_rules()
@@ -132,19 +132,19 @@ class Mdl_Clients extends Response_Model
 
     public function with_total()
     {
-        $this->filter_select('IFNULL((SELECT SUM(invoice_total) FROM ip_invoice_amounts WHERE invoice_id IN (SELECT invoice_id FROM ip_invoices WHERE ip_invoices.client_id = ip_clients.client_id)), 0) AS client_invoice_total', FALSE);
+        $this->filter_select('IFNULL((SELECT SUM(invoice_total) FROM xc_invoice_amounts WHERE invoice_id IN (SELECT invoice_id FROM xc_invoices WHERE xc_invoices.client_id = xc_clients.client_id)), 0) AS client_invoice_total', FALSE);
         return $this;
     }
 
     public function with_total_paid()
     {
-        $this->filter_select('IFNULL((SELECT SUM(invoice_paid) FROM ip_invoice_amounts WHERE invoice_id IN (SELECT invoice_id FROM ip_invoices WHERE ip_invoices.client_id = ip_clients.client_id)), 0) AS client_invoice_paid', FALSE);
+        $this->filter_select('IFNULL((SELECT SUM(invoice_paid) FROM xc_invoice_amounts WHERE invoice_id IN (SELECT invoice_id FROM xc_invoices WHERE xc_invoices.client_id = xc_clients.client_id)), 0) AS client_invoice_paid', FALSE);
         return $this;
     }
 
     public function with_total_balance()
     {
-        $this->filter_select('IFNULL((SELECT SUM(invoice_balance) FROM ip_invoice_amounts WHERE invoice_id IN (SELECT invoice_id FROM ip_invoices WHERE ip_invoices.client_id = ip_clients.client_id)), 0) AS client_invoice_balance', FALSE);
+        $this->filter_select('IFNULL((SELECT SUM(invoice_balance) FROM xc_invoice_amounts WHERE invoice_id IN (SELECT invoice_id FROM xc_invoices WHERE xc_invoices.client_id = xc_clients.client_id)), 0) AS client_invoice_balance', FALSE);
         return $this;
     }
 

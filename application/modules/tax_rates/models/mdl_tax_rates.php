@@ -4,22 +4,22 @@ if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
 /*
- * InvoicePlane
+ * Xintegrocore
  * 
  * A free and open source web based invoicing system
  *
- * @package		InvoicePlane
- * @author		Kovah (www.kovah.de)
- * @copyright	Copyright (c) 2012 - 2015 InvoicePlane.com
- * @license		https://invoiceplane.com/license.txt
- * @link		https://invoiceplane.com
+ * @package		xintegrocore
+ * @author		dhaval (www.codeembassy.in	)
+ * @copyright	Copyright (c) 2012 - 2015 xintegrocore.com
+ * @license		https://xintegrocore.com/license.txt
+ * @link		https://xintegrocore.com
  * 
  */
 
 class Mdl_Tax_Rates extends Response_Model
 {
-    public $table = 'ip_tax_rates';
-    public $primary_key = 'ip_tax_rates.tax_rate_id';
+    public $table = 'xc_tax_rates';
+    public $primary_key = 'xc_tax_rates.tax_rate_id';
 
     public function default_select()
     {
@@ -28,7 +28,7 @@ class Mdl_Tax_Rates extends Response_Model
 
     public function default_order_by()
     {
-        $this->db->order_by('ip_tax_rates.tax_rate_percent');
+        $this->db->order_by('xc_tax_rates.tax_rate_percent');
     }
 
     public function validation_rules()

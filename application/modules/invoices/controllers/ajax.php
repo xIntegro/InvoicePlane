@@ -4,15 +4,15 @@ if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
 /*
- * InvoicePlane
+ * Xintegrocore
  * 
  * A free and open source web based invoicing system
  *
- * @package		InvoicePlane
- * @author		Kovah (www.kovah.de)
- * @copyright	Copyright (c) 2012 - 2015 InvoicePlane.com
- * @license		https://invoiceplane.com/license.txt
- * @link		https://invoiceplane.com
+ * @package		xintegrocore
+ * @author		dhaval (www.codeembassy.in	)
+ * @copyright	Copyright (c) 2012 - 2015 xintegrocore.com
+ * @license		https://xintegrocore.com/license.txt
+ * @link		https://xintegrocore.com
  * 
  */
 
@@ -287,7 +287,7 @@ class Ajax extends Admin_Controller
                 'client_id' => $client_id,
             );
             $this->db->where('invoice_id', $invoice_id);
-            $this->db->update('ip_invoices', $db_array);
+            $this->db->update('xc_invoices', $db_array);
 
             $response = array(
                 'success' => 1,
@@ -316,7 +316,7 @@ class Ajax extends Admin_Controller
             'invoice_groups' => $this->mdl_invoice_groups->get()->result(),
             'tax_rates' => $this->mdl_tax_rates->get()->result(),
             'invoice_id' => $this->input->post('invoice_id'),
-            'invoice' => $this->mdl_invoices->where('ip_invoices.invoice_id', $this->input->post('invoice_id'))->get()->row()
+            'invoice' => $this->mdl_invoices->where('xc_invoices.invoice_id', $this->input->post('invoice_id'))->get()->row()
         );
 
         $this->layout->load_view('invoices/modal_copy_invoice', $data);
@@ -361,7 +361,7 @@ class Ajax extends Admin_Controller
             'invoice_groups' => $this->mdl_invoice_groups->get()->result(),
             'tax_rates' => $this->mdl_tax_rates->get()->result(),
             'invoice_id' => $this->input->post('invoice_id'),
-            'invoice' => $this->mdl_invoices->where('ip_invoices.invoice_id', $this->input->post('invoice_id'))->get()->row()
+            'invoice' => $this->mdl_invoices->where('xc_invoices.invoice_id', $this->input->post('invoice_id'))->get()->row()
         );
 
         $this->layout->load_view('invoices/modal_create_credit', $data);
@@ -382,15 +382,15 @@ class Ajax extends Admin_Controller
             // Set source invoice to read-only
             if ($this->config->item('disable_read_only') == FALSE) {
                 $this->mdl_invoices->where('invoice_id', $source_id);
-                $this->mdl_invoices->update('ip_invoices', array('is_read_only' => '1'));
+                $this->mdl_invoices->update('xc_invoices', array('is_read_only' => '1'));
             }
 
             // Set target invoice to credit invoice
             $this->mdl_invoices->where('invoice_id', $target_id);
-            $this->mdl_invoices->update('ip_invoices', array('creditinvoice_parent_id' => $source_id));
+            $this->mdl_invoices->update('xc_invoices', array('creditinvoice_parent_id' => $source_id));
 
             $this->mdl_invoices->where('invoice_id', $target_id);
-            $this->mdl_invoices->update('ip_invoice_amounts', array('invoice_sign' => '-1'));
+            $this->mdl_invoices->update('xc_invoice_amounts', array('invoice_sign' => '-1'));
 
             $response = array(
                 'success' => 1,

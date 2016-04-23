@@ -4,22 +4,22 @@ if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
 /*
- * InvoicePlane
+ * Xintegrocore
  * 
  * A free and open source web based invoicing system
  *
- * @package		InvoicePlane
- * @author		Kovah (www.kovah.de)
- * @copyright	Copyright (c) 2012 - 2015 InvoicePlane.com
- * @license		https://invoiceplane.com/license.txt
- * @link		https://invoiceplane.com
+ * @package		xintegrocore
+ * @author		dhaval (www.codeembassy.in	)
+ * @copyright	Copyright (c) 2012 - 2015 xintegrocore.com
+ * @license		https://xintegrocore.com/license.txt
+ * @link		https://xintegrocore.com
  * 
  */
 
 class Mdl_Products extends Response_Model
 {
-    public $table = 'ip_products';
-    public $primary_key = 'ip_products.product_id';
+    public $table = 'xc_products';
+    public $primary_key = 'xc_products.product_id';
 
     public function default_select()
     {
@@ -28,13 +28,13 @@ class Mdl_Products extends Response_Model
 
     public function default_order_by()
     {
-        $this->db->order_by('ip_families.family_name, ip_products.product_name');
+        $this->db->order_by('xc_families.family_name, xc_products.product_name');
     }
 
     public function default_join()
     {
-        $this->db->join('ip_families', 'ip_families.family_id = ip_products.family_id', 'left');
-        $this->db->join('ip_tax_rates', 'ip_tax_rates.tax_rate_id = ip_products.tax_rate_id', 'left');
+        $this->db->join('xc_families', 'xc_families.family_id = xc_products.family_id', 'left');
+        $this->db->join('xc_tax_rates', 'xc_tax_rates.tax_rate_id = xc_products.tax_rate_id', 'left');
     }
 
     public function by_product($match)

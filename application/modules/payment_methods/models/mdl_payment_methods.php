@@ -4,22 +4,22 @@ if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
 /*
- * InvoicePlane
+ * Xintegrocore
  * 
  * A free and open source web based invoicing system
  *
- * @package		InvoicePlane
- * @author		Kovah (www.kovah.de)
- * @copyright	Copyright (c) 2012 - 2015 InvoicePlane.com
- * @license		https://invoiceplane.com/license.txt
- * @link		https://invoiceplane.com
+ * @package		xintegrocore
+ * @author		dhaval (www.codeembassy.in	)
+ * @copyright	Copyright (c) 2012 - 2015 xintegrocore.com
+ * @license		https://xintegrocore.com/license.txt
+ * @link		https://xintegrocore.com
  * 
  */
 
 class Mdl_Payment_Methods extends Response_Model
 {
-    public $table = 'ip_payment_methods';
-    public $primary_key = 'ip_payment_methods.payment_method_id';
+    public $table = 'xc_payment_methods';
+    public $primary_key = 'xc_payment_methods.payment_method_id';
 
     public function default_select()
     {
@@ -28,7 +28,7 @@ class Mdl_Payment_Methods extends Response_Model
 
     public function order_by()
     {
-        $this->db->order_by('ip_payment_methods.payment_method_name');
+        $this->db->order_by('xc_payment_methods.payment_method_name');
     }
 
     public function validation_rules()

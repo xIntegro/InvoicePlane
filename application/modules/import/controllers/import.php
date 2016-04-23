@@ -4,15 +4,15 @@ if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
 /*
- * InvoicePlane
+ * Xintegrocore
  * 
  * A free and open source web based invoicing system
  *
- * @package		InvoicePlane
- * @author		Kovah (www.kovah.de)
- * @copyright	Copyright (c) 2012 - 2015 InvoicePlane.com
- * @license		https://invoiceplane.com/license.txt
- * @link		https://invoiceplane.com
+ * @package		xintegrocore
+ * @author		dhaval (www.codeembassy.in	)
+ * @copyright	Copyright (c) 2012 - 2015 xintegrocore.com
+ * @license		https://xintegrocore.com/license.txt
+ * @link		https://xintegrocore.com
  * 
  */
 
@@ -74,27 +74,27 @@ class Import extends Admin_Controller
 
                 foreach ($files as $file) {
                     if ($file == 'clients.csv') {
-                        $ids = $this->mdl_import->import_data($file, 'ip_clients');
+                        $ids = $this->mdl_import->import_data($file, 'xc_clients');
 
-                        $this->mdl_import->record_import_details($import_id, 'ip_clients', 'clients', $ids);
+                        $this->mdl_import->record_import_details($import_id, 'xc_clients', 'clients', $ids);
                     } elseif ($file == 'invoices.csv') {
                         $this->load->model('invoices/mdl_invoices');
 
                         $ids = $this->mdl_import->import_invoices();
 
-                        $this->mdl_import->record_import_details($import_id, 'ip_invoices', 'invoices', $ids);
+                        $this->mdl_import->record_import_details($import_id, 'xc_invoices', 'invoices', $ids);
                     } elseif ($file == 'invoice_items.csv') {
                         $this->load->model('invoices/mdl_items');
 
                         $ids = $this->mdl_import->import_invoice_items();
 
-                        $this->mdl_import->record_import_details($import_id, 'ip_invoice_items', 'invoice_items', $ids);
+                        $this->mdl_import->record_import_details($import_id, 'xc_invoice_items', 'invoice_items', $ids);
                     } elseif ($file == 'payments.csv') {
                         $this->load->model('payments/mdl_payments');
 
                         $ids = $this->mdl_import->import_payments();
 
-                        $this->mdl_import->record_import_details($import_id, 'ip_payments', 'payments', $ids);
+                        $this->mdl_import->record_import_details($import_id, 'xc_payments', 'payments', $ids);
                     }
                 }
             }

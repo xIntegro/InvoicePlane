@@ -4,22 +4,22 @@ if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
 /*
- * InvoicePlane
- *
+ * Xintegrocore
+ * 
  * A free and open source web based invoicing system
  *
- * @package		InvoicePlane
- * @author		Kovah (www.kovah.de)
- * @copyright	Copyright (c) 2012 - 2015 InvoicePlane.com
- * @license		https://invoiceplane.com/license.txt
- * @link		https://invoiceplane.com
- *
+ * @package		xintegrocore
+ * @author		dhaval (www.codeembassy.in	)
+ * @copyright	Copyright (c) 2012 - 2015 xintegrocore.com
+ * @license		https://xintegrocore.com/license.txt
+ * @link		https://xintegrocore.com
+ * 
  */
 
 class Mdl_Invoices extends Response_Model
 {
-    public $table = 'ip_invoices';
-    public $primary_key = 'ip_invoices.invoice_id';
+    public $table = 'xc_invoices';
+    public $primary_key = 'xc_invoices.invoice_id';
     public $date_modified_field = 'invoice_date_modified';
 
     public function statuses()
@@ -51,52 +51,52 @@ class Mdl_Invoices extends Response_Model
     public function default_select()
     {
         $this->db->select("
-            SQL_CALC_FOUND_ROWS ip_invoice_custom.*,
-            ip_client_custom.*,
-            ip_user_custom.*,
-            ip_users.user_name,
-			ip_users.user_company,
-			ip_users.user_address_1,
-			ip_users.user_address_2,
-			ip_users.user_city,
-			ip_users.user_state,
-			ip_users.user_zip,
-			ip_users.user_country,
-			ip_users.user_phone,
-			ip_users.user_fax,
-			ip_users.user_mobile,
-			ip_users.user_email,
-			ip_users.user_web,
-			ip_users.user_vat_id,
-			ip_users.user_tax_code,
-			ip_clients.*,
-			ip_invoice_amounts.invoice_amount_id,
-			IFNULL(ip_invoice_amounts.invoice_item_subtotal, '0.00') AS invoice_item_subtotal,
-			IFNULL(ip_invoice_amounts.invoice_item_tax_total, '0.00') AS invoice_item_tax_total,
-			IFNULL(ip_invoice_amounts.invoice_tax_total, '0.00') AS invoice_tax_total,
-			IFNULL(ip_invoice_amounts.invoice_total, '0.00') AS invoice_total,
-			IFNULL(ip_invoice_amounts.invoice_paid, '0.00') AS invoice_paid,
-			IFNULL(ip_invoice_amounts.invoice_balance, '0.00') AS invoice_balance,
-			ip_invoice_amounts.invoice_sign AS invoice_sign,
-            (CASE WHEN ip_invoices.invoice_status_id NOT IN (1,4) AND DATEDIFF(NOW(), invoice_date_due) > 0 THEN 1 ELSE 0 END) is_overdue,
+            SQL_CALC_FOUND_ROWS xc_invoice_custom.*,
+            xc_client_custom.*,
+            xc_user_custom.*,
+            xc_users.user_name,
+			xc_users.user_company,
+			xc_users.user_address_1,
+			xc_users.user_address_2,
+			xc_users.user_city,
+			xc_users.user_state,
+			xc_users.user_zip,
+			xc_users.user_country,
+			xc_users.user_phone,
+			xc_users.user_fax,
+			xc_users.user_mobile,
+			xc_users.user_email,
+			xc_users.user_web,
+			xc_users.user_vat_id,
+			xc_users.user_tax_code,
+			xc_clients.*,
+			xc_invoice_amounts.invoice_amount_id,
+			IFNULL(xc_invoice_amounts.invoice_item_subtotal, '0.00') AS invoice_item_subtotal,
+			IFNULL(xc_invoice_amounts.invoice_item_tax_total, '0.00') AS invoice_item_tax_total,
+			IFNULL(xc_invoice_amounts.invoice_tax_total, '0.00') AS invoice_tax_total,
+			IFNULL(xc_invoice_amounts.invoice_total, '0.00') AS invoice_total,
+			IFNULL(xc_invoice_amounts.invoice_paid, '0.00') AS invoice_paid,
+			IFNULL(xc_invoice_amounts.invoice_balance, '0.00') AS invoice_balance,
+			xc_invoice_amounts.invoice_sign AS invoice_sign,
+            (CASE WHEN xc_invoices.invoice_status_id NOT IN (1,4) AND DATEDIFF(NOW(), invoice_date_due) > 0 THEN 1 ELSE 0 END) is_overdue,
 			DATEDIFF(NOW(), invoice_date_due) AS days_overdue,
-            (CASE (SELECT COUNT(*) FROM ip_invoices_recurring WHERE ip_invoices_recurring.invoice_id = ip_invoices.invoice_id and ip_invoices_recurring.recur_next_date <> '0000-00-00') WHEN 0 THEN 0 ELSE 1 END) AS invoice_is_recurring,
-			ip_invoices.*", FALSE);
+            (CASE (SELECT COUNT(*) FROM xc_invoices_recurring WHERE xc_invoices_recurring.invoice_id = xc_invoices.invoice_id and xc_invoices_recurring.recur_next_date <> '0000-00-00') WHEN 0 THEN 0 ELSE 1 END) AS invoice_is_recurring,
+			xc_invoices.*", FALSE);
     }
 
     public function default_order_by()
     {
-        $this->db->order_by('ip_invoices.invoice_id DESC');
+        $this->db->order_by('xc_invoices.invoice_id DESC');
     }
 
     public function default_join()
     {
-        $this->db->join('ip_clients', 'ip_clients.client_id = ip_invoices.client_id');
-        $this->db->join('ip_users', 'ip_users.user_id = ip_invoices.user_id');
-        $this->db->join('ip_invoice_amounts', 'ip_invoice_amounts.invoice_id = ip_invoices.invoice_id', 'left');
-        $this->db->join('ip_client_custom', 'ip_client_custom.client_id = ip_clients.client_id', 'left');
-        $this->db->join('ip_user_custom', 'ip_user_custom.user_id = ip_users.user_id', 'left');
-        $this->db->join('ip_invoice_custom', 'ip_invoice_custom.invoice_id = ip_invoices.invoice_id', 'left');
+        $this->db->join('xc_clients', 'xc_clients.client_id = xc_invoices.client_id');
+        $this->db->join('xc_users', 'xc_users.user_id = xc_invoices.user_id');
+        $this->db->join('xc_invoice_amounts', 'xc_invoice_amounts.invoice_id = xc_invoices.invoice_id', 'left');
+        $this->db->join('xc_client_custom', 'xc_client_custom.client_id = xc_clients.client_id', 'left');
+        $this->db->join('xc_user_custom', 'xc_user_custom.user_id = xc_users.user_id', 'left');
+        $this->db->join('xc_invoice_custom', 'xc_invoice_custom.invoice_id = xc_invoices.invoice_id', 'left');
     }
 
     public function validation_rules()
@@ -142,7 +142,7 @@ class Mdl_Invoices extends Response_Model
             'invoice_number' => array(
                 'field' => 'invoice_number',
                 'label' => lang('invoice') . ' #',
-                'rules' => 'required|is_unique[ip_invoices.invoice_number' . (($this->id) ? '.invoice_id.' . $this->id : '') . ']'
+                'rules' => 'required|is_unique[xc_invoices.invoice_number' . (($this->id) ? '.invoice_id.' . $this->id : '') . ']'
             ),
             'invoice_date_created' => array(
                 'field' => 'invoice_date_created',
@@ -174,7 +174,7 @@ class Mdl_Invoices extends Response_Model
             'invoice_id' => $invoice_id
         );
 
-        $this->db->insert('ip_invoice_amounts', $db_array);
+        $this->db->insert('xc_invoice_amounts', $db_array);
 
         if ($include_invoice_tax_rates) {
             // Create the default invoice tax record if applicable
@@ -186,7 +186,7 @@ class Mdl_Invoices extends Response_Model
                     'invoice_tax_rate_amount' => 0
                 );
 
-                $this->db->insert('ip_invoice_tax_rates', $db_array);
+                $this->db->insert('xc_invoice_tax_rates', $db_array);
             }
         }
 
@@ -367,7 +367,7 @@ class Mdl_Invoices extends Response_Model
 
     public function by_client($client_id)
     {
-        $this->filter_where('ip_invoices.client_id', $client_id);
+        $this->filter_where('xc_invoices.client_id', $client_id);
         return $this;
     }
 
@@ -376,20 +376,20 @@ class Mdl_Invoices extends Response_Model
         $this->db->select('invoice_status_id');
         $this->db->where('invoice_id', $invoice_id);
 
-        $invoice = $this->db->get('ip_invoices');
+        $invoice = $this->db->get('xc_invoices');
 
         if ($invoice->num_rows()) {
             if ($invoice->row()->invoice_status_id == 2) {
                 $this->db->where('invoice_id', $invoice_id);
                 $this->db->set('invoice_status_id', 3);
-                $this->db->update('ip_invoices');
+                $this->db->update('xc_invoices');
             }
 
             // Set the invoice to read-only if feature is not disabled and setting is view
             if ($this->config->item('disable_read_only') == FALSE && $this->mdl_settings->setting('read_only_toggle') == 'viewed') {
                 $this->db->where('invoice_id', $invoice_id);
                 $this->db->set('is_read_only', 1);
-                $this->db->update('ip_invoices');
+                $this->db->update('xc_invoices');
             }
         }
     }
@@ -399,20 +399,20 @@ class Mdl_Invoices extends Response_Model
         $this->db->select('invoice_status_id');
         $this->db->where('invoice_id', $invoice_id);
 
-        $invoice = $this->db->get('ip_invoices');
+        $invoice = $this->db->get('xc_invoices');
 
         if ($invoice->num_rows()) {
             if ($invoice->row()->invoice_status_id == 1) {
                 $this->db->where('invoice_id', $invoice_id);
                 $this->db->set('invoice_status_id', 2);
-                $this->db->update('ip_invoices');
+                $this->db->update('xc_invoices');
             }
 
             // Set the invoice to read-only if feature is not disabled and setting is sent
             if ($this->config->item('disable_read_only') == FALSE && $this->mdl_settings->setting('read_only_toggle') == 'sent') {
                 $this->db->where('invoice_id', $invoice_id);
                 $this->db->set('is_read_only', 1);
-                $this->db->update('ip_invoices');
+                $this->db->update('xc_invoices');
             }
         }
     }

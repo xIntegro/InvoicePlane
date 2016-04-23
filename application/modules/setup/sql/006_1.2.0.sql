@@ -1,5 +1,5 @@
 /*  Customize quote / invoice groups #5 */
-ALTER TABLE `ip_invoice_groups`
+ALTER TABLE `xc_invoice_groups`
   ADD COLUMN `invoice_group_identifier_format` VARCHAR(255) NOT NULL
   AFTER `invoice_group_name`;
 
@@ -7,7 +7,7 @@ ALTER TABLE `ip_invoice_groups`
  * Schema: Prefix{{{YEAR}}}{{{MONTH}}}{{{ID}}}
  * (based on existing schema)
  */
-UPDATE ip_invoice_groups
+UPDATE xc_invoice_groups
   SET invoice_group_identifier_format = CONCAT(
     invoice_group_prefix,
     CASE invoice_group_prefix_year
@@ -20,13 +20,13 @@ UPDATE ip_invoice_groups
     END,
     '{{{id}}}'
 );
-ALTER TABLE `ip_invoice_groups`
+ALTER TABLE `xc_invoice_groups`
   DROP invoice_group_prefix,
   DROP invoice_group_prefix_month,
   DROP invoice_group_prefix_year;
 
 # Module "families"
-CREATE TABLE IF NOT EXISTS `ip_families` (
+CREATE TABLE IF NOT EXISTS `xc_families` (
   `family_id`   INT(11) NOT NULL AUTO_INCREMENT,
   `family_name` VARCHAR(50)      DEFAULT NULL,
   PRIMARY KEY (`family_id`)
@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS `ip_families` (
   DEFAULT CHARSET = utf8;
 
 # Module "products"
-CREATE TABLE IF NOT EXISTS `ip_products` (
+CREATE TABLE IF NOT EXISTS `xc_products` (
   `product_id`          INT(11)      NOT NULL AUTO_INCREMENT,
   `family_id`           INT(11)      NOT NULL,
   `product_sku`         VARCHAR(15)  NOT NULL,
@@ -50,7 +50,7 @@ CREATE TABLE IF NOT EXISTS `ip_products` (
   DEFAULT CHARSET = utf8;
 
 # Move lookup items to products
-INSERT INTO ip_products (
+INSERT INTO xc_products (
   family_id,
   product_sku,
   product_name,
@@ -61,20 +61,20 @@ INSERT INTO ip_products (
 )
   SELECT
     0 as family_id, -- default to 0 (no family)
-    concat('sku-',item_lookup_id) as product_sku, -- use ip_item_lookup primary key as new SKU
+    concat('sku-',item_lookup_id) as product_sku, -- use xc_item_lookup primary key as new SKU
     item_name,
     item_description,
     item_price,
     0 as product_purchase_price, -- default purchase price to 0
     0 as tax_rate_id -- default tax rate ID
-  FROM ip_item_lookups;
+  FROM xc_item_lookups;
 
 /* Add the Invoice Sign */
-ALTER TABLE `ip_invoice_amounts`
+ALTER TABLE `xc_invoice_amounts`
   ADD `invoice_sign` ENUM('1', '-1') NOT NULL DEFAULT '1'
   AFTER `invoice_id`;
 
-ALTER TABLE `ip_invoices`
+ALTER TABLE `xc_invoices`
   ADD `creditinvoice_parent_id` INT(11),
   ADD `is_read_only` TINYINT(1)
   AFTER `invoice_status_id`;
