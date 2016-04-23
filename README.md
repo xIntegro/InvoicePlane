@@ -1,4 +1,4 @@
-![XinteGrocore](http://XinteGrocore.com/content/logo/PNG/logo_300x150.png)
+![XinteGrocore](http://i.imgur.com/Pmsy8DG.png)
 #### _Version 1.4.6_
 
 XinteGrocore is a self-hosted open source application for managing your invoices, clients and payments.    
