@@ -1,6 +1,6 @@
 <?php
 
-$config = array(
+$config = array( 
     // Works in conjunction with MY_Model to provide pagination style
     'pagination_style' => array(
         'first_link'      => '&lsaquo;&lsaquo;',
