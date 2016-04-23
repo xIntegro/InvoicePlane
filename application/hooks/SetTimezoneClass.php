@@ -1,6 +1,6 @@
 <?php
 
-class  SetTimezoneClass
+class  SetTimezoneClass 
 {
     public function setTimezone()
     {

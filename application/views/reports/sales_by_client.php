@@ -1,4 +1,4 @@
-<html>
+<html> 
 	<head>
 		<title><?php echo lang('sales_by_client'); ?></title>
 		<link rel="stylesheet" href="<?php echo base_url(); ?>assets/default/css/reports.css" type="text/css">

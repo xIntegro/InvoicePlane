@@ -1,4 +1,4 @@
-<html>
+<html> 
 	<head>
 		<title><?php echo lang('invoice_aging'); ?></title>
 		<link rel="stylesheet" href="<?php echo base_url(); ?>assets/default/css/reports.css" type="text/css">
