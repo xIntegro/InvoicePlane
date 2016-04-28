@@ -2,7 +2,7 @@
 
 
 XinteGrocore is a self-hosted open source application for managing your invoices, clients and payments.    
-For more information visit __[xintegro.de](https://xintegro.de)__ or take a look at the __[demo](https://demo.xintegro.de)__
+For more information visit __[xintegro.de](http://xintegro.de/)__ or take a look at the __[demo](https://demo.xintegro.de)__
 
 ### Quick Installation
 

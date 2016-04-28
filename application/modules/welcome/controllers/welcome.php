@@ -10,7 +10,7 @@ if (!defined('BASEPATH'))
  * @author		xintegro (xintegro.de)
  * @copyright	Copyright (c) 2012 - 2015 xintegro.de
  * @license		http://xintegro.de/license.txt
- * @link		https://xintegro.de
+ * @link		http://xintegro.de/
  * 
  */
 
