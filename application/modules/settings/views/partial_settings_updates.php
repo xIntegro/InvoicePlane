@@ -75,7 +75,7 @@
             <?php echo lang('updatecheck_failed'); ?>
         </span>
 
-        <a href="https://xintegro.de/downloads" id="updatecheck-updates-available"
+        <a href="http://xintegro.de/downloads" id="updatecheck-updates-available"
            class="btn btn-success btn-sm hidden" target="_blank">
             <?php echo lang('updates_available'); ?>
         </a>

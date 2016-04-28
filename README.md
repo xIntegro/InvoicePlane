@@ -6,7 +6,7 @@ For more information visit __[xintegro.de](https://xintegro.de)__ or take a look
 
 ### Quick Installation
 
-1. Download the [latest version](https://xintegro.de/downloads)
+1. Download the [latest version](http://xintegro.de/downloads)
 2. Extract the package and copy all files to your webserver / webspace.
 3. Open `http://your-XinteGrocore-domain.com/index.php/setup` and follow the instructions.
 
