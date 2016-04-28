@@ -92,7 +92,7 @@ starting at 1, as they appear in the .ttc file e.g.
 */
 
 $this->fontdata = array(
-    // Main InvoicePlane font: Noto Sans
+    // Main xintegro font: Noto Sans
     "noto" => array(
         'R' => "noto_400_normal.ttf",
         'B' => "noto_700_normal.ttf",
