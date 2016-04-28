@@ -242,7 +242,7 @@
 
             <ul class="nav navbar-nav navbar-right">
                 <li>
-                    <a href="http://docs.xintegrocore.com/" target="_blank"
+                    <a href="http://docs.xintegro.de/" target="_blank"
                        class="tip icon" data-original-title="<?php echo lang('documentation'); ?>"
                        data-placement="bottom">
                         <i class="fa fa-question-circle"></i>
@@ -342,7 +342,7 @@
         <i class="fa fa-cog fa-spin"></i>
         <div id="loader-error" style="display: none">
             <?php echo lang('loading_error'); ?><br/>
-            <a href="https://wiki.xintegrocore.com/<?php echo lang('cldr'); ?>/1.0/general/faq"
+            <a href="https://wiki.xintegro.de/<?php echo lang('cldr'); ?>/1.0/general/faq"
                class="btn btn-primary btn-sm" target="_blank">
                 <i class="fa fa-support"></i> <?php echo lang('loading_error_help'); ?>
             </a>

@@ -9,10 +9,10 @@ if (!defined('BASEPATH'))
  * A free and open source web based invoicing system
  *
  * @package		xintegrocore
- * @author		dhaval (www.codeembassy.in	)
- * @copyright	Copyright (c) 2012 - 2015 xintegrocore.com
- * @license		https://xintegrocore.com/license.txt
- * @link		https://xintegrocore.com
+ * @author		xintegro (xintegro.de)
+ * @copyright	Copyright (c) 2012 - 2015 xintegro.de
+ * @license		https://xintegro.de/license.txt
+ * @link		https://xintegro.de
  * 
  */
 

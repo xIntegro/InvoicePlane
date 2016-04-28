@@ -7,8 +7,8 @@
         var current_version = "<?php echo $current_version; ?>";
         current_version = current_version.replace(/\./g, ''); // Remove the dots from the version
 
-        // Get the latest version from updates.xintegrocore.com
-        $.getJSON("https://ids.xintegrocore.com/updatecheck", function (data) {
+        // Get the latest version from updates.xintegro.de
+        $.getJSON("https://ids.xintegro.de/updatecheck", function (data) {
             <?php echo (IP_DEBUG ? 'console.log(data);' : ''); ?>
             
             var updatecheck = data.current_version.replace(/\./g, '');
@@ -31,7 +31,7 @@
         });
 
         // Get the latest news
-        $.getJSON("https://ids.xintegrocore.com/get_news", function (data) {
+        $.getJSON("https://ids.xintegro.de/get_news", function (data) {
             <?php echo (IP_DEBUG ? 'console.log(data);' : ''); ?>
             
             setTimeout(function () {
@@ -75,7 +75,7 @@
             <?php echo lang('updatecheck_failed'); ?>
         </span>
 
-        <a href="https://xintegrocore.com/downloads" id="updatecheck-updates-available"
+        <a href="https://xintegro.de/downloads" id="updatecheck-updates-available"
            class="btn btn-success btn-sm hidden" target="_blank">
             <?php echo lang('updates_available'); ?>
         </a>

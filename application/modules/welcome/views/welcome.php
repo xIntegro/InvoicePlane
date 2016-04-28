@@ -42,7 +42,7 @@
             <a href="/setup" class="btn btn-success">
                 <i class="fa fa-cogs"></i> Setup
             </a>
-            <a href="https://wiki.xintegrocore.com/" class="btn btn-info">
+            <a href="https://wiki.xintegro.de/" class="btn btn-info">
                 <i class="fa fa-info-circle"></i> Get Help
             </a>
         </div>
