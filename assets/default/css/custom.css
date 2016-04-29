@@ -4,3 +4,14 @@
 
    All changes made in this file will override the default styles.
    ========================================================================== */
+
+
+
+
+
+
+
+#logo
+{
+    background: url("../img/logo_200x100.png") center center no-repeat !important;
+}

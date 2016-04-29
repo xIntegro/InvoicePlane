@@ -4,11 +4,11 @@ if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
 /*
- * Xintegrocore
+ * xintegro
  * 
  * A free and open source web based invoicing system
  *
- * @package		xintegrocore
+ * @package		xintegro
  * @author		xintegro (xintegro.de)
  * @copyright	Copyright (c) 2012 - 2015 xintegro.de
  * @license		http://xintegro.de/license.txt
@@ -25,7 +25,7 @@ class Base_Controller extends MX_Controller
     {
         parent::__construct();
 
-        $this->config->load('xintegrocore');
+        $this->config->load('xintegro');
 
         // Don't allow non-ajax requests to ajax controllers
         if ($this->ajax_controller and !$this->input->is_ajax_request()) {

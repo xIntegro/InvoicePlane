@@ -15,7 +15,7 @@
         if ($this->mdl_settings->setting('custom_title') != '') {
             echo $this->mdl_settings->setting('custom_title');
         } else {
-            echo 'Xintegrocore';
+            echo 'xintegro';
         } ?> - <?php echo lang('invoice'); ?> <?php echo $invoice->invoice_number; ?></title>
 
         <meta name="viewport" content="width=device-width,initial-scale=1">

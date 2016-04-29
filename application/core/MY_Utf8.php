@@ -32,7 +32,7 @@ class MY_Utf8 extends CI_Utf8 {
 	/**
 	 * Constructor
 	 *
-	 * Xintegrocore: Hack for PHPUnit (tested on PHPUnit 3.7.21)
+	 * xintegro: Hack for PHPUnit (tested on PHPUnit 3.7.21)
 	 * Constructor based on 'CI_VERSION', '2.2.1'
 	 *
 	 * Determines if UTF-8 support is to be enabled

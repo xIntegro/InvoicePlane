@@ -1,6 +1,6 @@
 # Contribution Guide
 
-## Contribution to Xintegrocore
+## Contribution to xintegro
 
 Every help is welcome, you don't have to be a professional PHP developer or SQL database engineer.
 If you are not familiar with PHP or coding in general you could also help us in other ways.
@@ -11,8 +11,8 @@ If you are not familiar with PHP or coding in general you could also help us in 
 [![Community Forums](https://img.shields.io/badge/Help%3A-Community%20Forums-429ae1.svg)](https://community.xintegro.de/)    
 [![Issue Tracker](https://img.shields.io/badge/Development%3A-Issue%20Tracker-429ae1.svg)](https://development.xintegro.de/)    
 [![Roadmap](https://img.shields.io/badge/Development%3A-Roadmap-429ae1.svg)](https://go.xintegro.de/roadmapv1)    
-[![Gitter chat](https://img.shields.io/badge/Chat%3A-Gitter-green.svg)](https://gitter.im/Xintegrocore/Xintegrocore)    
-[![Freenode](https://img.shields.io/badge/Chat%3A-Freenode%20(IRC)-green.svg)](irc://irc.freenode.net/Xintegrocore) 
+[![Gitter chat](https://img.shields.io/badge/Chat%3A-Gitter-green.svg)](https://gitter.im/xintegro/xintegro)    
+[![Freenode](https://img.shields.io/badge/Chat%3A-Freenode%20(IRC)-green.svg)](irc://irc.freenode.net/xintegro) 
 
 ### 2. Get familiar with our Development Guidelines
 We are following some strict development guidelines while developing.
@@ -42,7 +42,7 @@ We received some licenses for commercial development tools you can use if you wa
     * If an issue exists and no one is working on it, assign it to yourself or write a comment.
 2. Always reference the issue ID (e.g. IP-317) in all commits you make for this issue.
 3. Before you create a pull request, rebase from the development branch.
-    * Add the development branch as a remote: `git remote add ip git@github.com:Xintegrocore/Xintegrocore.git`
+    * Add the development branch as a remote: `git remote add ip git@github.com:xintegro/xintegro.git`
     * Do a rebase with the following command: `git pull --rebase ip development`
     Where `ip` is the name of the remote and `development` the branch.
     * Solve all conflicts and check if your code is still working.
@@ -52,7 +52,7 @@ We received some licenses for commercial development tools you can use if you wa
 
 ### Prerequisites
 
-Download the following to setup the Xintegrocore VM.  Please note: the VM is for development purposes only.
+Download the following to setup the xintegro VM.  Please note: the VM is for development purposes only.
 
 * http://www.ansible.com/home
 * https://www.vagrantup.com/
@@ -63,9 +63,9 @@ Download the following to setup the Xintegrocore VM.  Please note: the VM is for
 * Run `vagrant up` from the cloned directory
 * If provisioning fails just run `vagrant provision` from the terminal
 
-You should be able to navigate to your local though by doing www.Xintegrocore.local  
+You should be able to navigate to your local though by doing www.xintegro.local  
 
-On the setup screen specify localhost, root, *blank password*, Xintegrocore as the database configuration.
+On the setup screen specify localhost, root, *blank password*, xintegro as the database configuration.
 
 *Note:* When the VM is booted you can change the `php.ini` file to setup xdebug or other preferences.
 
@@ -88,5 +88,5 @@ Please ask questions related to this process if you are unclear.
 
 ---
   
-*Please notice: The name 'Xintegrocore' and the Xintegrocore logo are both copyright by Kovah.de and xintegro.de
+*Please notice: The name 'xintegro' and the xintegro logo are both copyright by Kovah.de and xintegro.de
 and their usage is restricted! For more information visit xintegro.de/license-copyright*

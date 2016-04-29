@@ -15,13 +15,14 @@
     <!-- Use the .htaccess and remove these lines to avoid edge case issues -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
-    <title>Xintegrocore</title>
+    <title>xintegro</title>
 
     <!-- Mobile viewport optimized: j.mp/bplateviewport -->
     <meta name="viewport" content="width=device-width">
 
     <!-- CSS: implied media=all -->
     <link rel="stylesheet" href="/assets/default/css/welcome.css">
+     <link rel="stylesheet" href="/assets/default/css/custom.css">
     <!-- end CSS-->
 
 </head>
@@ -30,12 +31,12 @@
 <div class="container">
 
     <div id="content">
-        <div id="logo"><span>Xintegrocore</span></div>
+        <div id="logo"><span>xintegro</span></div>
         <p class="alert alert-info text-center">
-            Please install Xintegrocore.<br/>
-            <span class="text-muted">Bitte installiere Xintegrocore.</span><br/>
-            <span class="text-muted">S'il vous plaît installer Xintegrocore</span><br/>
-            <span class="text-muted">Por favor, instale Xintegrocore</span><br/>
+            Please install xintegro.<br/>
+            <span class="text-muted">Bitte installiere xintegro.</span><br/>
+            <span class="text-muted">S'il vous plaît installer xintegro</span><br/>
+            <span class="text-muted">Por favor, instale xintegro</span><br/>
         </p>
 
         <div class="btn-group btn-group-justified">

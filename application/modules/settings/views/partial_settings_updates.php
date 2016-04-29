@@ -83,7 +83,7 @@
 
     <hr/>
 
-    <h4><?php echo lang('xintegrocore_news'); ?></h4>
+    <h4><?php echo lang('xintegro_news'); ?></h4>
 
     <div id="ipnews-results">
         <span id="ipnews-loading" class="btn btn-default btn-sm disabled">

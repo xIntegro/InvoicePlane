@@ -20,7 +20,7 @@
     <link rel="icon" type="image/png" href="<?php echo base_url(); ?>assets/default/img/favicon.png">
 
     <link rel="stylesheet" href="<?php echo base_url(); ?>assets/default/css/welcome.css">
-
+<link rel="stylesheet" href="<?php echo base_url(); ?>assets/default/css/custom.css">
     <!--[if lt IE 9]>
     <script src="<?php echo base_url(); ?>assets/default/js/libs/html5shiv-3.7.2.min.js"></script>
     <script src="<?php echo base_url(); ?>assets/default/js/libs/respond-1.4.2.min.js"></script>

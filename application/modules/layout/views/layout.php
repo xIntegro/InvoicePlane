@@ -15,7 +15,7 @@
         if ($this->mdl_settings->setting('custom_title') != '') {
             echo $this->mdl_settings->setting('custom_title');
         } else {
-            echo 'Xintegrocore';
+            echo 'xintegro';
         } ?>
     </title>
 
