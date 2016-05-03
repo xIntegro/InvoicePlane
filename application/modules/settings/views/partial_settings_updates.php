@@ -1,4 +1,4 @@
-<script type="text/javascript">
+<!--<script type="text/javascript">
     // Update check
     window.onload = function () {
         var checktime = 2000;
@@ -52,44 +52,48 @@
         });
     };
 
-</script>
+</script>-->
 
-<div class="tab-info">
+<!--<div class="tab-info">-->
+<div class="col-md-12">
+    <iframe src="http://update.xintegro.de/" style="width:100%;height:500px;">
+  <p>Your browser does not support iframes.</p>
+</iframe>
 
-    <h4><?php echo lang('updatecheck'); ?></h4><br/>
+<!--    <h4><?php //echo lang('updatecheck'); ?></h4><br/>
 
     <div class="form-group">
         <input type="text" class="input-sm form-control"
-               value="<?php echo $current_version; ?>" readonly="readonly">
+               value="<?php //echo $current_version; ?>" readonly="readonly">
     </div>
     <div id="updatecheck-results">
         <span id="updatecheck-loading" class="btn btn-default btn-sm disabled">
-            <i class="fa fa-circle-o-notch fa-spin"></i>  <?php echo lang('checking_for_updates'); ?>
+            <i class="fa fa-circle-o-notch fa-spin"></i>  <?php //echo lang('checking_for_updates'); ?>
 		</span>
 
         <span id="updatecheck-no-updates" class="btn btn-default btn-sm disabled hidden">
-            <?php echo lang('no_updates_available'); ?>
+            <?php //echo lang('no_updates_available'); ?>
         </span>
 
         <span id="updatecheck-failed" class="btn btn-danger btn-sm disabled hidden">
-            <?php echo lang('updatecheck_failed'); ?>
+            <?php //echo lang('updatecheck_failed'); ?>
         </span>
 
         <a href="http://xintegro.de/downloads" id="updatecheck-updates-available"
            class="btn btn-success btn-sm hidden" target="_blank">
-            <?php echo lang('updates_available'); ?>
+            <?php //echo lang('updates_available'); ?>
         </a>
     </div>
 
     <hr/>
 
-    <h4><?php echo lang('xintegro_news'); ?></h4>
+    <h4><?php //echo lang('xintegro_news'); ?></h4>
 
     <div id="ipnews-results">
         <span id="ipnews-loading" class="btn btn-default btn-sm disabled">
-            <i class="fa fa-circle-o-notch fa-spin"></i>  <?php echo lang('checking_for_news'); ?>
+            <i class="fa fa-circle-o-notch fa-spin"></i>  <?php //echo lang('checking_for_news'); ?>
 		</span>
 
         <div id="ipnews-container"></div>
-    </div>
+    </div>-->
 </div>
