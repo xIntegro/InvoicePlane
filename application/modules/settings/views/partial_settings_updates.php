@@ -4,12 +4,12 @@
         var checktime = 2000;
 
         // Get the current version
-        var current_version = "<?php echo $current_version; ?>";
+        var current_version = "<?php //echo $current_version; ?>";
         current_version = current_version.replace(/\./g, ''); // Remove the dots from the version
 
         // Get the latest version from updates.xintegro.de
         $.getJSON("https://ids.xintegro.de/updatecheck", function (data) {
-            <?php echo (IP_DEBUG ? 'console.log(data);' : ''); ?>
+            <?php //echo (IP_DEBUG ? 'console.log(data);' : ''); ?>
             
             var updatecheck = data.current_version.replace(/\./g, '');
 
@@ -25,14 +25,14 @@
                 }
             }, checktime);
         }).error(function (data) {
-            <?php echo (IP_DEBUG ? 'console.log(data);' : ''); ?>
+            <?php //echo (IP_DEBUG ? 'console.log(data);' : ''); ?>
             $('#updatecheck-loading').addClass('hidden');
             $('#updatecheck-failed').removeClass('hidden');
         });
 
         // Get the latest news
         $.getJSON("https://ids.xintegro.de/get_news", function (data) {
-            <?php echo (IP_DEBUG ? 'console.log(data);' : ''); ?>
+            <?php //echo (IP_DEBUG ? 'console.log(data);' : ''); ?>
             
             setTimeout(function () {
                 $('#ipnews-loading').addClass('hidden');
@@ -40,13 +40,13 @@
                     var ipnews = '<div class="alert alert-' + news.type + '">';
                     ipnews += '<b>' + news.title + '</b><br/>';
                     ipnews += news.text + '<br/>';
-                    ipnews += '<small><?php echo lang('date')?>: ' + news.newsdate.date.substr(0, 11) + '</b><br/>';
+                    ipnews += '<small><?php //echo lang('date')?>: ' + news.newsdate.date.substr(0, 11) + '</b><br/>';
                     ipnews += '</div>';
                     $('#ipnews-container').append(ipnews);
                 })
             }, checktime);
         }).error(function (data) {
-            <?php echo (IP_DEBUG ? 'console.log(data);' : ''); ?>
+            <?php //echo (IP_DEBUG ? 'console.log(data);' : ''); ?>
             $('#ipnews-loading').addClass('hidden');
             $('#ipnews-failed').removeClass('hidden');
         });

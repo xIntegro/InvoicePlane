@@ -62,6 +62,7 @@ class Setup extends MX_Controller
 
         $languages = directory_map(APPPATH . '/language', TRUE);
 
+        
         sort($languages);
 
         $this->layout->set('languages', $languages);
