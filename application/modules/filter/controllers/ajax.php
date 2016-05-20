@@ -113,5 +113,21 @@ class Ajax extends Admin_Controller
 
         $this->layout->load_view('payments/partial_payment_table', $data);
     }
+    public function filter_persons()
+    {
+        $this->load->model('persons/person_model');
+
+        //get the post input
+        $name = $this->input->post('filter_query');
+        $data=array(
+            'records'=>$this->load->person_model->SearchResult($name)
+        );
+        
+
+
+        $this->layout->load_view('persons/partial_person_table', $data);
+
+    }
+
 
 }

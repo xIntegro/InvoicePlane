@@ -409,3 +409,35 @@ CREATE TABLE `xc_versions` (
 )
   ENGINE = MyISAM
   DEFAULT CHARSET = utf8;
+
+CREATE TABLE `xc_persons` (
+ `id` int(11) NOT NULL AUTO_INCREMENT,
+ `title` varchar(5) NOT NULL,
+ `first_name` varchar(40) NOT NULL,
+ `middle_name` varchar(40) NOT NULL,
+ `last_name` varchar(40) NOT NULL,
+ `birthday` varchar(25) NOT NULL,
+ `birth_place` varchar(40) NOT NULL,
+ `nationality` varchar(40) NOT NULL,
+ `language_known` varchar(100) NOT NULL,
+ `gender` varchar(10) NOT NULL,
+ `home_no` varchar(10) NOT NULL,
+ `home_address` varchar(150) NOT NULL,
+ `street_address` varchar(100) NOT NULL,
+ `city` varchar(50) NOT NULL,
+ `country` varchar(50) NOT NULL,
+ `zipcode` varchar(10) NOT NULL,
+ `email_1` varchar(50) NOT NULL,
+ `email_2` varchar(50) NOT NULL,
+ `fax` varchar(20) NOT NULL,
+ `mobile` varchar(10) NOT NULL,
+ `phone_number` varchar(15) NOT NULL,
+ `bank_name` varchar(40) NOT NULL,
+ `account_number` varchar(25) NOT NULL,
+ `bic` varchar(30) NOT NULL,
+ `swift_code` varchar(40) NOT NULL,
+ `bank_short_code` varchar(40) NOT NULL,
+ `routing_number` varchar(40) NOT NULL,
+ `person_active` int(11) NOT NULL,
+ PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=latin1

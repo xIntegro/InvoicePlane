@@ -153,6 +153,17 @@
 
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <i class="fa fa-caret-down"></i> &nbsp;<span><?php echo lang('persons'); ?></span><i
+                            class="visible-sm-inline fa fa-users"></i>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><?php echo anchor('persons/form', lang('add_persons')); ?></li>
+                        <li><?php echo anchor('persons/index', lang('view_persons')); ?></li>
+                    </ul>
+                </li>
+
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <i class="fa fa-caret-down"></i> &nbsp;<span
                             class="hidden-sm"><?php echo lang('quotes'); ?></span><i
                             class="visible-sm-inline fa fa-file"></i>
