@@ -560,4 +560,30 @@ $lang = array(
 	'routing'										=>	'Routing Number',
 	'person_name'									=>	'Person Name',
 	'filter_persons'								=>	'Filter Person',
+	'category'										=>	'Category',
+	'add_category'									=>	'Add Category',
+	'view_category'									=>	'View Category',
+	'category_name'									=>	'Category Name',
+	'category_information'							=>	'Category information',
+	'category_form'									=>	'Category Form',
+	'category_already_exists'                        => 'Category already exists!',
+	'category_save'									=>	'Category Create Success',
+	'filter_categories'								=>	'Filter Category',
+	'delete_person_warning'							=>	'Are you sure to delete this person record?',
+	'delete_category_warning'						=>	'Are you sure to delete this category record?',
+	'search_person_name'							=>	'Search Person Name',
+	'select_person_name'							=>	'Select Person Name',
+	'create_person'									=>	'Create Person',
+	'enter_person_name'								=>	'Search Person Name',
+	'office_address'								=>	'Office Address',
+	'select_person'									=>	'Select Person',
+	'add_person'									=>	'Add person',
+	'person_name'									=>	'person Name',
+	'edit_person'									=>	'Edit Person',
+	'edit_client'									=>	'Edit Client'
+
+
+
+
+
 );

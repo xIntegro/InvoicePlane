@@ -440,4 +440,48 @@ CREATE TABLE `xc_persons` (
  `routing_number` varchar(40) NOT NULL,
  `person_active` int(11) NOT NULL,
  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=latin1
+)
+ENGINE = MyISAM
+DEFAULT CHARSET = utf8;
+
+
+CREATE TABLE `xc_categories` (
+  `id`      INT(11)       NOT NULL AUTO_INCREMENT,
+  `category_name`    VARCHAR(55)   NOT NULL,
+  `is_active` int(1) NOT NULL,
+  PRIMARY KEY (`id`)
+)
+ENGINE = MyISAM
+DEFAULT CHARSET = utf8;
+
+CREATE TABLE `xc_clients_categories` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `client_id` int(11) NOT NULL,
+  `category_id` int(11) NOT NULL,
+   PRIMARY KEY (`id`)
+)
+ENGINE = MyISAM
+DEFAULT CHARSET = utf8;
+
+CREATE TABLE `xc_person_categories` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `person_id` int(11) NOT NULL,
+  `category_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE = MyISAM
+DEFAULT CHARSET = utf8;
+
+
+CREATE TABLE `xc_client_persons` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `client_id` int(11) NOT NULL,
+  `person_id` int(11) NOT NULL,
+  `telephone_number` varchar(15) NOT NULL,
+  `mobile_number` varchar(13) NOT NULL,
+  `email` varchar(30) NOT NULL,
+  `fax` varchar(15) NOT NULL,
+  `office_address` varchar(200) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE = MyISAM
+DEFAULT CHARSET = utf8;
+

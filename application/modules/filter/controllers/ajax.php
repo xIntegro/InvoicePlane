@@ -128,6 +128,16 @@ class Ajax extends Admin_Controller
         $this->layout->load_view('persons/partial_person_table', $data);
 
     }
+    public function filter_categories()
+    {
+            $this->load->model('categories/category_model');
+            //get the post input
+            $name=$this->input->post('filter_query');
+            $data=array(
+                'records'=>$this->load->category_model->SearchResult($name)
+            );
 
+        $this->layout->load_view('categories/partial_category_table',$data);
+    }
 
 }

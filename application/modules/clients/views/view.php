@@ -36,6 +36,11 @@
         <h1><?php echo $client->client_name; ?></h1>
     </div>
     <div class="pull-right btn-group">
+
+        <a href="#" class="btn btn-sm btn-default client-create-person"
+           data-client-name="<?php echo $client->client_name; ?>">
+            <i class="fa fa-user"></i> <?php echo lang('add_person'); ?>
+        </a>
         <a href="#" class="btn btn-sm btn-default client-create-quote"
            data-client-name="<?php echo $client->client_name; ?>">
             <i class="fa fa-file"></i> <?php echo lang('create_quote'); ?>
@@ -59,6 +64,7 @@
 
 <ul id="settings-tabs" class="nav nav-tabs nav-tabs-noborder">
     <li class="active"><a data-toggle="tab" href="#clientDetails"><?php echo lang('details'); ?></a></li>
+    <li><a data-toggle="tab" href="#clientpersons"><?php echo lang('persons'); ?></a></li>
     <li><a data-toggle="tab" href="#clientQuotes"><?php echo lang('quotes'); ?></a></li>
     <li><a data-toggle="tab" href="#clientInvoices"><?php echo lang('invoices'); ?></a></li>
     <li><a data-toggle="tab" href="#clientPayments"><?php echo lang('payments'); ?></a></li>
@@ -215,6 +221,9 @@
                 </div>
             </div>
 
+        </div>
+        <div id="clientpersons" class="tab-pane table-content">
+            <?php echo $client_person_table; ?>
         </div>
 
         <div id="clientQuotes" class="tab-pane table-content">

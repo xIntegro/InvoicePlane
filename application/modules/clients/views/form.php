@@ -5,6 +5,10 @@
             placeholder: "<?php echo lang('country'); ?>",
             allowClear: true
         });
+        $("#category").select2({
+            placeholder: "Category",
+            allowClear: true
+        });
     });
 </script>
 
@@ -31,7 +35,7 @@
             <legend><?php echo lang('personal_information'); ?></legend>
             <div class="input-group col-xs-6">
               <span class="input-group-addon">
-                <?php echo lang('active_client'); ?>: 
+                <?php echo lang('active_client'); ?>:
                 <input id="client_active" name="client_active" type="checkbox" value="1"
                     <?php if ($this->mdl_clients->form_value('client_active') == 1
                         or !is_numeric($this->mdl_clients->form_value('client_active'))
@@ -43,6 +47,40 @@
                 <input id="client_name" name="client_name" type="text" class="form-control"
                        placeholder="<?php echo lang('client_name'); ?>"
                        value="<?php echo htmlspecialchars($this->mdl_clients->form_value('client_name')); ?>">
+            </div>
+            <div class="input-group top-buffer col-xs-6 col-sm-6">
+                <label><?php echo lang('category');?></label>
+                <select class="form-control" id="category"  name="category[]" multiple="multiple">
+                    <option></option>
+                    <?php
+                        foreach ($categories as $category)
+                        {
+                            $isAdded=false;
+                            if(isset($client_category))
+                            {
+                                foreach($client_category as $client_cat)
+                                {
+                                    if($client_cat->category_id==$category->id)
+                                    {
+                                        ?>
+                                        <option value="<?php echo $category->id;?>" selected="selected"><?php echo $category->category_name;?></option>
+                                        <?php
+                                        $isAdded=true;
+                                        break;
+                                    }
+                                }
+                            }
+                            if(!$isAdded)
+                            {
+                                ?>
+                                <option value="<?php echo $category->id;?>"><?php echo $category->category_name;?></option>
+                                <?php
+                            }
+
+
+                        }
+                    ?>
+                </select>
             </div>
         </fieldset>
 

@@ -1,6 +1,6 @@
 <script>
     $(function () {
-        // Performs the lookup against current personss in the database
+        // Performs the lookup against current clients in the database
         $('#client_name').keypress(function () {
             var self = $(this);
 

@@ -8,8 +8,9 @@ class Persons extends Admin_Controller
     {
         parent::__construct();
         $this->load->model('person_model');
-
-
+        $this->load->model('mdl_person_category');
+        $this->load->model('categories/category_model');
+        $this->load->model('client_persons/mdl_client_persons');
     }
     public function index()
     {
@@ -39,7 +40,13 @@ class Persons extends Admin_Controller
     }
     public function form($id = NULL)
     {
+        //load country
         $this->load->helper('country');
+
+        //get category list
+
+        $categories= $this->category_model->all();
+
 
         if($this->input->post('btn_cancel'))
         {
@@ -49,11 +56,17 @@ class Persons extends Admin_Controller
 
         if($id!="" or $id != NULL)
         {
+            $person_id=$id;
             $id=array('id'=>$id);
             $result=$this->person_model->edit($id);
+            //get category by person selected
+
+            $person_category=$this->mdl_person_category->get_category($person_id);
+
             $this->layout->set(
                 array(
-                    'record'=>$result
+                    'record'=>$result,
+                    'person_category'=>$person_category
                 )
             );
 
@@ -63,10 +76,26 @@ class Persons extends Admin_Controller
 
             if($id!="" || $id != NULL)
             {
-                if($this->person_model->run_validation())
+                if($this->person_model->run_validation() and $this->mdl_person_category->run_validation())
                 {
                     $this->update($this->input->post('is_update'));
-                    $this->session->set_flashdata('alert_success', lang('client_already_exists'));
+
+                    $category=$this->input->post('category');
+                    foreach ($category as $key => $value)
+                    {
+                        $data[]=array(
+                            'person_id'=>$person_id,
+                            'category_id'=>$value
+                        );
+                            $personid=array(
+                            'person_id'=>$person_id
+                        );
+
+
+                    }
+                    //print_r($data);
+                    $this->mdl_person_category->Update($personid,$data);
+                    
                     redirect('persons');
                 }
 
@@ -74,10 +103,19 @@ class Persons extends Admin_Controller
             }
             else
             {
-                if($this->person_model->run_validation())
+                if($this->person_model->run_validation() and $this->mdl_person_category->run_validation())
                 {
-                    $this->insert();
-                    $this->session->set_flashdata('alert_success', lang('client_already_exists'));
+
+                    $userId=$this->insert();
+                    $category=$this->input->post('category');
+                    foreach ($category as $key => $value)
+                    {
+                        $data[]=array(
+                            'person_id'=>$userId,
+                            'category_id'=>$value
+                        );
+                    }
+                    $this->mdl_person_category->Save($data);
                     redirect('persons');
                 }
 
@@ -87,6 +125,8 @@ class Persons extends Admin_Controller
         $this->layout->set(
             array(
                 'countries' => get_country_list(lang('cldr')),
+                'categories'=>$categories
+
             )
         );
         $this->layout->buffer('content', 'persons/form');
@@ -94,12 +134,95 @@ class Persons extends Admin_Controller
     }
     public function view($person_id)
     {
-        $this->layout->buffer('content','person/view');
+        $this->load->model('client_persons/mdl_client_persons');
+        $clients=$this->mdl_client_persons->get_client_detail($person_id);
+
+
+        $person_id=array('id'=>$person_id);
+        $persons=$this->person_model->edit($person_id);
+
+        $this->layout->set(
+            array(
+                    'persons'=>$persons,
+                    'clients'=>$clients,
+                 )
+        );
+
+          $this->layout->buffer(
+                            array(
+                                array(
+                                    'client_person_table',
+                                    'persons/partial_person_client_table'
+                                ),
+                                array(
+                                    'content',
+                                    'persons/view'
+                                ),
+                            )
+
+          );
+          $this->layout->render();
+
+    }
+    public function clientEdit($person_id,$client_id)
+    {
+        $this->load->model('clients/mdl_clients');
+
+        $this->load->model('client_persons/mdl_client_persons');
+
+
+        if($this->input->post('btn_submit'))
+        {
+            if($this->mdl_client_persons->run_validation())
+            {
+                $data=array(
+                    'client_id'=>$this->input->post('client_id'),
+                    'person_id'=>$this->input->post('person_id'),
+                    'telephone_number'=>$this->input->post('telephone_number'),
+                    'mobile_number'=>$this->input->post('mobile_number'),
+                    'email'=>$this->input->post('email'),
+                    'fax'=>$this->input->post('fax'),
+                    'office_address'=>$this->input->post('office_address')
+                );
+                $this->mdl_client_persons->update($data,$person_id,$client_id);
+                redirect('persons/view/'.$person_id);
+            }
+        }
+        if ($this->input->post('btn_cancel')) {
+
+
+            redirect('persons/view/'.$person_id);
+
+
+        }
+
+
+
+
+        $person=$this->mdl_client_persons->edit($person_id,$client_id);
+
+        $this->layout->set(
+            array(
+                'records'   => $person,
+                'clients'   => $this->mdl_clients->get()->result(),
+                'persons'   =>$this->person_model->All()
+
+            )
+        );
+        $this->layout->buffer('content', 'persons/person_client');
+        $this->layout->render();
+    }
+    public function clientDelete($person_id,$client_id)
+    {
+        $this->load->model('client_persons/mdl_client_persons');
+        $this->load->mdl_client_persons->delete($person_id,$client_id);
+        redirect('persons/view/'.$person_id);
     }
 
     public function delete($person_id)
     {
         $this->person_model->delete($person_id);
+        $this->mdl_client_persons->MultipleDelete_person($person_id);
         redirect('persons');
     }
     public function insert()
@@ -136,7 +259,8 @@ class Persons extends Admin_Controller
         );
 
         //Save Record into Database
-        $this->person_model->Save($data);
+        $user_Id=$this->person_model->Save($data);
+        return $user_Id;
 
     }
     public function update($id)

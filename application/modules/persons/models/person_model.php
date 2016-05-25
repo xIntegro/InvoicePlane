@@ -13,9 +13,12 @@ class Person_model extends Response_Model
     }
 
     //save Record into Database
+
     public function Save($data)
     {
         $this->db->insert('xc_persons',$data);
+        $userId=$this->db->insert_id();
+        return $userId;
     }
     //get all record
     public function All()
@@ -34,6 +37,7 @@ class Person_model extends Response_Model
         $this->filter_where('person_active', 0);
         return $this;
     }
+
     //delete record from database
     public function delete($id)
     {
@@ -76,6 +80,7 @@ class Person_model extends Response_Model
                 'label'=>lang('first_name'),
                 'rules'=>'required'
             ),
+            
             'middle_name'=>array(
                 'field'=>'middle_name'
             ),

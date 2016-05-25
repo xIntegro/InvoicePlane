@@ -91,7 +91,7 @@
 
             $('.client-create-invoice').click(function () {
                 $('#modal-placeholder').load("<?php echo site_url('invoices/ajax/modal_create_invoice'); ?>", {
-                    client_name: $(this).data('client-name')
+                    client_id: $(this).data('client-name')
                 });
             });
             $('.client-create-quote').click(function () {
@@ -99,6 +99,18 @@
                     client_name: $(this).data('client-name')
                 });
             });
+            $('.client-create-person').click(function () {
+
+                $('#modal-placeholder').load("<?php echo site_url('client_persons/ajax/modal_create_person'); ?>", {
+                    client_name: $(this).data('client-name')
+                });
+            });
+            $('.person-create-client').click(function () {
+                $('#modal-placeholder').load("<?php echo site_url('persons/ajax/modal_create_client'); ?>", {
+                    person_name: $(this).data('person-name')
+                });
+            });
+            
             $(document).on('click', '.invoice-add-payment', function () {
                 invoice_id = $(this).data('invoice-id');
                 invoice_balance = $(this).data('invoice-balance');
@@ -148,9 +160,10 @@
                     <ul class="dropdown-menu">
                         <li><?php echo anchor('clients/form', lang('add_client')); ?></li>
                         <li><?php echo anchor('clients/index', lang('view_clients')); ?></li>
+
+
                     </ul>
                 </li>
-
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <i class="fa fa-caret-down"></i> &nbsp;<span><?php echo lang('persons'); ?></span><i
@@ -161,6 +174,8 @@
                         <li><?php echo anchor('persons/index', lang('view_persons')); ?></li>
                     </ul>
                 </li>
+
+
 
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -199,6 +214,17 @@
                         <li><?php echo anchor('families/index', lang('product_families')); ?></li>
                     </ul>
                 </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <i class="fa fa-caret-down"></i> &nbsp;<span><?php echo lang('category'); ?></span><i
+                            class="visible-sm-inline fa fa-users"></i>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><?php echo anchor('categories/form', lang('add_category')); ?></li>
+                        <li><?php echo anchor('categories/index', lang('view_category')); ?></li>
+                    </ul>
+                </li>
+
 
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">

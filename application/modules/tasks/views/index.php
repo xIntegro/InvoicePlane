@@ -1,5 +1,4 @@
-<div id="headerbar">
-    <h1><?php echo lang('tasks'); ?></h1>
+<div id="headerbar"><h1><?php echo lang('tasks'); ?></h1>
 
     <div class="pull-right">
         <a class="btn btn-sm btn-primary" href="<?php echo site_url('tasks/form'); ?>"><i
