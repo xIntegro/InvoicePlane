@@ -229,7 +229,7 @@ class Clients extends Admin_Controller
             if($this->mdl_client_persons->run_validation())
             {
                 $data=array(
-                    'client_id'=>$this->input->post('client_name'),
+                    'client_id'=>$this->input->post('client_id'),
                     'person_id'=>$this->input->post('person_id'),
                     'telephone_number'=>$this->input->post('telephone_number'),
                     'mobile_number'=>$this->input->post('mobile_number'),
@@ -242,15 +242,8 @@ class Clients extends Admin_Controller
             }
         }
         if ($this->input->post('btn_cancel')) {
-            if($client_id)
-            {
-                redirect('clients/view/'.$client_id);
-            }
-            if($person_id)
-            {
-                redirect('persons/view/'.$person_id);
-            }
 
+                redirect('clients/view/'.$client_id);
         }
 
 

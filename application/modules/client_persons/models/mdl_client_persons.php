@@ -91,8 +91,8 @@ class mdl_client_persons extends Response_Model
                 'label'=>lang('email'),
                 'rules'=>'required'
             ),
-            'client_name'=>array(
-                'field'=>'client_name',
+            'client_id'=>array(
+                'field'=>'client_id',
                 'label'=>lang('client'),
                 'rules'=>'required'
             ),

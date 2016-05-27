@@ -7,6 +7,17 @@
            data-person-name="<?php echo $persons[0]['first_name']; ?>">
             <i class="fa fa-user"></i> <?php echo lang('add_client'); ?>
         </a>
+
+        <a href="<?php echo site_url('persons/form/' . $persons[0]['id']); ?>"
+           class="btn btn-sm btn-default">
+            <i class="fa fa-edit"></i> <?php echo lang('edit'); ?>
+        </a>
+
+        <a class="btn btn-sm btn-danger"
+           href="<?php echo site_url('persons/delete/' . $persons[0]['id']); ?>"
+           onclick="return confirm('<?php echo lang('delete_person_warning'); ?>');">
+            <i class="fa fa-trash-o"></i> <?php echo lang('delete'); ?>
+        </a>
     </div>
 
 

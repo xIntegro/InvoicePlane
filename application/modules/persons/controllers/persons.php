@@ -96,7 +96,7 @@ class Persons extends Admin_Controller
                     //print_r($data);
                     $this->mdl_person_category->Update($personid,$data);
                     
-                    redirect('persons');
+                    redirect('persons/view/'.$person_id);
                 }
 
 
@@ -116,7 +116,7 @@ class Persons extends Admin_Controller
                         );
                     }
                     $this->mdl_person_category->Save($data);
-                    redirect('persons');
+                    redirect('persons/view/'.$userId);
                 }
 
             }
@@ -222,7 +222,9 @@ class Persons extends Admin_Controller
     public function delete($person_id)
     {
         $this->person_model->delete($person_id);
-        $this->mdl_client_persons->MultipleDelete_person($person_id);
+        $this->mdl_client_persons->MultipleDelete_person($person_id); //delete from client_persons table
+        $this->mdl_person_category->Delete_person_category($person_id); //delete from person_category Table
+
         redirect('persons');
     }
     public function insert()

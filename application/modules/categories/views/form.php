@@ -1,9 +1,15 @@
+<script>
+    $(function(){
+        $('#category_name').focus();
+    });
+</script>
+
 <form method="post">
     <div id="headerbar">
         <h1><?php echo lang('category_form'); ?></h1>
         <?php $this->layout->load_view('layout/header_buttons'); ?>
     </div>
-    <div class="content">
+    <div id="content">
         <?php $this->layout->load_view('layout/alerts'); ?>
         <input class="hidden" name="is_update" type="hidden" value="<?php echo $record[0]['id'];?>">
 
@@ -21,7 +27,7 @@
                 <div class="form-group">
                     <label><?php echo lang('category_name')?></label>
                     <div class="controls">
-                       <input type="text" name="category_name" value="<?php echo $record[0]['category_name'];?>" class="form-control">
+                       <input type="text" id="category_name" name="category_name" value="<?php echo $record[0]['category_name'];?>" class="form-control">
                     </div>
                 </div>
 

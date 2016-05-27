@@ -44,7 +44,7 @@ class Ajax extends Admin_Controller
     {
         if($this->mdl_client_persons->run_validation())
         {
-            if($this->mdl_client_persons->person_exist($this->input->post('client_name'),$this->input->post('person_id')))
+            if($this->mdl_client_persons->person_exist($this->input->post('client_id'),$this->input->post('person_id')))
             {
                 $response=array(
                     'success'=>2
@@ -53,7 +53,7 @@ class Ajax extends Admin_Controller
             else
             {
                 $inputs=array(
-                    'client_id'=>$this->input->post('client_name'),
+                    'client_id'=>$this->input->post('client_id'),
                     'person_id'=>$this->input->post('person_id'),
                     'telephone_number'=>$this->input->post('telephone_number'),
                     'mobile_number'=>$this->input->post('mobile_number'),

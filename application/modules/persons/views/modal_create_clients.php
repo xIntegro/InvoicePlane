@@ -7,7 +7,7 @@
             $("#client_name").focus();
         });
 
-        $("#client_name").select2({
+        $("#client_id").select2({
             placeholder: "<?php echo lang('select_person'); ?>",
             allowClear: true
         });
@@ -104,7 +104,7 @@
                 <div class="col-sm-6">
                     <div class="form-group">
                         <label for="client_name"><?php echo lang('client'); ?></label>
-                        <select name="client_name" id="client_name" class="form-control">
+                        <select name="client_id" id="client_id" class="form-control">
                             <option></option>
                             <?php
                                 foreach ($clients as $client)

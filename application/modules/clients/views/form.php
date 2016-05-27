@@ -11,6 +11,9 @@
         });
     });
 </script>
+<style>
+    .top-buffer { margin-top:20px; }
+</style>
 
 <form method="post">
 

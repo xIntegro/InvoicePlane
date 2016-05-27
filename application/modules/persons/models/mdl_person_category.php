@@ -31,6 +31,16 @@ class Mdl_person_category extends Response_Model
     
         //    $this->db->update_batch('xc_person_categories',$data,'person_id');
     }
+    public function Delete_person_category($person_id)
+    {
+        $this->db->where_in('person_id',$person_id);
+        $this->db->delete('xc_person_categories');
+    }
+    public function Delete_category_person($category_id)
+    {
+        $this->db->where_in('category_id',$category_id);
+        $this->db->delete('xc_person_categories');
+    }
     public function validation_rules()
     {
         return array(

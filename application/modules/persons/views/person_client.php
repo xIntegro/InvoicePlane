@@ -79,13 +79,13 @@
                 <div class="col-sm-6">
                     <div class="form-group">
                         <label for="email"><?php echo lang('email')?></label>
-                        <input type="email" name="email" id="email" value="<?php echo $records->email?>" required class="form-control">
+                        <input type="email" name="email" id="email" value="<?php echo $records->email?>"  class="form-control">
                     </div>
                 </div>
                 <div class="col-sm-6">
                     <div class="form-group">
                         <label for="telephone"><?php echo lang('phone')?></label>
-                        <input type="text" name="telephone_number" value="<?php echo $records->telephone_number?>" id="telephone_number" required class="form-control">
+                        <input type="text" name="telephone_number" value="<?php echo $records->telephone_number?>" id="telephone_number"  class="form-control">
                     </div>
 
                 </div>
@@ -94,12 +94,12 @@
                 <div class="col-sm-6">
                     <div class="form-group">
                         <label for="mobile"><?php echo lang('mobile')?></label>
-                        <input type="text" name="mobile_number" value="<?php echo $records->mobile_number?>"  id="mobile_number" required maxlength="10" class="form-control">
+                        <input type="text" name="mobile_number" value="<?php echo $records->mobile_number?>"  id="mobile_number"  maxlength="10" class="form-control">
                     </div>
 
                 </div>
                 <div class="col-sm-6">
-                    <div class="form-group">
+                    <div class="form-group">    
                         <label for="fax"><?php echo lang('fax')?></label>
                         <input type="text" name="fax" id="fax" value="<?php echo $records->fax?>" class="form-control">
                     </div>

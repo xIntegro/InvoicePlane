@@ -8,6 +8,8 @@ class Categories extends Admin_Controller
     {
         parent::__construct();
         $this->load->model('category_model');
+        $this->load->model('persons/mdl_person_category');
+        $this->load->model('clients/mdl_client_category');
         $this->load->library("pagination");
     }
         public function index()
@@ -106,7 +108,9 @@ class Categories extends Admin_Controller
     }
     public function delete($id)
     {
-        $this->category_model->delete($id);
+        $this->category_model->delete($id); //delete main category
+        $this->mdl_person_category->Delete_category_person($id); //delete category from category_person
+        $this->mdl_client_category->Delete_category_client($id); //delete category from category_Client
         redirect('categories');
     }
 }

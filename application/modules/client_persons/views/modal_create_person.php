@@ -7,8 +7,8 @@
             $("#client_name").focus();
         });
         $().ready(function () {
-            $("[name='client_name']").select2();
-            $("#client_name").focus();
+            $("[name='client_id']").select2();
+            $("#client_id").focus();
         });
 
         $("#person_id").select2({
@@ -92,7 +92,7 @@
             </div>
             <div class="form-group">
                 <label for="client_name"><?php echo lang('client'); ?></label>
-                <select name="client_name" id="client_name" class="form-control" autofocus="autofocus">
+                <select name="client_id" id="client_id" class="form-control" autofocus="autofocus">
                     <?php
                     foreach ($clients as $client){
                         echo "<option value='".htmlentities($client->client_id)."' ";
