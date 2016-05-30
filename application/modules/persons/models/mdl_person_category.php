@@ -22,7 +22,7 @@ class Mdl_person_category extends Response_Model
             return $row;
         }
     }
-    public function Update($personid,$data)
+    public function Update($personid,$data=null)
     {
         $this->db->where_in('person_id',$personid);
         $this->db->delete('xc_person_categories');
@@ -31,6 +31,13 @@ class Mdl_person_category extends Response_Model
     
         //    $this->db->update_batch('xc_person_categories',$data,'person_id');
     }
+
+    public function delete($personId)
+    {
+        $this->db->where('person_id',$personId);
+        $this->db->delete('xc_person_categories');
+    }
+
     public function Delete_person_category($person_id)
     {
         $this->db->where_in('person_id',$person_id);

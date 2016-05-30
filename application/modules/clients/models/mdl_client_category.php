@@ -27,7 +27,16 @@ class Mdl_client_category extends Response_Model
         $this->db->where_in('client_id',$clientId);
         $this->db->delete('xc_clients_categories');
 
-        $this->Save($data);
+        if(!empty($data))
+        {
+            $this->Save($data);
+        }
+
+    }
+    public function delete($clientId)
+    {
+        $this->db->where('client_id',$clientId);
+        $this->db->delete('xc_clients_categories');
     }
     public function MultipleDelete($clientId)
     {

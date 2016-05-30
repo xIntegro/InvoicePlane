@@ -3,16 +3,14 @@
         <h1><?php echo $persons[0]['first_name']; ?></h1>
     </div>
     <div class="pull-right">
-        <a href="#" class="btn btn-sm btn-default person-create-client"
-           data-person-name="<?php echo $persons[0]['first_name']; ?>">
-            <i class="fa fa-user"></i> <?php echo lang('add_client'); ?>
-        </a>
-
         <a href="<?php echo site_url('persons/form/' . $persons[0]['id']); ?>"
            class="btn btn-sm btn-default">
             <i class="fa fa-edit"></i> <?php echo lang('edit'); ?>
         </a>
-
+        <a href="#" class="btn btn-sm btn-default person-create-client"
+           data-person-name="<?php echo $persons[0]['first_name']; ?>">
+            <i class="fa fa-user"></i> <?php echo lang('add_client'); ?>
+        </a>
         <a class="btn btn-sm btn-danger"
            href="<?php echo site_url('persons/delete/' . $persons[0]['id']); ?>"
            onclick="return confirm('<?php echo lang('delete_person_warning'); ?>');">

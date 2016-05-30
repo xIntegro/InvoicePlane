@@ -74,20 +74,26 @@ class Clients extends Admin_Controller
             }
         }
 
-        if ($this->mdl_clients->run_validation() and $this->mdl_client_category->run_validation()) {
+        if ($this->mdl_clients->run_validation()) {
             $id = $this->mdl_clients->save($id);
 
             // insert category into xc_client_category Table;
             $category=$this->input->post('category');
-            foreach ($category as $key => $value)
+            if(!empty($category))
             {
-                $data[]=array(
-                    'client_id'=>$id,
-                    'category_id'=>$value
-                );
+                foreach ($category as $key => $value)
+                {
+                    $data[]=array(
+                        'client_id'=>$id,
+                        'category_id'=>$value
+                    );
+                }
+                $this->mdl_client_category->Update($id,$data);
             }
-            $this->mdl_client_category->Update($id,$data);
-
+            else
+            {
+                $this->mdl_client_category->delete($id);
+            }
             $this->load->model('custom_fields/mdl_client_custom');
 
             $this->mdl_client_custom->save_custom($id, $this->input->post('custom'));

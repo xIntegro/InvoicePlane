@@ -19,7 +19,7 @@
                         <tr>
 
                             <td>
-                                <?php echo $client_person->first_name;?>
+                                <a href="<?php echo site_url('persons/view/'.$client_person->person_id);?>"><?php echo $client_person->first_name;?></a>
                             </td>
                             <td><?php echo $client_person->telephone_number;?></td>
                             <td><?php echo $client_person->mobile_number;?></td>

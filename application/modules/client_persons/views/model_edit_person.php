@@ -15,38 +15,6 @@
             placeholder: "<?php echo lang('select_person'); ?>",
             allowClear: true
         });
-//        $('#person_create_confirm').click(function () {
-//            console.log('clicked');
-//            $.ajax({
-//                url     :   "<?php //echo site_url('client_persons/ajax/create'); ?>//",
-//                type    :   "POST",
-//                data    :   $('#form1').serialize(),
-//                success  :   function(data) {
-//                    console.log(data);
-//
-//                    if(data == 0)
-//                    {
-//                        $('#msgdiv').addClass("alert alert-danger").fadeOut(5000);
-//                        $('#msg').text("Person already selected");
-//                    }
-//                    else if(data == 1)
-//                    {
-//                        $('#msgdiv').addClass("alert alert-success").fadeOut('slow');
-//                        $('#msg').text("Person add success");
-//
-//                        $('#create-person').modal('hide');
-//                    }
-//
-//                },
-//                error    :   function()
-//                {
-//                    alert('fail');
-//                }
-//            });
-//
-//        });
-
-
     });
 
 </script>

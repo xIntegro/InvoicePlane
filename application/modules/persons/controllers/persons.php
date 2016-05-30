@@ -76,26 +76,33 @@ class Persons extends Admin_Controller
 
             if($id!="" || $id != NULL)
             {
-                if($this->person_model->run_validation() and $this->mdl_person_category->run_validation())
+                if($this->person_model->run_validation())
                 {
                     $this->update($this->input->post('is_update'));
 
                     $category=$this->input->post('category');
-                    foreach ($category as $key => $value)
+                    if(!empty($category))
                     {
-                        $data[]=array(
-                            'person_id'=>$person_id,
-                            'category_id'=>$value
-                        );
+                        foreach ($category as $key => $value)
+                        {
+                            $data[]=array(
+                                'person_id'=>$person_id,
+                                'category_id'=>$value
+                            );
                             $personid=array(
-                            'person_id'=>$person_id
-                        );
+                                'person_id'=>$person_id
+                            );
 
 
+                        }
+                        $this->mdl_person_category->Update($personid,$data);
                     }
-                    //print_r($data);
-                    $this->mdl_person_category->Update($personid,$data);
-                    
+                    else
+                    {
+                        $this->mdl_person_category->delete($person_id);
+                    }
+
+                    $this->session->set_flashdata('alert_success', lang('person_updated'));
                     redirect('persons/view/'.$person_id);
                 }
 
@@ -103,19 +110,27 @@ class Persons extends Admin_Controller
             }
             else
             {
-                if($this->person_model->run_validation() and $this->mdl_person_category->run_validation())
+                if($this->person_model->run_validation())
                 {
 
                     $userId=$this->insert();
                     $category=$this->input->post('category');
-                    foreach ($category as $key => $value)
+                    if (!empty($category))
                     {
-                        $data[]=array(
-                            'person_id'=>$userId,
-                            'category_id'=>$value
-                        );
+                        foreach ($category as $key => $value)
+                        {
+                            $data[]=array(
+                                'person_id'=>$userId,
+                                'category_id'=>$value
+                            );
+                        }
+                        $this->mdl_person_category->Save($data);
                     }
-                    $this->mdl_person_category->Save($data);
+                    else
+                    {
+                        $this->mdl_person_category->delete($person_id);
+                    }
+                    $this->session->set_flashdata('alert_success', lang('person_saved'));
                     redirect('persons/view/'.$userId);
                 }
 
