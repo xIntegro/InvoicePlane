@@ -1,6 +1,6 @@
 <div id="headerbar">
 
-    <h1><?php echo lang('persons'); ?></h1>
+    <h1><?php echo lang('category_title'); ?></h1>
 
     <div class="pull-right">
         <button type="button" class="btn btn-default btn-sm submenu-toggle hidden-lg"
@@ -32,6 +32,11 @@
     </div>
 
 </div>
+
+<?php if ($this->session->flashdata('alert_success')) { ?>
+    <div class="alert alert-success"><?php echo $this->session->flashdata('alert_success'); ?></div>
+<?php } ?>
+
 <div id="submenu">
     <div class="collapse clearfix" id="ip-submenu-collapse">
 

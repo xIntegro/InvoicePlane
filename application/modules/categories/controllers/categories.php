@@ -68,9 +68,9 @@ class Categories extends Admin_Controller
                         'is_active'=>$this->input->post('is_active')=='1'?1:0,
                     );
                     $this->category_model->update($data,$this->input->post('is_update'));
-                    $this->session->set_flashdata('alert_success', lang('category_save'));
 
 
+                    $this->session->set_flashdata('alert_success', lang('category_updated'));
                     redirect('categories');
                 }
 
@@ -92,7 +92,7 @@ class Categories extends Admin_Controller
                             'is_active'=>$this->input->post('is_active')=='1'?1:0,
                         );
                         $this->category_model->Save($data);
-                        $this->session->set_flashdata('alert_success', lang('category_save'));
+                        $this->session->set_flashdata('alert_success', lang('category_saved'));
                     }
 
                     redirect('categories');
