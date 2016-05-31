@@ -37,7 +37,7 @@
     </div>
     <div class="pull-right btn-group">
 
-        <a href="<?php echo site_url('persons/form')?>" class="btn btn-sm btn-default">
+        <a href="<?php echo site_url('persons/form?clientId='.$client->client_id)?>" class="btn btn-sm btn-default">
             <i class="fa fa-user"></i> <?php echo lang('create_person'); ?>
         </a>
         <a href="#" class="btn btn-sm btn-default client-create-person"

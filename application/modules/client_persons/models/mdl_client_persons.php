@@ -89,7 +89,7 @@ class mdl_client_persons extends Response_Model
             'email'=>array(
                 'field'=>'email',
                 'label'=>lang('email'),
-                'rules'=>'required'
+                
             ),
             'client_id'=>array(
                 'field'=>'client_id',

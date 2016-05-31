@@ -1,5 +1,8 @@
 <script type="text/javascript">
     $(function () {
+
+        var person_id=$('#person_id').val();
+        getPersonDetail(person_id);
         // Display the create quote modal
         $('#create-person').modal('show');
 
@@ -57,6 +60,32 @@
 
 
         });
+        $('#person_id').change(function(){
+            var personId=$(this).val();
+            getPersonDetail(personId);
+        });
+        function getPersonDetail(id)
+        {
+            $.ajax({
+                url     :   "<?php echo site_url('persons/ajax/getPersonDetail')?>",
+                type    :   "get",
+                data    :   {person_id:id},
+                success :   function(data){
+                    var response = JSON.parse(data);
+                    console.log(response);
+                    if(response.success=='1')
+                    {
+                        $('#email').val(response.result[0]['email_1']);
+                        $('#telephone_number').val(response.result[0]['phone_number']);
+                        $('#mobile_number').val(response.result[0]['mobile']);
+                        $('#fax').val(response.result[0]['fax']);
+                    }
+
+                }
+
+
+            });
+        }
 
 
     });

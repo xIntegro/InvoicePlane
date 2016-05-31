@@ -79,6 +79,20 @@ class Ajax extends Admin_Controller
         echo json_encode($response);
 
     }
+    //get person change on person dropdown
+    public function getPersonDetail()
+    {
+        $this->load->model('persons/person_model');
+        $id=array('id'=>$this->input->get('person_id'));
+        $result= $this->person_model->edit($id);
+        $response=array(
+            'result'=>$result,
+            'success'=>1
+        );
+
+        echo json_encode($response);
+
+    }
 
 
 

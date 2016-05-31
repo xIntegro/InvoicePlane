@@ -50,7 +50,15 @@ class Persons extends Admin_Controller
 
         if($this->input->post('btn_cancel'))
         {
-            redirect('persons');
+            if(isset($_REQUEST['clientId']))
+            {
+                redirect('clients/view/'.$_REQUEST['clientId']);
+            }
+            else
+            {
+                redirect('persons');
+            }
+
         }
 
 
@@ -112,7 +120,7 @@ class Persons extends Admin_Controller
             {
                 if($this->person_model->run_validation())
                 {
-
+                    //insert data to Person Table
                     $userId=$this->insert();
                     $category=$this->input->post('category');
                     if (!empty($category))
@@ -131,7 +139,26 @@ class Persons extends Admin_Controller
                         $this->mdl_person_category->delete($person_id);
                     }
                     $this->session->set_flashdata('alert_success', lang('person_saved'));
-                    redirect('persons/view/'.$userId);
+                    if(isset($_REQUEST['clientId']))
+                    {
+                        //Insert data in client_person table
+                        $inputs=array(
+                            'client_id'=>$_REQUEST['clientId'],
+                            'person_id'=>$userId,
+                            'telephone_number'=>$this->input->post('phone_number'),
+                            'mobile_number'=>$this->input->post('Mobile'),
+                            'email'=>$this->input->post('Email_1'),
+                            'fax'=>$this->input->post('Fax'),
+                            'office_address'=>''
+                        );
+                        $this->mdl_client_persons->save($inputs);
+                        redirect('clients/view/'.$_REQUEST['clientId']);
+                    }
+                    else
+                    {
+                        redirect('persons/view/'.$userId);
+                    }
+
                 }
 
             }

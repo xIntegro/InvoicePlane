@@ -64,6 +64,29 @@
 
 
         });
+        $('#person_id').change(function(){
+           var person_id=$(this).val();
+
+            $.ajax({
+                url     :   "<?php echo site_url('client_persons/ajax/getPersonDetail')?>",
+                type    :   "get",
+                data    :   { person_id:person_id },
+                success :   function(data) {
+                    var response = JSON.parse(data);
+                    console.log(response);
+                   if(response.success=='1')
+                   {
+                       $('#email').val(response.result[0]['email_1']);
+                       $('#telephone_number').val(response.result[0]['phone_number']);
+                       $('#mobile_number').val(response.result[0]['mobile']);
+                       $('#fax').val(response.result[0]['fax']);
+                   }
+                }
+
+
+            });
+
+        });
 
 
     });
