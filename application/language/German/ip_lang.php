@@ -549,8 +549,8 @@ $lang = array(
     
     //CRM Personen
     'persons'                                       => 'Personen',
-	'create_person'									=>	'Create Person',
-	'add_persons'                                   => 'Personen anlegen',
+	'create_person'									=>	'Person anlegen',
+	'add_persons'                                   => 'Personen hinzufügen',
 	'view_persons'                                  => 'Personen anzeigen',
 	'person_form'									=>	'Person Form',
 	'first_name'									=>	'Vorname',
