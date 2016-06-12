@@ -195,6 +195,10 @@
                 <i class="fa fa-plus"></i>
                 <?php echo lang('add_new_row'); ?>
             </a>
+            <a href="#" class="btn_remove_row btn btn-sm btn-default">
+                <i class="fa fa-trash"></i>
+                <?php echo lang('delete'); ?>
+            </a>
             <a href="#" class="btn_add_product btn btn-sm btn-default">
                 <i class="fa fa-database"></i>
                 <?php echo lang('add_product'); ?>

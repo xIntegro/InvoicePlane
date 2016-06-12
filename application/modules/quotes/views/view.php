@@ -6,6 +6,10 @@
             $('#modal-placeholder').load("<?php echo site_url('products/ajax/modal_product_lookups'); ?>/" + Math.floor(Math.random() * 1000));
         });
 
+        $('.btn_remove_row').click(function () {
+            $('#item_table .item').last().hide();
+        });
+
         $('.btn_add_row').click(function () {
             $('#new_row').clone().appendTo('#item_table').removeAttr('id').addClass('item').show();
         });
