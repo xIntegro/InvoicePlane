@@ -1,7 +1,8 @@
 <?php
 
-if (!defined('BASEPATH'))
+if (!defined('BASEPATH')) {
     exit('No direct script access allowed');
+}
 
 /*
  * xintegro
@@ -25,7 +26,9 @@ class Base_Controller extends MX_Controller
     {
         parent::__construct();
 
+
         $this->config->load('xintegro');
+
 
         // Don't allow non-ajax requests to ajax controllers
         if ($this->ajax_controller and !$this->input->is_ajax_request()) {
@@ -34,7 +37,32 @@ class Base_Controller extends MX_Controller
 
         $this->load->library('session');
         $this->load->helper('url');
-        $this->load->database();
+
+//          $this->session->sess_destroy();
+
+        $CI =& get_instance();
+        $this->defaultDB = $this->load->database('default', true);
+        // $CI->load->database();
+
+
+        $config = null;
+        if (!empty($this->session->userdata('dbName'))) {
+            $config['hostname'] = $this->defaultDB->hostname;
+            $config['username'] = $this->defaultDB->username;
+            $config['password'] = $this->defaultDB->password;
+            $config['database'] = $this->session->userdata('dbName');
+            $config['dbdriver'] = 'mysqli';
+            $config['dbprefix'] = '';
+            $config['pconnect'] = false;
+            $config['db_debug'] = true;
+            $config['cache_on'] = false;
+            $config['cachedir'] = '';
+            $config['char_set'] = 'utf8';
+            $config['dbcollat'] = 'utf8_general_ci';
+            $this->load->database($config);
+        } else {
+            $this->load->database();
+        }
 
         // Check if database has been configured
         if (empty($this->db->hostname)) {
@@ -54,7 +82,7 @@ class Base_Controller extends MX_Controller
             // Load setting model and load settings
             $this->load->model('settings/mdl_settings');
             $this->mdl_settings->load_settings();
-            
+
             // Debug Mode
             if ($this->mdl_settings->setting('enable_debug')) {
                 $this->config->set_item('log_threshold', 2);
@@ -70,6 +98,8 @@ class Base_Controller extends MX_Controller
             $this->load->helper('language');
 
             $this->load->module('layout');
+
+            $this->defaultDB = $this->load->database('default', true);
 
         }
     }

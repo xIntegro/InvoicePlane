@@ -23,7 +23,7 @@ class Guest_Controller extends User_Controller
 
     public function __construct()
     {
-        parent::__construct('user_type', 2);
+        parent::__construct('user_type', 3);
 
         $this->load->model('users/mdl_user_clients');
 

@@ -1,7 +1,8 @@
 <?php
 
-if (!defined('BASEPATH'))
+if (!defined('BASEPATH')) {
     exit('No direct script access allowed');
+}
 
 /*
  * xintegro
@@ -23,27 +24,44 @@ class Mdl_Users extends Response_Model
     public $date_created_field = 'user_date_created';
     public $date_modified_field = 'user_date_modified';
 
+    public function __construct()
+    {
+        $this->defaultDB = $this->load->database('default', true);
+        $this->defaultDBName = $this->defaultDB->database;
+    }
+
     public function user_types()
     {
         return array(
-            '1' => lang('administrator'),
-            '2' => lang('guest_read_only')
+            '1' => lang('SuperAdministrator'),
+            '2' => lang('administrator'),
+            '3' => lang('guest_read_only')
         );
+    }
+
+    public function getUsers()
+    {
+
+        $result = $this->defaultDB->get('xc_users');
+        return $result->result();
     }
 
     public function default_select()
     {
-        $this->db->select('SQL_CALC_FOUND_ROWS xc_user_custom.*, xc_users.*', FALSE);
+        $this->defaultDB->select("SQL_CALC_FOUND_ROWS
+                            $this->defaultDBName.xc_user_custom.*,
+                            $this->defaultDBName.xc_users.*", false);
     }
 
     public function default_join()
     {
-        $this->db->join('xc_user_custom', 'xc_user_custom.user_id = xc_users.user_id', 'left');
+        $this->defaultDB->join($this->defaultDBName . '.xc_user_custom',
+            $this->defaultDBName . '.xc_user_custom.user_id = xc_users.user_id', 'left');
     }
 
     public function default_order_by()
     {
-        $this->db->order_by('xc_users.user_name');
+        $this->defaultDB->order_by($this->defaultDBName . '.xc_users.user_name');
     }
 
     public function validation_rules()
@@ -57,7 +75,7 @@ class Mdl_Users extends Response_Model
             'user_email' => array(
                 'field' => 'user_email',
                 'label' => lang('email'),
-                'rules' => 'required|valid_email|is_unique[xc_users.user_email]'
+                // 'rules' => "required|valid_email|is_unique[xc_users.user_email]"
             ),
             'user_name' => array(
                 'field' => 'user_name',
@@ -113,6 +131,9 @@ class Mdl_Users extends Response_Model
             ),
             'user_tax_code' => array(
                 'field' => 'user_tax_code'
+            ),
+            'access_company' => array(
+                'field' => 'access_company'
             )
         );
     }
@@ -175,6 +196,9 @@ class Mdl_Users extends Response_Model
             ),
             'user_tax_code' => array(
                 'field' => 'user_tax_code'
+            ),
+            'access_company' => array(
+                'field' => 'access_company'
             )
         );
     }
@@ -197,7 +221,7 @@ class Mdl_Users extends Response_Model
 
     public function db_array()
     {
-        $db_array = parent::db_array();
+        $db_array = $this->parentDB_array();
 
         if (isset($db_array['user_password'])) {
             unset($db_array['user_passwordv']);
@@ -231,29 +255,139 @@ class Mdl_Users extends Response_Model
         $this->session->set_flashdata('alert_success', 'Password Successfully Changed');
     }
 
-    public function save($id = NULL, $db_array = NULL)
-    {
-        $id = parent::save($id, $db_array);
+//    public function save($id = null, $db_array = null)
+//    {
+//        $id = parent::save($id, $db_array);
+//
+//        if ($user_clients = $this->session->userdata('user_clients')) {
+//            $this->load->model('users/mdl_user_clients');
+//
+//            foreach ($user_clients as $user_client) {
+//                $this->mdl_user_clients->save(null, array('user_id' => $id, 'client_id' => $user_client));
+//            }
+//
+//            $this->session->unset_userdata('user_clients');
+//        }
+//
+//        return $id;
+//    }
 
+
+    public function paginate($base_url, $offset = 0, $uri_segment = 3)
+    {
+        $this->load->helper('url');
+        $this->load->library('pagination');
+
+        $this->offset = $offset;
+        $default_list_limit = $this->mdl_settings->setting('default_list_limit');
+        $per_page = (empty($default_list_limit) ? $this->default_limit : $default_list_limit);
+
+        $this->set_defaults();
+        $this->run_filters();
+
+        $this->defaultDB->limit($per_page, $this->offset);
+        $this->query = $this->defaultDB->get($this->table);
+
+        $this->total_rows = $this->defaultDB->query('SELECT FOUND_ROWS() AS num_rows')->row()->num_rows;
+        $this->total_pages = ceil($this->total_rows / $per_page);
+        $this->previous_offset = $this->offset - $per_page;
+        $this->next_offset = $this->offset + $per_page;
+
+        $config = array(
+            'base_url' => $base_url,
+            'total_rows' => $this->total_rows,
+            'per_page' => $per_page
+        );
+
+        $this->last_offset = ($this->total_pages * $per_page) - $per_page;
+
+        if ($this->config->item('pagination_style')) {
+            $config = array_merge($config, $this->config->item('pagination_style'));
+        }
+
+        $this->pagination->initialize($config);
+
+        $this->page_links = $this->pagination->create_links();
+    }
+
+    public function save($id = null, $db_array = null)
+    {
+        if (!$db_array) {
+            $db_array = $this->db_array();
+        }
+        $datetime = date('Y-m-d H:i:s');
+        if (!$id) {
+            if ($this->date_created_field) {
+                if (is_array($db_array)) {
+                    $db_array[$this->date_created_field] = $datetime;
+
+                    if ($this->date_modified_field) {
+                        $db_array[$this->date_modified_field] = $datetime;
+                    }
+                } else {
+                    $db_array->{$this->date_created_field} = $datetime;
+
+                    if ($this->date_modified_field) {
+                        $db_array->{$this->date_modified_field} = $datetime;
+                    }
+                }
+            } elseif ($this->date_modified_field) {
+                if (is_array($db_array)) {
+                    $db_array[$this->date_modified_field] = $datetime;
+                } else {
+                    $db_array->{$this->date_modified_field} = $datetime;
+                }
+            }
+
+            $this->defaultDB->insert($this->table, $db_array);
+
+            $id = $this->defaultDB->insert_id();
+        } else {
+            if ($this->date_modified_field) {
+                if (is_array($db_array)) {
+                    $db_array[$this->date_modified_field] = $datetime;
+                } else {
+                    $db_array->{$this->date_modified_field} = $datetime;
+                }
+            }
+
+            $this->defaultDB->where($this->primary_key, $id);
+            $this->defaultDB->update($this->table, $db_array);
+
+            return $id;
+        }
         if ($user_clients = $this->session->userdata('user_clients')) {
             $this->load->model('users/mdl_user_clients');
 
             foreach ($user_clients as $user_client) {
-                $this->mdl_user_clients->save(NULL, array('user_id' => $id, 'client_id' => $user_client));
+                $this->mdl_user_clients->save(null, array('user_id' => $id, 'client_id' => $user_client));
             }
 
             $this->session->unset_userdata('user_clients');
         }
-
         return $id;
+    }
+
+    public function parentDB_array()
+    {
+        $db_array = array();
+
+        $validation_rules = $this->{$this->validation_rules}();
+
+        foreach ($this->input->post() as $key => $value) {
+            if (array_key_exists($key, $validation_rules)) {
+                $db_array[$key] = $value;
+            }
+        }
+
+        return $db_array;
     }
 
     public function delete($id)
     {
-        parent::delete($id);
-
-        $this->load->helper('orphan');
-        delete_orphans();
+        $this->defaultDB->where($this->primary_key, $id);
+        $this->defaultDB->delete($this->table);
     }
+
 
 }

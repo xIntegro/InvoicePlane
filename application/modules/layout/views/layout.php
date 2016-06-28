@@ -37,7 +37,7 @@
     <script src="<?php echo base_url(); ?>assets/default/js/libs/html5shiv-3.7.2.min.js"></script>
     <script src="<?php echo base_url(); ?>assets/default/js/libs/respond-1.4.2.min.js"></script>
     <![endif]-->
-    
+
     <script src="<?php echo base_url(); ?>assets/default/js/libs/jquery-1.12.0.min.js"></script>
     <script src="<?php echo base_url(); ?>assets/default/js/libs/bootstrap-3.3.6.min.js"></script>
     <script src="<?php echo base_url(); ?>assets/default/js/libs/jquery-ui-1.11.4.min.js"></script>
@@ -91,7 +91,7 @@
 
             $('.client-create-invoice').click(function () {
                 $('#modal-placeholder').load("<?php echo site_url('invoices/ajax/modal_create_invoice'); ?>", {
-                    client_name: $(this).data('client-name')
+                    client_id: $(this).data('client-name')
                 });
             });
             $('.client-create-quote').click(function () {
@@ -99,6 +99,18 @@
                     client_name: $(this).data('client-name')
                 });
             });
+            $('.client-create-person').click(function () {
+
+                $('#modal-placeholder').load("<?php echo site_url('client_persons/ajax/modal_create_person'); ?>", {
+                    client_name: $(this).data('client-name')
+                });
+            });
+            $('.person-create-client').click(function () {
+                $('#modal-placeholder').load("<?php echo site_url('persons/ajax/modal_create_client'); ?>", {
+                    person_name: $(this).data('person-name')
+                });
+            });
+
             $(document).on('click', '.invoice-add-payment', function () {
                 invoice_id = $(this).data('invoice-id');
                 invoice_balance = $(this).data('invoice-balance');
@@ -136,7 +148,8 @@
         <div class="collapse navbar-collapse" id="ip-navbar-collapse">
             <ul class="nav navbar-nav">
                 <li><?php echo anchor('dashboard', lang('dashboard'), 'class="hidden-sm"') ?>
-                    <?php echo anchor('dashboard', '<i class="fa fa-dashboard"></i>', 'class="visible-sm-inline-block"') ?>
+                    <?php echo anchor('dashboard', '<i class="fa fa-dashboard"></i>',
+                        'class="visible-sm-inline-block"') ?>
                 </li>
 
                 <li class="dropdown">
@@ -148,8 +161,21 @@
                     <ul class="dropdown-menu">
                         <li><?php echo anchor('clients/form', lang('add_client')); ?></li>
                         <li><?php echo anchor('clients/index', lang('view_clients')); ?></li>
+
+
                     </ul>
                 </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <i class="fa fa-caret-down"></i> &nbsp;<span><?php echo lang('persons'); ?></span><i
+                            class="visible-sm-inline fa fa-users"></i>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><?php echo anchor('persons/form', lang('add_persons')); ?></li>
+                        <li><?php echo anchor('persons/index', lang('view_persons')); ?></li>
+                    </ul>
+                </li>
+
 
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -188,6 +214,17 @@
                         <li><?php echo anchor('families/index', lang('product_families')); ?></li>
                     </ul>
                 </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <i class="fa fa-caret-down"></i> &nbsp;<span><?php echo lang('category'); ?></span><i
+                            class="visible-sm-inline fa fa-users"></i>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><?php echo anchor('categories/form', lang('add_category')); ?></li>
+                        <li><?php echo anchor('categories/index', lang('view_category')); ?></li>
+                    </ul>
+                </li>
+
 
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -230,7 +267,7 @@
 
             </ul>
 
-            <?php if (isset($filter_display) and $filter_display == TRUE) { ?>
+            <?php if (isset($filter_display) and $filter_display == true) { ?>
                 <?php $this->layout->load_view('filter/jquery_filter'); ?>
                 <form class="navbar-form navbar-left" role="search" onsubmit="return false;">
                     <div class="form-group">
@@ -241,6 +278,20 @@
             <?php } ?>
 
             <ul class="nav navbar-nav navbar-right">
+
+                <?php
+                if ($this->session->userdata('user_type') == 1 || $this->session->userdata('userAccess') == 1) {
+                    ?>
+                    <li>
+                        <a href="<?php echo site_url('company/index') ?>">
+                            <i class="fa fa-cubes"></i>
+                        </a>
+                    </li>
+                    <?php
+                }
+                ?>
+
+
                 <li>
                     <a href="http://docs.xintegro.de/" target="_blank"
                        class="tip icon" data-original-title="<?php echo lang('documentation'); ?>"
@@ -273,9 +324,10 @@
                         <li><?php echo anchor('import', lang('import_data')); ?></li>
                     </ul>
                 </li>
-                <li>
+                <li class="dropdown">
                     <a href="<?php echo site_url('users/form/' .
-                        $this->session->userdata('user_id')); ?>">
+                        $this->session->userdata('user_id')); ?>" data-toggle="dropdown"
+                       class="tip icon dropdown-toggle" data-placement="bottom">
                         <?php
                         print($this->session->userdata('user_name'));
                         if ($this->session->userdata('user_company')) {
@@ -283,6 +335,28 @@
                         }
                         ?>
                     </a>
+                    <?php
+                    if ($this->session->userdata('user_type') == 1 || $this->session->userdata('userAccess') == 1) {
+                        ?>
+                        <ul class="dropdown-menu">
+                            <?php
+                            $this->load->model('company/mdl_company', '', $config);
+                            $companies = $this->mdl_company->getCompany();
+                            foreach ($companies as $company) {
+                                ?>
+                                <li class="text-center">
+                                    <?php echo anchor('company/switchDb/' . $company->dbname, $company->name) ?>
+                                </li>
+
+                                <?php
+
+                            }
+
+                            ?>
+                        </ul>
+                        <?php
+                    }
+                    ?>
                 </li>
                 <li>
                     <a href="<?php echo site_url('sessions/logout'); ?>"

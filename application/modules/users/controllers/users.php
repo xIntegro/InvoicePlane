@@ -22,6 +22,8 @@ class Users extends Admin_Controller
         parent::__construct();
 
         $this->load->model('mdl_users');
+        $this->defaultDB = $this->load->database('default', true);
+        $this->defaultDBName=$this->defaultDB->database;
     }
 
     public function index($page = 0)

@@ -1,7 +1,8 @@
 <?php
 
-if (!defined('BASEPATH'))
+if (!defined('BASEPATH')) {
     exit('No direct script access allowed');
+}
 
 /*
  * xintegro
@@ -23,8 +24,14 @@ class User_Controller extends Base_Controller
     {
         parent::__construct();
 
-        if ($this->session->userdata($required_key) <> $required_val) {
-            redirect('sessions/login');
+        if (!is_array($required_val)) {
+            if ($this->session->userdata($required_key) <> $required_val) {
+                redirect('sessions/login');
+            }
+        } else {
+            if (!in_array($this->session->userdata($required_key), $required_val)) {
+                redirect('sessions/login');
+            }
         }
     }
 

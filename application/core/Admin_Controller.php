@@ -1,7 +1,8 @@
 <?php
 
-if (!defined('BASEPATH'))
+if (!defined('BASEPATH')) {
     exit('No direct script access allowed');
+}
 
 /*
  * xintegro
@@ -21,7 +22,7 @@ class Admin_Controller extends User_Controller
 
     public function __construct()
     {
-        parent::__construct('user_type', 1);
+        parent::__construct('user_type', [1, 2]);
     }
 
 }

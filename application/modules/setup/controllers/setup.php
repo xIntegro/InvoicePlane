@@ -1,7 +1,8 @@
 <?php
 
-if (!defined('BASEPATH'))
+if (!defined('BASEPATH')) {
     exit('No direct script access allowed');
+}
 
 /*
  * xintegro
@@ -60,9 +61,9 @@ class Setup extends MX_Controller
 
         $this->load->helper('directory');
 
-        $languages = directory_map(APPPATH . '/language', TRUE);
+        $languages = directory_map(APPPATH . '/language', true);
 
-        
+
         sort($languages);
 
         $this->layout->set('languages', $languages);
@@ -110,14 +111,19 @@ class Setup extends MX_Controller
                 redirect('setup/install_tables');
             } else {
                 // This appears to be an upgrade
-                $this->session->set_userdata('is_upgrade', TRUE);
+                $this->session->set_userdata('is_upgrade', true);
                 $this->session->set_userdata('install_step', 'upgrade_tables');
                 redirect('setup/upgrade_tables');
             }
         }
 
         if ($this->input->post('db_hostname')) {
-            $this->write_database_config($this->input->post('db_hostname'), $this->input->post('db_username'), $this->input->post('db_password'), $this->input->post('db_database'));
+            $this->write_database_config($this->input->post('db_hostname'), $this->input->post('db_username'),
+                $this->input->post('db_password'), $this->input->post('db_database'));
+
+            $this->session->set_userdata('dbname', $this->input->post('db_database'));
+
+
         }
 
         $this->layout->set('database', $this->check_database());
@@ -159,6 +165,8 @@ class Setup extends MX_Controller
         if ($this->input->post('btn_continue')) {
             if (!$this->session->userdata('is_upgrade')) {
                 $this->session->set_userdata('install_step', 'create_user');
+
+
                 redirect('setup/create_user');
             } else {
                 $this->session->set_userdata('install_step', 'complete');
@@ -192,10 +200,19 @@ class Setup extends MX_Controller
         $this->load->helper('country');
 
         if ($this->mdl_users->run_validation()) {
+            //load model of company
+            $this->load->model('company/mdl_company');
+            $data = array('name' => 'xintegro', 'dbname' => $this->session->userdata('dbname'));
+            $company_id = $this->mdl_company->insert($data);
+            //get company_id
+            $this->session->set_userdata('company_id', $company_id);
+
             $db_array = $this->mdl_users->db_array();
             $db_array['user_type'] = 1;
+            $db_array['access_company']=1;
+            $db_array['company_id'] = $this->session->userdata('company_id');
 
-            $this->mdl_users->save(NULL, $db_array);
+            $this->mdl_users->save(null, $db_array);
 
             $this->session->set_userdata('install_step', 'complete');
             redirect('setup/complete');
@@ -358,10 +375,14 @@ class Setup extends MX_Controller
     {
         $db_file = read_file(APPPATH . 'config/database_empty.php');
 
-        $db_file = str_replace('$db[\'default\'][\'hostname\'] = \'\'', '$db[\'default\'][\'hostname\'] = \'' . addcslashes($hostname, '\'\\') . '\'', $db_file);
-        $db_file = str_replace('$db[\'default\'][\'username\'] = \'\'', '$db[\'default\'][\'username\'] = \'' . addcslashes($username, '\'\\') . '\'', $db_file);
-        $db_file = str_replace('$db[\'default\'][\'password\'] = \'\'', '$db[\'default\'][\'password\'] = \'' . addcslashes($password, '\'\\') . '\'', $db_file);
-        $db_file = str_replace('$db[\'default\'][\'database\'] = \'\'', '$db[\'default\'][\'database\'] = \'' . addcslashes($database, '\'\\') . '\'', $db_file);
+        $db_file = str_replace('$db[\'default\'][\'hostname\'] = \'\'',
+            '$db[\'default\'][\'hostname\'] = \'' . addcslashes($hostname, '\'\\') . '\'', $db_file);
+        $db_file = str_replace('$db[\'default\'][\'username\'] = \'\'',
+            '$db[\'default\'][\'username\'] = \'' . addcslashes($username, '\'\\') . '\'', $db_file);
+        $db_file = str_replace('$db[\'default\'][\'password\'] = \'\'',
+            '$db[\'default\'][\'password\'] = \'' . addcslashes($password, '\'\\') . '\'', $db_file);
+        $db_file = str_replace('$db[\'default\'][\'database\'] = \'\'',
+            '$db[\'default\'][\'database\'] = \'' . addcslashes($database, '\'\\') . '\'', $db_file);
 
         write_file(APPPATH . 'config/database.php', $db_file);
     }

@@ -21,6 +21,13 @@ class Mdl_Invoices extends Response_Model
     public $table = 'xc_invoices';
     public $primary_key = 'xc_invoices.invoice_id';
     public $date_modified_field = 'invoice_date_modified';
+    
+    public function __construct()
+    {
+        $this->defaultDB = $this->load->database('default', true);
+        $this->defaultDBName=$this->defaultDB->database;
+        
+    }
 
     public function statuses()
     {
@@ -50,25 +57,26 @@ class Mdl_Invoices extends Response_Model
 
     public function default_select()
     {
+        
         $this->db->select("
             SQL_CALC_FOUND_ROWS xc_invoice_custom.*,
             xc_client_custom.*,
-            xc_user_custom.*,
-            xc_users.user_name,
-			xc_users.user_company,
-			xc_users.user_address_1,
-			xc_users.user_address_2,
-			xc_users.user_city,
-			xc_users.user_state,
-			xc_users.user_zip,
-			xc_users.user_country,
-			xc_users.user_phone,
-			xc_users.user_fax,
-			xc_users.user_mobile,
-			xc_users.user_email,
-			xc_users.user_web,
-			xc_users.user_vat_id,
-			xc_users.user_tax_code,
+            $this->defaultDBName.xc_user_custom.*,
+            $this->defaultDBName.xc_users.user_name,
+			$this->defaultDBName.xc_users.user_company,
+			$this->defaultDBName.xc_users.user_address_1,
+			$this->defaultDBName.xc_users.user_address_2,
+			$this->defaultDBName.xc_users.user_city,
+			$this->defaultDBName.xc_users.user_state,
+			$this->defaultDBName.xc_users.user_zip,
+			$this->defaultDBName.xc_users.user_country,
+			$this->defaultDBName.xc_users.user_phone,
+			$this->defaultDBName.xc_users.user_fax,
+			$this->defaultDBName.xc_users.user_mobile,
+			$this->defaultDBName.xc_users.user_email,
+			$this->defaultDBName.xc_users.user_web,
+			$this->defaultDBName.xc_users.user_vat_id,
+			$this->defaultDBName.xc_users.user_tax_code,
 			xc_clients.*,
 			xc_invoice_amounts.invoice_amount_id,
 			IFNULL(xc_invoice_amounts.invoice_item_subtotal, '0.00') AS invoice_item_subtotal,
@@ -92,10 +100,10 @@ class Mdl_Invoices extends Response_Model
     public function default_join()
     {
         $this->db->join('xc_clients', 'xc_clients.client_id = xc_invoices.client_id');
-        $this->db->join('xc_users', 'xc_users.user_id = xc_invoices.user_id');
+        $this->db->join($this->defaultDBName.'.xc_users', $this->defaultDBName.'.xc_users.user_id = xc_invoices.user_id');
         $this->db->join('xc_invoice_amounts', 'xc_invoice_amounts.invoice_id = xc_invoices.invoice_id', 'left');
         $this->db->join('xc_client_custom', 'xc_client_custom.client_id = xc_clients.client_id', 'left');
-        $this->db->join('xc_user_custom', 'xc_user_custom.user_id = xc_users.user_id', 'left');
+        $this->db->join($this->defaultDBName.'.xc_user_custom', $this->defaultDBName.'.xc_user_custom.user_id = xc_users.user_id', 'left');
         $this->db->join('xc_invoice_custom', 'xc_invoice_custom.invoice_id = xc_invoices.invoice_id', 'left');
     }
 

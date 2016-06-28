@@ -20,20 +20,26 @@ class Mdl_User_Clients extends MY_Model
     public $table = 'xc_user_clients';
     public $primary_key = 'xc_user_clients.user_client_id';
 
+    public function __construct()
+    {
+        $this->defaultDB = $this->load->database('default', true);
+        $this->defaultDBName=$this->defaultDB->database;
+    }
+
     public function default_select()
     {
-        $this->db->select('xc_user_clients.*, xc_users.user_name, xc_clients.client_name');
+        $this->defaultDB->select("$this->defaultDBName.xc_user_clients.*, $this->defaultDBName.xc_users.user_name, xc_clients.client_name");
     }
 
     public function default_join()
     {
-        $this->db->join('xc_users', 'xc_users.user_id = xc_user_clients.user_id');
-        $this->db->join('xc_clients', 'xc_clients.client_id = xc_user_clients.client_id');
+        $this->defaultDB->join($this->defaultDBName.'.xc_users', $this->defaultDBName.'.xc_users.user_id = xc_user_clients.user_id');
+        $this->defaultDB->join('xc_clients', 'xc_clients.client_id = xc_user_clients.client_id');
     }
 
     public function default_order_by()
     {
-        $this->db->order_by('xc_clients.client_name');
+        $this->defaultDB->order_by('xc_clients.client_name');
     }
 
     public function assigned_to($user_id)

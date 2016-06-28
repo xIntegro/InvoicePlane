@@ -1,7 +1,8 @@
 <?php
 
-if (!defined('BASEPATH'))
+if (!defined('BASEPATH')) {
     exit('No direct script access allowed');
+}
 
 /*
  * xintegro
@@ -31,6 +32,7 @@ class Sessions extends Base_Controller
 
         if ($this->input->post('btn_login')) {
 
+
             $this->db->where('user_email', $this->input->post('email'));
             $query = $this->db->get('xc_users');
             $user = $query->row();
@@ -46,11 +48,13 @@ class Sessions extends Base_Controller
                     $this->session->set_flashdata('alert_error', lang('loginalert_user_inactive'));
                     redirect('sessions/login');
                 } else {
-
                     if ($this->authenticate($this->input->post('email'), $this->input->post('password'))) {
                         if ($this->session->userdata('user_type') == 1) {
+
                             redirect('dashboard');
                         } elseif ($this->session->userdata('user_type') == 2) {
+                            redirect('dashboard');
+                        } elseif ($this->session->userdata('user_type') == 3) {
                             redirect('guest');
                         }
                     } else {
@@ -79,10 +83,10 @@ class Sessions extends Base_Controller
         $this->load->model('mdl_sessions');
 
         if ($this->mdl_sessions->auth($email_address, $password)) {
-            return TRUE;
+            return true;
         }
 
-        return FALSE;
+        return false;
     }
 
     public function passwordreset($token = null)
@@ -165,7 +169,7 @@ class Sessions extends Base_Controller
                 $email_resetlink = site_url('sessions/passwordreset/' . $token);
                 $email_message = $this->load->view('emails/passwordreset', array(
                     'resetlink' => $email_resetlink
-                ), TRUE);
+                ), true);
                 $email_from = 'system@' . preg_replace("/^[\w]{2,6}:\/\/([\w\d\.\-]+).*$/", "$1", base_url());
 
                 // Set email configuration

@@ -1,7 +1,8 @@
 <?php
 
-if (!defined('BASEPATH'))
+if (!defined('BASEPATH')) {
     exit('No direct script access allowed');
+}
 
 /*
  * xintegro
@@ -23,9 +24,11 @@ class Mdl_Clients extends Response_Model
     public $date_created_field = 'client_date_created';
     public $date_modified_field = 'client_date_modified';
 
+
     public function default_select()
     {
-        $this->db->select('SQL_CALC_FOUND_ROWS xc_client_custom.*, xc_clients.*', FALSE);
+
+        $this->db->select('SQL_CALC_FOUND_ROWS xc_client_custom.*, xc_clients.*', false);
     }
 
     public function default_join()
@@ -102,6 +105,7 @@ class Mdl_Clients extends Response_Model
         return $db_array;
     }
 
+
     public function delete($id)
     {
         parent::delete($id);
@@ -124,7 +128,7 @@ class Mdl_Clients extends Response_Model
                 'client_name' => $client_name
             );
 
-            $client_id = parent::save(NULL, $db_array);
+            $client_id = parent::save(null, $db_array);
         }
 
         return $client_id;
@@ -132,19 +136,23 @@ class Mdl_Clients extends Response_Model
 
     public function with_total()
     {
-        $this->filter_select('IFNULL((SELECT SUM(invoice_total) FROM xc_invoice_amounts WHERE invoice_id IN (SELECT invoice_id FROM xc_invoices WHERE xc_invoices.client_id = xc_clients.client_id)), 0) AS client_invoice_total', FALSE);
+        $this->filter_select('IFNULL((SELECT SUM(invoice_total) FROM xc_invoice_amounts WHERE invoice_id IN (SELECT invoice_id FROM xc_invoices WHERE xc_invoices.client_id = xc_clients.client_id)), 0) AS client_invoice_total',
+            false);
         return $this;
     }
 
     public function with_total_paid()
     {
-        $this->filter_select('IFNULL((SELECT SUM(invoice_paid) FROM xc_invoice_amounts WHERE invoice_id IN (SELECT invoice_id FROM xc_invoices WHERE xc_invoices.client_id = xc_clients.client_id)), 0) AS client_invoice_paid', FALSE);
+        $this->filter_select('IFNULL((SELECT SUM(invoice_paid) FROM xc_invoice_amounts WHERE invoice_id IN (SELECT invoice_id FROM xc_invoices WHERE xc_invoices.client_id = xc_clients.client_id)), 0) AS client_invoice_paid',
+            false);
         return $this;
     }
 
     public function with_total_balance()
     {
-        $this->filter_select('IFNULL((SELECT SUM(invoice_balance) FROM xc_invoice_amounts WHERE invoice_id IN (SELECT invoice_id FROM xc_invoices WHERE xc_invoices.client_id = xc_clients.client_id)), 0) AS client_invoice_balance', FALSE);
+
+        $this->filter_select('IFNULL((SELECT SUM(invoice_balance) FROM xc_invoice_amounts WHERE invoice_id IN (SELECT invoice_id FROM xc_invoices WHERE xc_invoices.client_id = xc_clients.client_id)), 0) AS client_invoice_balance',
+            false);
         return $this;
     }
 

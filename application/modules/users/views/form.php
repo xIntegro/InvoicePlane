@@ -12,10 +12,10 @@
 
             user_type = $('#user_type').val();
 
-            if (user_type == 1) {
+            if (user_type == 1 || user_type == 2) {
                 $('#administrator_fields').show();
             }
-            else if (user_type == 2) {
+            else if (user_type == 3) {
                 $('#guest_fields').show();
             }
         }
@@ -132,6 +132,19 @@
                         </select>
                     </div>
                 </div>
+                <div class="form-group">
+                    <div class="col-xs-12 col-sm-3 text-right text-left-xs">
+                        <label class="control-label">
+                            <?php echo lang('access_company') ?>
+                        </label>
+                    </div>
+                    <div class="col-xs-12 col-sm-6">
+                        <input id="access_company" name="access_company"
+                               type="checkbox" <?php if ($this->mdl_users->form_value('access_company') == 1) {
+                            echo 'checked';
+                        } ?>
+                    </div>
+                </div>
 
             </fieldset>
 
@@ -210,9 +223,9 @@
                                 <option></option>
                                 <?php foreach ($countries as $cldr => $country) { ?>
                                     <option value="<?php echo $cldr; ?>"
-                                            <?php if ($selected_country == $cldr) {
-                                                echo 'selected="selected"';
-                                            } ?>
+                                        <?php if ($selected_country == $cldr) {
+                                            echo 'selected="selected"';
+                                        } ?>
                                     ><?php echo $country ?></option>
                                 <?php } ?>
                             </select>

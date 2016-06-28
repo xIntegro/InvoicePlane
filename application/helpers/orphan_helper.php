@@ -28,7 +28,6 @@ function delete_orphans()
         'DELETE FROM xc_payments WHERE invoice_id NOT IN (SELECT invoice_id FROM xc_invoices)',
         'DELETE FROM xc_client_custom WHERE client_id NOT IN (SELECT client_id FROM xc_clients)',
         'DELETE FROM xc_invoice_custom WHERE invoice_id NOT IN (SELECT invoice_id FROM xc_invoices)',
-        'DELETE FROM xc_user_custom WHERE user_id NOT IN (SELECT user_id FROM xc_users)',
         'DELETE FROM xc_payment_custom WHERE payment_id NOT IN (SELECT payment_id FROM xc_payments)',
         'DELETE FROM xc_quote_custom WHERE quote_id NOT IN (SELECT quote_id FROM xc_quotes)',
         'DELETE FROM xc_invoice_items WHERE invoice_id NOT IN (SELECT invoice_id FROM xc_invoices)',

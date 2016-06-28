@@ -1,7 +1,9 @@
 <?php
 
-if (!defined('BASEPATH'))
+if (!defined('BASEPATH')) {
     exit('No direct script access allowed');
+}
+
 /*
  * xintegro
  * 
@@ -17,6 +19,7 @@ if (!defined('BASEPATH'))
 
 class Mdl_Sessions extends CI_Model
 {
+
     public function auth($email, $password)
     {
         $this->db->where('user_email', $email);
@@ -60,26 +63,33 @@ class Mdl_Sessions extends CI_Model
                     /**
                      * The password didn't verify against original md5
                      */
-                    return FALSE;
+                    return false;
                 }
             }
 
             if ($this->crypt->check_password($user->user_password, $password)) {
+
+                $query = $this->db->get('xc_companies');
+                $this->db->where('id', $user->company_id);
+                $company = $this->db->get('xc_companies')->row();
+                $dbName = $company->dbname;
                 $session_data = array(
                     'user_type' => $user->user_type,
                     'user_id' => $user->user_id,
                     'user_name' => $user->user_name,
-                    'user_email' =>  $user->user_email,
-                    'user_company' => $user->user_company,
+                    'user_email' => $user->user_email,
+                    'user_company' => $company->name,
+                    'dbName' => $dbName,
+                    'userAccess'=>$user->access_company
                 );
 
                 $this->session->set_userdata($session_data);
 
-                return TRUE;
+                return true;
             }
         }
 
-        return FALSE;
+        return false;
     }
 
 }
