@@ -1,7 +1,8 @@
 <?php
 
-if (!defined('BASEPATH'))
+if (!defined('BASEPATH')) {
     exit('No direct script access allowed');
+}
 
 /*
  * xintegro
@@ -15,6 +16,7 @@ if (!defined('BASEPATH'))
  * @link		http://xintegro.de/
  * 
  */
+
 class Mdl_User_Clients extends MY_Model
 {
     public $table = 'xc_user_clients';
@@ -23,7 +25,7 @@ class Mdl_User_Clients extends MY_Model
     public function __construct()
     {
         $this->defaultDB = $this->load->database('default', true);
-        $this->defaultDBName=$this->defaultDB->database;
+        $this->defaultDBName = $this->defaultDB->database;
     }
 
     public function default_select()
@@ -33,7 +35,8 @@ class Mdl_User_Clients extends MY_Model
 
     public function default_join()
     {
-        $this->defaultDB->join($this->defaultDBName.'.xc_users', $this->defaultDBName.'.xc_users.user_id = xc_user_clients.user_id');
+        $this->defaultDB->join($this->defaultDBName . '.xc_users',
+            $this->defaultDBName . '.xc_users.user_id = xc_user_clients.user_id');
         $this->defaultDB->join('xc_clients', 'xc_clients.client_id = xc_user_clients.client_id');
     }
 
@@ -45,6 +48,21 @@ class Mdl_User_Clients extends MY_Model
     public function assigned_to($user_id)
     {
         $this->filter_where('xc_user_clients.user_id', $user_id);
+        return $this;
+    }
+
+    public function get($include_defaults = true)
+    {
+        if ($include_defaults) {
+            $this->set_defaults();
+        }
+
+        $this->run_filters();
+
+        $this->query = $this->defaultDB->get($this->table);
+
+        $this->filter = array();
+
         return $this;
     }
 

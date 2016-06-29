@@ -23,6 +23,31 @@ class Mdl_Users extends Response_Model
     public $primary_key = 'xc_users.user_id';
     public $date_created_field = 'user_date_created';
     public $date_modified_field = 'user_date_modified';
+    public $query;
+    public $native_methods = array(
+        'select',
+        'select_max',
+        'select_min',
+        'select_avg',
+        'select_sum',
+        'join',
+        'where',
+        'or_where',
+        'where_in',
+        'or_where_in',
+        'where_not_in',
+        'or_where_not_in',
+        'like',
+        'or_like',
+        'not_like',
+        'or_not_like',
+        'group_by',
+        'distinct',
+        'having',
+        'or_having',
+        'order_by',
+        'limit'
+    );
 
     public function __construct()
     {
@@ -387,6 +412,78 @@ class Mdl_Users extends Response_Model
     {
         $this->defaultDB->where($this->primary_key, $id);
         $this->defaultDB->delete($this->table);
+    }
+
+    public function prep_form($id = null)
+    {
+        if (!$_POST and ($id)) {
+            $row = $this->get_by_id($id);
+
+            if ($row) {
+                foreach ($row as $key => $value) {
+                    $this->form_values[$key] = $value;
+                }
+                return true;
+            }
+            return false;
+        } elseif (!$id) {
+            return true;
+        }
+    }
+
+    public function get_by_id($id)
+    {
+        return $this->where($this->primary_key, $id)->get()->row();
+    }
+
+    public function get($include_defaults = true)
+    {
+        if ($include_defaults) {
+            $this->set_defaults();
+        }
+
+        $this->run_filters();
+
+        $this->query = $this->defaultDB->get($this->table);
+
+        $this->filter = array();
+
+        return $this;
+    }
+
+    private function run_filters()
+    {
+        foreach ($this->filter as $filter) {
+            call_user_func_array(array($this->defaultDB, $filter[0]), $filter[1]);
+        }
+
+        /**
+         * Clear the filter array since this should only be run once per model
+         * execution
+         */
+        $this->filter = array();
+    }
+
+    private function set_defaults($exclude = array())
+    {
+        $native_methods = $this->native_methods;
+
+        foreach ($exclude as $unset_method) {
+            unset($native_methods[array_search($unset_method, $native_methods)]);
+        }
+
+        foreach ($native_methods as $native_method) {
+            $native_method = 'default_' . $native_method;
+
+            if (method_exists($this, $native_method)) {
+                $this->$native_method();
+            }
+        }
+    }
+
+    public function row()
+    {
+        return $this->query->row();
     }
 
 

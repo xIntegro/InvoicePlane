@@ -38,7 +38,7 @@ class Company extends Admin_Controller
         }
         if ($this->mdl_company->run_validation()) {
 
-            $dbname = $this->input->post('name') . '_' . rand();
+            $dbname = 'xintegro_' . $this->input->post('name') . '_' . rand();
             $this->dbforge->create_database($dbname);
 
             $data = array('name' => $this->input->post('name'), 'dbname' => $dbname);

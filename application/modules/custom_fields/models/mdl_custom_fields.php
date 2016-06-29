@@ -1,7 +1,8 @@
 <?php
 
-if (!defined('BASEPATH'))
+if (!defined('BASEPATH')) {
     exit('No direct script access allowed');
+}
 
 /*
  * xintegro
@@ -21,9 +22,15 @@ class Mdl_Custom_Fields extends MY_Model
     public $table = 'xc_custom_fields';
     public $primary_key = 'xc_custom_fields.custom_field_id';
 
+    public function __construct()
+    {
+        $this->defaultDB = $this->load->database('default', true);
+        $this->defaultDBName = $this->defaultDB->database;
+    }
+
     public function default_select()
     {
-        $this->db->select('SQL_CALC_FOUND_ROWS *', FALSE);
+        $this->defaultDB->select('SQL_CALC_FOUND_ROWS *', false);
     }
 
     public function custom_tables()
@@ -81,7 +88,7 @@ class Mdl_Custom_Fields extends MY_Model
         return $db_array;
     }
 
-    public function save($id = NULL, $db_array = NULL)
+    public function save($id = null, $db_array = null)
     {
         if ($id) {
             // Get the original record before saving
@@ -97,7 +104,8 @@ class Mdl_Custom_Fields extends MY_Model
         if (isset($original_record)) {
             if ($original_record->custom_field_column <> $db_array['custom_field_column']) {
                 // The column name differs from the original - rename it
-                $this->rename_column($db_array['custom_field_table'], $original_record->custom_field_column, $db_array['custom_field_column']);
+                $this->rename_column($db_array['custom_field_table'], $original_record->custom_field_column,
+                    $db_array['custom_field_column']);
             }
         } else {
             // This is a new column - add it
@@ -151,6 +159,21 @@ class Mdl_Custom_Fields extends MY_Model
     public function by_table($table)
     {
         $this->filter_where('custom_field_table', $table);
+        return $this;
+    }
+
+    public function get($include_defaults = true)
+    {
+        if ($include_defaults) {
+            $this->set_defaults();
+        }
+
+        $this->run_filters();
+
+        $this->query = $this->defaultDB->get($this->table);
+
+        $this->filter = array();
+
         return $this;
     }
 
