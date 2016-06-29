@@ -30,12 +30,11 @@ class Sessions extends Base_Controller
             'login_logo' => $this->mdl_settings->setting('login_logo')
         );
 
+        $this->load->model('users/mdl_users');
+
         if ($this->input->post('btn_login')) {
 
-
-            $this->db->where('user_email', $this->input->post('email'));
-            $query = $this->db->get('xc_users');
-            $user = $query->row();
+            $user =$this->mdl_users->getUserByEmail($this->input->post('email'));
 
             // Check if the user exists
             if (empty($user)) {

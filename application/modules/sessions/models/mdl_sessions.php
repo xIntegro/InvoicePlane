@@ -22,9 +22,10 @@ class Mdl_Sessions extends CI_Model
 
     public function auth($email, $password)
     {
-        $this->db->where('user_email', $email);
+        $this->defaultDB = $this->load->database('default', true);
+        $this->defaultDB->where('user_email', $email);
 
-        $query = $this->db->get('xc_users');
+        $query = $this->defaultDB->get('xc_users');
 
         if ($query->num_rows()) {
             $user = $query->row();
@@ -53,11 +54,11 @@ class Mdl_Sessions extends CI_Model
                         'user_password' => $hash
                     );
 
-                    $this->db->where('user_id', $user->user_id);
-                    $this->db->update('xc_users', $db_array);
+                    $this->defaultDB->where('user_id', $user->user_id);
+                    $this->defaultDB->update('xc_users', $db_array);
 
-                    $this->db->where('user_email', $email);
-                    $user = $this->db->get('xc_users')->row();
+                    $this->defaultDB->where('user_email', $email);
+                    $user = $this->defaultDB->get('xc_users')->row();
 
                 } else {
                     /**
@@ -69,9 +70,9 @@ class Mdl_Sessions extends CI_Model
 
             if ($this->crypt->check_password($user->user_password, $password)) {
 
-                $query = $this->db->get('xc_companies');
-                $this->db->where('id', $user->company_id);
-                $company = $this->db->get('xc_companies')->row();
+                $query = $this->defaultDB->get('xc_companies');
+                $this->defaultDB->where('id', $user->company_id);
+                $company = $this->defaultDB->get('xc_companies')->row();
                 $dbName = $company->dbname;
                 $session_data = array(
                     'user_type' => $user->user_type,
@@ -80,7 +81,7 @@ class Mdl_Sessions extends CI_Model
                     'user_email' => $user->user_email,
                     'user_company' => $company->name,
                     'dbName' => $dbName,
-                    'userAccess'=>$user->access_company
+                    'userAccess' => $user->access_company
                 );
 
                 $this->session->set_userdata($session_data);

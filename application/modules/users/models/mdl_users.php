@@ -486,5 +486,11 @@ class Mdl_Users extends Response_Model
         return $this->query->row();
     }
 
+    public function getUserByEmail($email)
+    {
+        $this->defaultDB->where('user_email', $email);
+        return $this->get('xc_users')->row();
+
+    }
 
 }
