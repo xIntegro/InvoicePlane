@@ -600,5 +600,11 @@ $lang = array(
 	'add_person'									=>	'Person anlegen',
 	'edit_person'									=>	'Person bearbeiten',
 	'edit_client'									=>	'Kunden bearbeiten',
+	'SuperAdministrator'							=>	'SuperAdministrator',
+	'company_information'							=>	'Firmen Information',
+	'company_name'									=>	'Firmenname',
+	'companies'										=>	'Firmen',
+	'useraccounts'									=>	'Benutzer Accounts',
+	'access_company'								=>	'Zugriff auf alle Firmen'
 
 );
