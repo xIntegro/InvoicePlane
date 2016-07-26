@@ -21,8 +21,11 @@ class Company extends Admin_Controller
         $this->layout->set(
             array(
                 'companies' => $companies,
+                'filter_display'     => TRUE,
+                'filter_placeholder' => lang('filter_companies'),
+                'filter_method'      => 'filter_companies',
                 'users' => $users,
-                'user_types'=>$this->mdl_users->user_types()
+                'user_types' => $this->mdl_users->user_types()
             )
         );
 
@@ -37,6 +40,11 @@ class Company extends Admin_Controller
             redirect('company');
         }
         if ($this->mdl_company->run_validation()) {
+
+            if ($this->mdl_company->companyExist($this->input->post('name'))) {
+                $this->session->set_flashdata('alert_error', lang('company_already_exists'));
+                redirect('company/form');
+            }
 
             $dbname = 'xintegro_' . $this->input->post('name') . '_' . rand();
             $this->dbforge->create_database($dbname);

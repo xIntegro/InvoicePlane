@@ -8,7 +8,7 @@ class Mdl_Company extends MY_Model
     public $table = 'xc_companies';
     public $primary_key = 'xc_companies.id';
 
-    public  function __construct()
+    public function __construct()
     {
         $this->defaultDB = $this->load->database('default', true);
     }
@@ -29,13 +29,36 @@ class Mdl_Company extends MY_Model
         return $result->result();
     }
 
+    public function companyExist($companyName)
+    {
+        $this->defaultDB->select('name');
+        $this->defaultDB->where('name', $companyName);
+        $query = $this->defaultDB->get('xc_companies');
+        if ($query->num_rows() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function searchResult($companyName)
+    {
+        $this->defaultDB->select('*');
+        $this->defaultDB->from('xc_companies');
+        $this->defaultDB->like('name', $companyName);
+        $result = $this->defaultDB->get();
+
+        return $result->result();
+    }
+
+
     public function validation_rules()
     {
         return array(
             'company_name' => array(
                 'field' => 'name',
                 'label' => lang('company_name'),
-                'rules' => 'required'
+                'rules' => "required"
             )
         );
     }

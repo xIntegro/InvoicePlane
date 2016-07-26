@@ -546,7 +546,7 @@ $lang = array(
     'in_progress'                                  => 'In Bearbeitung',
     'complete'                                     => 'Abgeschlossen',
     'invoiced'                                     => 'Berechnet',
-    
+
     //CRM Personen
     'persons'                                       => 'Personen',
 	'create_person'									=>	'Person anlegen',
@@ -605,6 +605,9 @@ $lang = array(
 	'company_name'									=>	'Firmenname',
 	'companies'										=>	'Firmen',
 	'useraccounts'									=>	'Benutzer Accounts',
-	'access_company'								=>	'Zugriff auf alle Firmen'
+	'access_company'								=>	'Zugriff auf alle Firmen',
+    'company_already_exists'						=>	'Firmenname existiert bereits!',
+	'filter_companies'								=>	'Filter Firmennamen'
+
 
 );

@@ -1,10 +1,3 @@
-<script>
-    $(function () {
-
-
-    });
-
-</script>
 <div style="margin-top:30px;">
     <ul id="settings-tabs" class="nav nav-tabs nav-tabs-noborder">
         <li class="active"><a data-toggle="tab" href="#companylist"><?php echo lang('companies'); ?></a></li>
@@ -17,42 +10,29 @@
         <div id="companylist" class="tab-pane tab-info active">
             <div class="col-xs-12">
                 <div class="pull-left">
-                    Companies
+                    <?php echo lang('companies'); ?>
                 </div>
                 <div class="pull-right" style="margin-bottom:5px;">
                     <a href="<?php echo site_url('company/form') ?>" class="btn btn-primary"><span
                             class="fa fa-plus"></span>
-                        New</a>
+                        <?php echo lang('new'); ?></a>
                 </div>
             </div>
+            <div id="filter_results">
+                <?php $this->layout->load_view('company/partial_company_table'); ?>
+            </div>
 
-            <table class="table table-striped">
-                <tr>
-                    <th>Company Name</th>
-                </tr>
-                <?php
-                foreach ($companies as $company) {
-                    ?>
-                    <tr>
-                        <td>
-                            <?php echo $company->name; ?>
-                        </td>
-                    </tr>
-                    <?php
-                }
-                ?>
 
-            </table>
         </div>
         <div id="userAccount" class="tab-pane table-content">
             <div class="col-xs-12">
                 <div class="pull-left">
-                    Users
+                    <?php echo lang('user'); ?>
                 </div>
                 <div class="pull-right">
                     <a href="<?php echo site_url('users/form') ?>" class="btn btn-primary"><span
                             class="fa fa-plus"></span>
-                        New</a>
+                        <?php echo lang('new'); ?></a>
                 </div>
             </div>
             <table class="table table-striped">
