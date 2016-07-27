@@ -35,7 +35,7 @@ class Dashboard extends Admin_Controller
                 'invoice_status_period' => str_replace('-', '_', $invoice_overview_period),
                 'quote_status_period' => str_replace('-', '_', $quote_overview_period),
                 //    'invoices' => $this->mdl_invoices->limit(10)->get()->result(),
-                //    'quotes' => $this->mdl_quotes->limit(10)->get()->result(),
+//                'quotes' => $this->mdl_quotes->limit(10)->get()->result(),
                 'invoice_statuses' => $this->mdl_invoices->statuses(),
                 'quote_statuses' => $this->mdl_quotes->statuses(),
                 //    'overdue_invoices' => $this->mdl_invoices->is_overdue()->get()->result()

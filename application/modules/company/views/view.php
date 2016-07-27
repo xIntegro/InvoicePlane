@@ -40,7 +40,17 @@
                 <tr>
                     <th><?php echo lang('name'); ?></th>
                     <th><?php echo lang('user_type'); ?></th>
-                    <th><?php echo lang('email_address'); ?></th>
+                    <?php
+                    if(!empty($companies))
+                    {
+                        foreach($companies as $company)
+                        {
+                            ?>
+                            <th><?php echo $company->name;?></th>
+                            <?php
+                        }
+                    }
+                    ?>
                     <th><?php echo lang('options'); ?></th>
                 </tr>
                 </thead>
@@ -51,7 +61,16 @@
                     <tr>
                         <td><?php echo $user->user_name; ?></td>
                         <td><?php echo $user_types[$user->user_type]; ?></td>
-                        <td><?php echo $user->user_email; ?></td>
+                        <?php
+                        if (!empty($user->userCompany)) {
+                            foreach ($user->userCompany as $userCompany) {
+                                ?>
+                                <td><?php if ($userCompany == true) { ?><i class="fa fa-check text-success" aria-hidden="true"></i</td>
+                                    <?php
+                                }
+                            }
+                        }
+                        ?>
                         <td>
                             <div class="options btn-group">
                                 <a class="btn btn-sm btn-default dropdown-toggle"

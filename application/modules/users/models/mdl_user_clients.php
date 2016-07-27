@@ -25,18 +25,24 @@ class Mdl_User_Clients extends MY_Model
     public function __construct()
     {
         $this->defaultDB = $this->load->database('default', true);
-        $this->defaultDBName = $this->defaultDB->database;
+        $mainDB = $this->load->database('default', true);
+        $this->dbName = $mainDB->database;
+        $this->_database_connection = 'default';
+        $this->table = $mainDB->database . '.xc_user_clients';
+
+        parent::__construct();
+
     }
 
     public function default_select()
     {
-        $this->defaultDB->select("$this->defaultDBName.xc_user_clients.*, $this->defaultDBName.xc_users.user_name, xc_clients.client_name");
+        $this->defaultDB->select("$this->dbName.xc_user_clients.*, $this->dbName.xc_users.user_name, xc_clients.client_name");
     }
 
     public function default_join()
     {
-        $this->defaultDB->join($this->defaultDBName . '.xc_users',
-            $this->defaultDBName . '.xc_users.user_id = xc_user_clients.user_id');
+        $this->defaultDB->join($this->dbName . '.xc_users',
+            $this->dbName . '.xc_users.user_id = xc_user_clients.user_id');
         $this->defaultDB->join('xc_clients', 'xc_clients.client_id = xc_user_clients.client_id');
     }
 
@@ -51,19 +57,5 @@ class Mdl_User_Clients extends MY_Model
         return $this;
     }
 
-    public function get($include_defaults = true)
-    {
-        if ($include_defaults) {
-            $this->set_defaults();
-        }
-
-        $this->run_filters();
-
-        $this->query = $this->defaultDB->get($this->table);
-
-        $this->filter = array();
-
-        return $this;
-    }
 
 }

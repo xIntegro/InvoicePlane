@@ -592,7 +592,6 @@ $lang = array(
 	'access_company'								=>	'Access All Company',
 	'company_already_exists'						=>	'Company name already exists!',
 	'filter_companies'								=>	'Filter companies',
-
-
+	'company_required'								=>	'Please select at list company'
 
 );

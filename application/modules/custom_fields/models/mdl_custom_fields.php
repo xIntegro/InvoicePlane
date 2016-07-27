@@ -24,13 +24,16 @@ class Mdl_Custom_Fields extends MY_Model
 
     public function __construct()
     {
-        $this->defaultDB = $this->load->database('default', true);
-        $this->defaultDBName = $this->defaultDB->database;
+        $mainDB = $this->load->database('default', true);
+        $this->_database_connection = 'default';
+        $this->table = $mainDB->database. '.xc_custom_fields';
+
+        parent::__construct();
     }
 
     public function default_select()
     {
-        $this->defaultDB->select('SQL_CALC_FOUND_ROWS *', false);
+        $this->db->select('SQL_CALC_FOUND_ROWS *', false);
     }
 
     public function custom_tables()
@@ -159,21 +162,6 @@ class Mdl_Custom_Fields extends MY_Model
     public function by_table($table)
     {
         $this->filter_where('custom_field_table', $table);
-        return $this;
-    }
-
-    public function get($include_defaults = true)
-    {
-        if ($include_defaults) {
-            $this->set_defaults();
-        }
-
-        $this->run_filters();
-
-        $this->query = $this->defaultDB->get($this->table);
-
-        $this->filter = array();
-
         return $this;
     }
 

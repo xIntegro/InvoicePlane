@@ -60,41 +60,8 @@
                                value="<?php echo $this->mdl_users->form_value('user_name'); ?>">
                     </div>
                 </div>
-                        <div class="form-group">
-                            <div class="col-xs-12 col-sm-3 text-right text-left-xs">
-                                <label class="control-label">
-                                    <?php echo lang('company'); ?>
-                                </label>
-                            </div>
-                            <div class="col-xs-12 col-sm-6">
-                                <select class="form-control" id="company" name="companies[]" multiple="multiple">
-                                    <option></option>
-                                    <?php
-                                    foreach ($companies as $company) {
-                                        $isAdded = false;
-                                        if (isset($selected_companies)) {
-                                            foreach ($selected_companies as $selected_company) {
-                                                if ($selected_company->company_id == $company->id) {
-                                                    ?>
-                                                    <option value="<?php echo $company->id; ?>"
-                                                            selected="selected"><?php echo $company->name; ?></option>
-                                                    <?php
-                                                    $isAdded = true;
-                                                    break;
-                                                }
-                                            }
-                                        }
-                                        if (!$isAdded) {
-                                            ?>
-                                            <option
-                                                value="<?php echo $company->id; ?>"><?php echo $company->name; ?></option>
-                                            <?php
-                                        }
-                                    }
-                                    ?>
-                                </select>
-                            </div>
-                        </div>
+                <input type="hidden" name="companies[]" id="user_name" class="form-control"
+                       value="<?php echo $this->session->userdata('company_id') ?>">
                 <div class="form-group">
                     <div class="col-xs-12 col-sm-3 text-right text-left-xs">
                         <label class="control-label">

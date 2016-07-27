@@ -10,13 +10,17 @@ class Mdl_Company extends MY_Model
 
     public function __construct()
     {
-        $this->defaultDB = $this->load->database('default', true);
+        $mainDB = $this->load->database('default', true);
+        $this->_database_connection = 'default';
+        $this->table =  $mainDB->database . '.xc_companies';
+
+        parent::__construct();
     }
 
     public function insert($data)
     {
-        $this->defaultDB->insert('xc_companies', $data);
-        $insert_id = $this->defaultDB->insert_id();
+        $this->db->insert($this->table, $data);
+        $insert_id = $this->db->insert_id();
 
         return $insert_id;
     }
@@ -24,16 +28,15 @@ class Mdl_Company extends MY_Model
     public function getCompany()
     {
         //set default Databse if Company or Users not exits
-
-        $result = $this->defaultDB->get('xc_companies');
+        $result = $this->db->get($this->table);
         return $result->result();
     }
 
     public function companyExist($companyName)
     {
-        $this->defaultDB->select('name');
-        $this->defaultDB->where('name', $companyName);
-        $query = $this->defaultDB->get('xc_companies');
+        $this->db->select('name');
+        $this->db->where('name', $companyName);
+        $query = $this->db->get($this->table);
         if ($query->num_rows() > 0) {
             return true;
         } else {
@@ -43,10 +46,10 @@ class Mdl_Company extends MY_Model
 
     public function searchResult($companyName)
     {
-        $this->defaultDB->select('*');
-        $this->defaultDB->from('xc_companies');
-        $this->defaultDB->like('name', $companyName);
-        $result = $this->defaultDB->get();
+        $this->db->select('*');
+        $this->db->from($this->table);
+        $this->db->like('name', $companyName);
+        $result = $this->db->get();
 
         return $result->result();
     }

@@ -377,7 +377,6 @@ CREATE TABLE `xc_user_custom` (
 CREATE TABLE `xc_users` (
   `user_id`            INT(11)      NOT NULL AUTO_INCREMENT,
   `user_type`          INT(1)       NOT NULL DEFAULT '0',
-  `company_id`         int(11) NOT NULL,
   `access_company`     int(11)      DEFAULT 0,
   `user_date_created`  DATETIME     NOT NULL,
   `user_date_modified` DATETIME     NOT NULL,
@@ -493,3 +492,18 @@ CREATE TABLE `xc_companies` (
  `dbname` varchar(40) NOT NULL,
  PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET = utf8;
+
+CREATE TABLE `xc_user_companies` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `user_id`        INT(11) NOT NULL,
+  `company_id`      INT(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`),
+  KEY `company_id` (`company_id`)
+)
+  ENGINE = MyISAM
+  DEFAULT CHARSET = utf8;
+
+  ALTER TABLE `xc_user_companies`
+  ADD CONSTRAINT `xc_user_companies_user_foreign` FOREIGN KEY (`user_id`) REFERENCES `xc_users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `xc_user_companies_company_foreign` FOREIGN KEY (`company_id`) REFERENCES `xc_companies` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;

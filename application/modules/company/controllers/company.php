@@ -10,14 +10,33 @@ class Company extends Admin_Controller
         parent::__construct();
         $this->load->model('mdl_company');
         $this->load->model('users/mdl_users');
+        $this->load->model('users_company/mdl_user_company');
         $this->load->dbforge();
     }
-
+    
     public function index()
     {
-
-        $users = $this->mdl_users->getUsers();
+        
+        $usersData = $this->mdl_users->getUsers();
         $companies = $this->mdl_company->getCompany();
+        $users = [];
+        foreach ($usersData as $user) {
+            $userCompany = [];
+            $selectedCompany = [];
+            $userCompanies = $this->mdl_user_company->getUserCompany($user->user_id);
+            foreach ($userCompanies as $comp) {
+                 array_push($selectedCompany, $comp->company_id);
+            }
+            foreach ($companies as $company) {
+                if (in_array($company->id, $selectedCompany)) {
+                    $userCompany[$company->id] = true;
+                } else {
+                    $userCompany[$company->id] = false;
+                }
+            }
+            array_unshift($user, $user->userCompany = (object)$userCompany);
+            $users[] = $user;
+        }
         $this->layout->set(
             array(
                 'companies' => $companies,
@@ -69,10 +88,11 @@ class Company extends Admin_Controller
 
     public function switchDb($dbName)
     {
-        $query = $this->defaultDB->get('xc_companies');
-        $this->defaultDB->where('dbName', $dbName);
-        $company = $this->defaultDB->get('xc_companies')->row();
+        $query = $this->db->get('xc_companies');
+        $this->db->where('dbName', $dbName);
+        $company = $this->db->get('xc_companies')->row();
         $this->session->set_userdata('user_company', $company->name);
+        $this->session->set_userdata('company_id', $company->id);
         $this->session->set_userdata('dbName', $dbName);
         redirect('/clients/status/active');
     }

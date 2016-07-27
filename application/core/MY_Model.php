@@ -371,6 +371,209 @@ class MY_Model extends CI_Model
         $this->id = $id;
     }
 
+
+    /**
+     * Select the database connection from the group names defined inside the database.php configuration file or an
+     * array.
+     */
+    protected $_database_connection = NULL;
+
+    /** @var
+     * This one will hold the database connection object
+     */
+    protected $_database;
+
+    /**
+     * @var array
+     * You can establish the fields of the table. If you won't these fields will be filled by MY_Model (with one query)
+     */
+    public $table_fields = array();
+
+    /**
+     * @var array
+     * Sets fillable fields
+     */
+    public $fillable = array();
+
+    /**
+     * @var array
+     * Sets protected fields
+     */
+    public $protected = array();
+
+    private $_can_be_filled = NULL;
+
+
+    /** @var bool | array
+     * Enables created_at and updated_at fields
+     */
+    protected $timestamps = TRUE;
+    protected $timestamps_format = 'Y-m-d H:i:s';
+
+    protected $_created_at_field;
+    protected $_updated_at_field;
+    protected $_deleted_at_field;
+
+    /** @var bool
+     * Enables soft_deletes
+     */
+    protected $soft_deletes = FALSE;
+
+    /** relationships variables */
+    private $_relationships = array();
+    public $has_one = array();
+    public $has_many = array();
+    public $has_many_pivot = array();
+    public $separate_subqueries = TRUE;
+    private $_requested = array();
+    /** end relationships variables */
+
+    /*caching*/
+    public $cache_driver = 'file';
+    public $cache_prefix = 'mm';
+    protected $_cache = array();
+    public $delete_cache_on_save = FALSE;
+
+    public $all_pages;
+    public $pagination_delimiters;
+    public $pagination_arrows;
+
+    /* validation */
+    private $validated = TRUE;
+    private $row_fields_to_update = array();
+
+
+    /**
+     * The various callbacks available to the model. Each are
+     * simple lists of method names (methods will be run on $this).
+     */
+    protected $before_create = array();
+    protected $after_create = array();
+    protected $before_update = array();
+    protected $after_update = array();
+    protected $before_get = array();
+    protected $after_get = array();
+    protected $before_delete = array();
+    protected $after_delete = array();
+    protected $before_soft_delete = array();
+    protected $after_soft_delete = array();
+
+    protected $callback_parameters = array();
+
+    protected $return_as = 'object';
+    protected $return_as_dropdown = NULL;
+    protected $_dropdown_field = '';
+
+    private $_trashed = 'without';
+
+    private $_select = '*';
+
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->_set_connection();
+    }
+
+
+
+    /** END RELATIONSHIPS */
+
+    /**
+     * public function on($connection_group = NULL)
+     * Sets a different connection to use for a query
+     * @param $connection_group = NULL - connection group in database setup
+     * @return obj
+     */
+    public function on($connection_group = NULL)
+    {
+        if(isset($connection_group))
+        {
+            $this->_database->close();
+            $this->load->database($connection_group);
+            $this->_database = $this->db;
+        }
+        return $this;
+    }
+
+    /**
+     * public function reset_connection($connection_group = NULL)
+     * Resets the connection to the default used for all the model
+     * @return obj
+     */
+    public function reset_connection()
+    {
+        if(isset($connection_group))
+        {
+            $this->_database->close();
+            $this->_set_connection();
+        }
+        return $this;
+    }
+
+    /**
+     * Trigger an event and call its observers. Pass through the event name
+     * (which looks for an instance variable $this->event_name), an array of
+     * parameters to pass through and an optional 'last in interation' boolean
+     */
+    public function trigger($event, $data = array(), $last = TRUE)
+    {
+        if (isset($this->$event) && is_array($this->$event))
+        {
+            foreach ($this->$event as $method)
+            {
+                if (strpos($method, '('))
+                {
+                    preg_match('/([a-zA-Z0-9\_\-]+)(\(([a-zA-Z0-9\_\-\., ]+)\))?/', $method, $matches);
+                    $method = $matches[1];
+                    $this->callback_parameters = explode(',', $matches[3]);
+                }
+                $data = call_user_func_array(array($this, $method), array($data, $last));
+            }
+        }
+        return $data;
+    }
+
+    /**
+     * private function _set_connection()
+     *
+     * Sets the connection to database
+     */
+    private function _set_connection()
+    {
+        if(isset($this->_database_connection))
+        {
+            $this->_database = $this->load->database($this->_database_connection,TRUE);
+        }
+        else
+        {
+            $this->load->database();
+            $this->_database =$this->db;
+        }
+        // This may not be required
+        return $this;
+    }
+
+    /**
+     * private function _fetch_table()
+     *
+     * Sets the table name when called by the constructor
+     *
+     */
+    private function _fetch_table()
+    {
+        if (!isset($this->table))
+        {
+            $this->table = $this->_get_table_name(get_class($this));
+        }
+        return TRUE;
+    }
+    private function _get_table_name($model_name)
+    {
+        $table_name = plural(preg_replace('/(_m|_model|_mdl)?$/', '', strtolower($model_name)));
+        return $table_name;
+    }
+
 }
 
 ?>

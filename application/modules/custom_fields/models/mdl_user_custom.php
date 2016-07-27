@@ -24,9 +24,14 @@ class Mdl_User_Custom extends MY_Model
 
     public function __construct()
     {
-        $this->defaultDB = $this->load->database('default', true);
-        $this->defaultDBName = $this->defaultDB->database;
+        $mainDB = $this->load->database('default', true);
+        $this->defaultDBName = $mainDB->database;
+        $this->_database_connection = 'default';
+        $this->table = $this->defaultDBName . '.xc_user_custom';
+
+        parent::__construct();
     }
+
 
     public function save_custom($user_id, $db_array)
     {
@@ -73,9 +78,9 @@ class Mdl_User_Custom extends MY_Model
                 }
             }
 
-            $this->defaultDB->insert($this->table, $db_array);
+            $this->db->insert($this->table, $db_array);
 
-            $id = $this->defaultDB->insert_id();
+            $id = $this->db->insert_id();
             return $id;
         } else {
             if ($this->date_modified_field) {
@@ -86,8 +91,8 @@ class Mdl_User_Custom extends MY_Model
                 }
             }
 
-            $this->defaultDB->where($this->primary_key, $id);
-            $this->defaultDB->update($this->table, $db_array);
+            $this->db->where($this->primary_key, $id);
+            $this->db->update($this->table, $db_array);
 
             // return $id;
         }
@@ -105,7 +110,7 @@ class Mdl_User_Custom extends MY_Model
 
     public function edit($id)
     {
-        $result = $this->defaultDB->get_where('xc_user_custom', $id);
+        $result = $this->db->get_where('xc_user_custom', $id);
         return $result->result();
     }
 
@@ -117,7 +122,7 @@ class Mdl_User_Custom extends MY_Model
 
         $this->run_filters();
 
-        $this->query = $this->defaultDB->get($this->table);
+        $this->query = $this->db->get($this->table);
 
         $this->filter = array();
 
@@ -144,7 +149,7 @@ class Mdl_User_Custom extends MY_Model
     private function run_filters()
     {
         foreach ($this->filter as $filter) {
-            call_user_func_array(array($this->defaultDB, $filter[0]), $filter[1]);
+            call_user_func_array(array($this->db, $filter[0]), $filter[1]);
         }
 
         /**

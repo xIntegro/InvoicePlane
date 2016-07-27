@@ -2,7 +2,7 @@
     <h1><?php echo lang('users'); ?></h1>
 
     <div class="pull-right">
-        <a class="btn btn-sm btn-primary" href="<?php echo site_url('users/form'); ?>">
+        <a class="btn btn-sm btn-primary" href="<?php echo site_url('users/create'); ?>">
             <i class="fa fa-plus"></i> <?php echo lang('new'); ?>
         </a>
     </div>
@@ -43,7 +43,7 @@
                             </a>
                             <ul class="dropdown-menu">
                                 <li>
-                                    <a href="<?php echo site_url('users/form/' . $user->user_id); ?>">
+                                    <a href="<?php echo site_url('users/create/' . $user->user_id); ?>">
                                         <i class="fa fa-edit fa-margin"></i> <?php echo lang('edit'); ?>
                                     </a>
                                 </li>

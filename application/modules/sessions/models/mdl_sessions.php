@@ -67,11 +67,11 @@ class Mdl_Sessions extends CI_Model
                     return false;
                 }
             }
-
+    
             if ($this->crypt->check_password($user->user_password, $password)) {
-
-                $query = $this->defaultDB->get('xc_companies');
-                $this->defaultDB->where('id', $user->company_id);
+                $this->load->model('users_company/mdl_user_company');
+                $userCompany = $this->mdl_user_company->getFirstUserCompany($user->user_id);
+                $this->defaultDB->where('id', $userCompany->company_id);
                 $company = $this->defaultDB->get('xc_companies')->row();
                 $dbName = $company->dbname;
                 $session_data = array(
@@ -80,6 +80,7 @@ class Mdl_Sessions extends CI_Model
                     'user_name' => $user->user_name,
                     'user_email' => $user->user_email,
                     'user_company' => $company->name,
+                    'company_id' => $company->id,
                     'dbName' => $dbName,
                     'userAccess' => $user->access_company
                 );

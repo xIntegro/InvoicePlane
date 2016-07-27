@@ -20,34 +20,34 @@ if (!defined('BASEPATH')) {
 class Setup extends MX_Controller
 {
     public $errors = 0;
-
+    
     public function __construct()
     {
         parent::__construct();
-
+        
         $this->load->library('session');
-
+        
         $this->load->helper('file');
         $this->load->helper('directory');
         $this->load->helper('url');
         $this->load->helper('language');
-
+        
         $this->load->model('mdl_setup');
-
+        
         $this->load->module('layout');
-
+        
         if (!$this->session->userdata('xc_lang')) {
             $this->session->set_userdata('xc_lang', 'english');
         }
-
+        
         $this->lang->load('ip', $this->session->userdata('xc_lang'));
     }
-
+    
     public function index()
     {
         redirect('setup/language');
     }
-
+    
     public function language()
     {
         if ($this->input->post('btn_continue')) {
@@ -55,34 +55,34 @@ class Setup extends MX_Controller
             $this->session->set_userdata('install_step', 'prerequisites');
             redirect('setup/prerequisites');
         }
-
+        
         $this->session->unset_userdata('install_step');
         $this->session->unset_userdata('is_upgrade');
-
+        
         $this->load->helper('directory');
-
+        
         $languages = directory_map(APPPATH . '/language', true);
-
-
+        
+        
         sort($languages);
-
+        
         $this->layout->set('languages', $languages);
-
+        
         $this->layout->buffer('content', 'setup/language');
         $this->layout->render('setup');
     }
-
+    
     public function prerequisites()
     {
         if ($this->session->userdata('install_step') <> 'prerequisites') {
             redirect('setup/language');
         }
-
+        
         if ($this->input->post('btn_continue')) {
             $this->session->set_userdata('install_step', 'configure_database');
             redirect('setup/configure_database');
         }
-
+        
         $this->layout->set(
             array(
                 'basics' => $this->check_basics(),
@@ -90,20 +90,20 @@ class Setup extends MX_Controller
                 'errors' => $this->errors
             )
         );
-
+        
         $this->layout->buffer('content', 'setup/prerequisites');
         $this->layout->render('setup');
     }
-
+    
     public function configure_database()
     {
         if ($this->session->userdata('install_step') <> 'configure_database') {
             redirect('setup/prerequisites');
         }
-
+        
         if ($this->input->post('btn_continue')) {
             $this->load_ci_database();
-
+            
             // This might be an upgrade - check if it is
             if (!$this->db->table_exists('xc_versions')) {
                 // This appears to be an install
@@ -116,89 +116,89 @@ class Setup extends MX_Controller
                 redirect('setup/upgrade_tables');
             }
         }
-
+        
         if ($this->input->post('db_hostname')) {
             $this->write_database_config($this->input->post('db_hostname'), $this->input->post('db_username'),
                 $this->input->post('db_password'), $this->input->post('db_database'));
-
+            
             $this->session->set_userdata('dbname', $this->input->post('db_database'));
-
-
+            
+            
         }
-
+        
         $this->layout->set('database', $this->check_database());
         $this->layout->set('errors', $this->errors);
         $this->layout->buffer('content', 'setup/configure_database');
         $this->layout->render('setup');
     }
-
+    
     public function install_tables()
     {
         if ($this->session->userdata('install_step') <> 'install_tables') {
             redirect('setup/prerequisites');
         }
-
+        
         if ($this->input->post('btn_continue')) {
             $this->session->set_userdata('install_step', 'upgrade_tables');
             redirect('setup/upgrade_tables');
         }
-
+        
         $this->load_ci_database();
-
+        
         $this->layout->set(
             array(
                 'success' => $this->mdl_setup->install_tables(),
                 'errors' => $this->mdl_setup->errors
             )
         );
-
+        
         $this->layout->buffer('content', 'setup/install_tables');
         $this->layout->render('setup');
     }
-
+    
     public function upgrade_tables()
     {
         if ($this->session->userdata('install_step') <> 'upgrade_tables') {
             redirect('setup/prerequisites');
         }
-
+        
         if ($this->input->post('btn_continue')) {
             if (!$this->session->userdata('is_upgrade')) {
                 $this->session->set_userdata('install_step', 'create_user');
-
-
+                
+                
                 redirect('setup/create_user');
             } else {
                 $this->session->set_userdata('install_step', 'complete');
                 redirect('setup/complete');
             }
         }
-
+        
         $this->load_ci_database();
-
+        
         $this->layout->set(
             array(
                 'success' => $this->mdl_setup->upgrade_tables(),
                 'errors' => $this->mdl_setup->errors
             )
         );
-
+        
         $this->layout->buffer('content', 'setup/upgrade_tables');
         $this->layout->render('setup');
     }
-
+    
     public function create_user()
     {
         if ($this->session->userdata('install_step') <> 'create_user') {
             redirect('setup/prerequisites');
         }
-
+        
         $this->load_ci_database();
-
         $this->load->model('users/mdl_users');
-
+        $this->load->model('users_company/mdl_user_company');
         $this->load->helper('country');
-
+    
+        $_POST['companies'] = [];
         if ($this->mdl_users->run_validation()) {
             //load model of company
             $this->load->model('company/mdl_company');
@@ -206,18 +206,24 @@ class Setup extends MX_Controller
             $company_id = $this->mdl_company->insert($data);
             //get company_id
             $this->session->set_userdata('company_id', $company_id);
-
+            
             $db_array = $this->mdl_users->db_array();
             $db_array['user_type'] = 1;
-            $db_array['access_company']=1;
-            $db_array['company_id'] = $this->session->userdata('company_id');
-
-            $this->mdl_users->save(null, $db_array);
-
+            $companyId = $this->session->userdata('company_id');
+            
+            $user = $this->mdl_users->save(null, $db_array);
+            
+            $CompanyData[] = [
+                'user_id' => $user,
+                'company_id' => $companyId
+            ];
+            
+            $this->mdl_user_company->save($CompanyData, $user);
+            
             $this->session->set_userdata('install_step', 'complete');
             redirect('setup/complete');
         }
-
+        
         $this->layout->set(
             array(
                 'countries' => get_country_list(lang('cldr')),
@@ -226,13 +232,13 @@ class Setup extends MX_Controller
         $this->layout->buffer('content', 'setup/create_user');
         $this->layout->render('setup');
     }
-
+    
     public function complete()
     {
         if ($this->session->userdata('install_step') <> 'complete') {
             redirect('setup/prerequisites');
         }
-
+        
         // Check if this is an update or the first install
         // First get all version entries from the database and format them
         $this->load_ci_database();
@@ -242,7 +248,7 @@ class Setup extends MX_Controller
                 $data[] = $row;
             endforeach;
         }
-
+        
         // Then check if the first version entry is less than 30 minutes old
         // If yes we assume that the user ran the setup a few minutes ago
         if ($data[0]->version_date_applied < (time() - 1800)) {
@@ -251,15 +257,15 @@ class Setup extends MX_Controller
             $update = false;
         }
         $this->layout->set('update', $update);
-
+        
         $this->layout->buffer('content', 'setup/complete');
         $this->layout->render('setup');
     }
-
+    
     private function check_writables()
     {
         $checks = array();
-
+        
         $writables = array(
             './uploads',
             './uploads/temp',
@@ -271,14 +277,14 @@ class Setup extends MX_Controller
             './' . APPPATH . 'helpers/mpdf/graph_cache',
             './' . APPPATH . 'logs'
         );
-
+        
         foreach ($writables as $writable) {
             if (!is_writable($writable)) {
                 $checks[] = array(
                     'message' => $writable . ' ' . lang('is_not_writable'),
                     'success' => 0
                 );
-
+                
                 $this->errors += 1;
             } else {
                 $checks[] = array(
@@ -287,14 +293,14 @@ class Setup extends MX_Controller
                 );
             }
         }
-
+        
         return $checks;
     }
-
+    
     private function check_database()
     {
         $this->load->library('lib_mysql');
-
+        
         if (is_file(APPPATH . '/config/database.php')) {
             // There is alread a (hopefully working?) database.php file.
             require(APPPATH . '/config/database.php');
@@ -302,47 +308,47 @@ class Setup extends MX_Controller
             // No database.php file existent. Use the _empty template.
             require(APPPATH . '/config/database_empty.php');
         }
-
+        
         $db = $db['default'];
-
+        
         $can_connect = $this->lib_mysql->connect($db['hostname'], $db['username'], $db['password']);
-
+        
         if (!$can_connect) {
             $this->errors += 1;
-
+            
             return array(
                 'message' => lang('cannot_connect_database_server'),
                 'success' => 0
             );
         }
-
+        
         $can_select_db = $this->lib_mysql->select_db($can_connect, $db['database']);
-
+        
         if (!$can_select_db) {
             $this->errors += 1;
-
+            
             return array(
                 'message' => lang('cannot_select_specified_database'),
                 'success' => 0
             );
         }
-
+        
         return array(
             'message' => lang('database_properly_configured'),
             'success' => 1
         );
     }
-
+    
     private function check_basics()
     {
         $checks = array();
-
+        
         $php_required = '5.3';
         $php_installed = PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION;
-
+        
         if ($php_installed < $php_required) {
             $this->errors += 1;
-
+            
             $checks[] = array(
                 'message' => sprintf(lang('php_version_fail'), $php_installed, $php_required),
                 'success' => 0
@@ -353,10 +359,10 @@ class Setup extends MX_Controller
                 'success' => 1
             );
         }
-
+        
         if (!ini_get('date.timezone')) {
             #$this->errors += 1;
-
+            
             $checks[] = array(
                 'message' => sprintf(lang('php_timezone_fail'), date_default_timezone_get()),
                 'warning' => 1
@@ -367,14 +373,14 @@ class Setup extends MX_Controller
                 'success' => 1
             );
         }
-
+        
         return $checks;
     }
-
+    
     private function write_database_config($hostname, $username, $password, $database)
     {
         $db_file = read_file(APPPATH . 'config/database_empty.php');
-
+        
         $db_file = str_replace('$db[\'default\'][\'hostname\'] = \'\'',
             '$db[\'default\'][\'hostname\'] = \'' . addcslashes($hostname, '\'\\') . '\'', $db_file);
         $db_file = str_replace('$db[\'default\'][\'username\'] = \'\'',
@@ -383,14 +389,14 @@ class Setup extends MX_Controller
             '$db[\'default\'][\'password\'] = \'' . addcslashes($password, '\'\\') . '\'', $db_file);
         $db_file = str_replace('$db[\'default\'][\'database\'] = \'\'',
             '$db[\'default\'][\'database\'] = \'' . addcslashes($database, '\'\\') . '\'', $db_file);
-
+        
         write_file(APPPATH . 'config/database.php', $db_file);
     }
-
+    
     private function load_ci_database()
     {
         $this->load->database();
         // $this->db->db_debug = 0;
     }
-
+    
 }
