@@ -88,9 +88,11 @@ class Company extends Admin_Controller
 
     public function switchDb($dbName)
     {
-        $query = $this->db->get('xc_companies');
-        $this->db->where('dbName', $dbName);
-        $company = $this->db->get('xc_companies')->row();
+        $company = $this->mdl_company->getCompanyByDBName($dbName);
+        if (!$company) {
+            $this->session->set_flashdata('alert_error', 'Unable to find company');
+            redirect('/clients/status/active');
+        }
         $this->session->set_userdata('user_company', $company->name);
         $this->session->set_userdata('company_id', $company->id);
         $this->session->set_userdata('dbName', $dbName);

@@ -66,4 +66,16 @@ class Mdl_Company extends MY_Model
         );
     }
 
+    public function getCompanyByDBName($companyName)
+    {
+        $this->db->select('*');
+        $this->db->where('dbName', $companyName);
+        $result = $this->db->get($this->table);
+
+        if ($result->num_rows() > 0) {
+            return $result->row();
+        } else {
+            return false;
+        }
+    }
 }
