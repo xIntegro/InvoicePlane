@@ -31,7 +31,8 @@
                     <label>
                         <?php echo lang('username'); ?>
                     </label>
-                    <input type="text" name="db_username" id="db_username" class="form-control"
+                    <input type="text" name="db_username" id="db_username" class="form-control" style="background-color:#fff;"
+                           readonly onfocus="this.removeAttribute('readonly');"
                            value="<?php echo $this->input->post('db_username'); ?>">
                     <span class="help-block"><?php echo lang('setup_db_username_info'); ?></span>
                 </div>

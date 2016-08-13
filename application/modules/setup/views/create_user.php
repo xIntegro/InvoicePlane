@@ -24,7 +24,8 @@
 
             <div class="form-group">
                 <label><?php echo lang('email_address'); ?></label>
-                <input type="email" name="user_email" id="user_email" class="form-control"
+                <input type="email" name="user_email" id="user_email" class="form-control" style="background-color:#fff;"
+                       readonly onfocus="this.removeAttribute('readonly');"
                        value="<?php echo $this->mdl_users->form_value('user_email'); ?>">
                 <span class="help-block"><?php echo lang('setup_user_email_info'); ?></span>
             </div>
@@ -33,7 +34,8 @@
                 <label>
                     <?php echo lang('name'); ?>
                 </label>
-                <input type="text" name="user_name" id="user_name" class="form-control"
+                <input type="text" name="user_name" id="user_name" class="form-control"  style="background-color:#fff;"
+                       readonly onfocus="this.removeAttribute('readonly');"
                        value="<?php echo $this->mdl_users->form_value('user_name'); ?>">
                 <span class="help-block"><?php echo lang('setup_user_name_info'); ?></span>
             </div>
@@ -42,7 +44,8 @@
                 <label>
                     <?php echo lang('password'); ?>
                 </label>
-                <input type="password" name="user_password" id="user_password" class="form-control">
+                <input type="password" name="user_password" id="user_password"  style="background-color:#fff;"
+                       readonly onfocus="this.removeAttribute('readonly');" class="form-control">
                 <span class="help-block"><?php echo lang('setup_user_password_info'); ?></span>
             </div>
 
@@ -50,7 +53,8 @@
                 <label>
                     <?php echo lang('verify_password'); ?>
                 </label>
-                <input type="password" name="user_passwordv" id="user_passwordv" class="form-control">
+                <input type="password" name="user_passwordv" id="user_passwordv"  style="background-color:#fff;"
+                       readonly onfocus="this.removeAttribute('readonly');" class="form-control">
                 <span class="help-block"><?php echo lang('setup_user_password_verify_info'); ?></span>
             </div>
 
