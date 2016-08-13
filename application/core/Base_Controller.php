@@ -47,10 +47,10 @@ class Base_Controller extends MX_Controller
 
         $config = null;
         if (!empty($this->session->userdata('dbName'))) {
-            $config['hostname'] = $this->defaultDB->hostname;
-            $config['username'] = $this->defaultDB->username;
-            $config['password'] = $this->defaultDB->password;
-            $config['database'] = $this->session->userdata('dbName');
+            $config['hostname'] = $server = $this->defaultDB->hostname;
+            $config['username'] = $username = $this->defaultDB->username;
+            $config['password'] = $password = $this->defaultDB->password;
+            $config['database'] = $dbName = $this->session->userdata('dbName');
             $config['dbdriver'] = 'mysqli';
             $config['dbprefix'] = '';
             $config['pconnect'] = false;
@@ -59,6 +59,20 @@ class Base_Controller extends MX_Controller
             $config['cachedir'] = '';
             $config['char_set'] = 'utf8';
             $config['dbcollat'] = 'utf8_general_ci';
+
+            if (@mysqli_connect($server, $username, $password)) {
+                $link = mysqli_connect($server, $username, $password);
+
+                if (@mysqli_select_db($link, $dbName)) {
+                    $this->load->database($config);
+                } else {
+                    $this->load->database();
+                }
+
+            } else {
+                $this->load->database();
+            }
+
             $this->load->database($config);
         } else {
             $this->load->database();

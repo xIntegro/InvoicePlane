@@ -121,7 +121,7 @@ class Setup extends MX_Controller
             $this->write_database_config($this->input->post('db_hostname'), $this->input->post('db_username'),
                 $this->input->post('db_password'), $this->input->post('db_database'));
             
-            $this->session->set_userdata('dbname', $this->input->post('db_database'));
+            $this->session->set_userdata('dbName', $this->input->post('db_database'));
             
             
         }

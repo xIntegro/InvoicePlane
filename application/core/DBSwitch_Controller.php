@@ -16,21 +16,21 @@ class DBSwitch_Controller extends Base_Controller
     public function __construct($dbName)
     {
         $this->load->library('session');
-        $this->session->set_userdata('dbName', 'xintegro');
+        $mainDB = $this->load->database('default', true);
+        $db = $mainDB->database;
+        $this->session->set_userdata('dbName', $mainDB->database);
         parent::__construct();
 
 
         try {
             $previousDB = $this->session->userdata('dbName');
-            $switchCOnn = $dbName;
 
-          //  $path = base_url() . 'uploads/import/xintegro.sql';
-            $path=  APPPATH . 'modules/setup/sample-sql/xintegro.sql';
+            $path = APPPATH . 'modules/setup/sample-sql/xintegro.sql';
 
             $filename = $path;
-            $mysql_host = 'localhost';
-            $mysql_username = 'root';
-            $mysql_password = '';
+            $mysql_host = $mainDB->hostname;
+            $mysql_username = $mainDB->username;
+            $mysql_password = $mainDB->password;
             $mysql_database = $dbName;
 
             mysql_connect($mysql_host, $mysql_username,
@@ -55,7 +55,6 @@ class DBSwitch_Controller extends Base_Controller
                 }
             }
 
-
             $switchCOnn = $previousDB;
 
         } catch (Exception $e) {
@@ -64,8 +63,4 @@ class DBSwitch_Controller extends Base_Controller
             }
         }
     }
-
-
-
-
 }
