@@ -399,7 +399,7 @@ class Mdl_Users extends Response_Model
     public function getUserByEmail($email)
     {
         $this->db->where('user_email', $email);
-        return $this->get('xc_users')->row();
+        return $this->get($this->table)->row();
 
     }
 
@@ -410,6 +410,6 @@ class Mdl_Users extends Response_Model
     public function userAccessAllCompany($id)
     {
         $this->db->where('user_id', $id);
-        return $this->db->get('xc_users')->row();
+        return $this->db->get($this->table)->row();
     }
 }

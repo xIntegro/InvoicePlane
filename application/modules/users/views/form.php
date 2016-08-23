@@ -24,15 +24,9 @@
             placeholder: "<?php echo lang('country'); ?>",
             allowClear: true
         });
-        $('#company').select2({
+        $('#company').chosen({
             placeholder: "<?php echo lang('company'); ?>",
             allowClear: true
-        });
-
-        $('#company').on('change', function() {
-            var selectValue = $(this).val();
-            alert(selectValue);
-            $('#changeSelect').val( selectValue);
         });
 
     });

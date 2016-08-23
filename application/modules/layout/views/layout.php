@@ -28,6 +28,7 @@
 
     <link rel="stylesheet" href="<?php echo base_url(); ?>assets/default/css/style.css">
     <link rel="stylesheet" href="<?php echo base_url(); ?>assets/default/css/custom.css">
+    <link rel="stylesheet" href="<?php echo base_url(); ?>assets/default/css/chosen.css">
 
     <?php if ($this->mdl_settings->setting('monospace_amounts') == 1) { ?>
         <link rel="stylesheet" href="<?php echo base_url(); ?>assets/default/css/monospace.css">
@@ -423,6 +424,7 @@
 <script defer src="<?php echo base_url(); ?>assets/default/js/plugins.js"></script>
 <script defer src="<?php echo base_url(); ?>assets/default/js/scripts.min.js"></script>
 <script src="<?php echo base_url(); ?>assets/default/js/libs/bootstrap-datepicker.min.js"></script>
+<script src="<?php echo base_url(); ?>assets/default/js/chosen.jquery.js"></script>
 <?php if (lang('cldr') != 'en') { ?>
     <script
         src="<?php echo base_url(); ?>assets/default/js/locales/bootstrap-datepicker.<?php echo lang('cldr'); ?>.js"></script>
