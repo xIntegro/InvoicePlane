@@ -125,19 +125,19 @@
                         </select>
                     </div>
                 </div>
-                <div class="form-group">
-                    <div class="col-xs-12 col-sm-3 text-right text-left-xs">
-                        <label class="control-label">
-                            <?php echo lang('access_company') ?>
-                        </label>
-                    </div>
-                    <div class="col-xs-12 col-sm-6">
-                        <input id="access_company" name="access_company"
-                               type="checkbox" <?php if ($this->mdl_users->form_value('access_company') == 1) {
-                            echo 'checked';
-                        } ?>
-                    </div>
-                </div>
+<!--                <div class="form-group">-->
+<!--                    <div class="col-xs-12 col-sm-3 text-right text-left-xs">-->
+<!--                        <label class="control-label">-->
+<!--                            --><?php //echo lang('access_company') ?>
+<!--                        </label>-->
+<!--                    </div>-->
+<!--                    <div class="col-xs-12 col-sm-6">-->
+<!--                        <input id="access_company" name="access_company"-->
+<!--                               type="checkbox" --><?php //if ($this->mdl_users->form_value('access_company') == 1) {
+//                            echo 'checked';
+//                        } ?>
+<!--                    </div>-->
+<!--                </div>-->
 
             </fieldset>
 

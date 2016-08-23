@@ -10,6 +10,7 @@ class Mdl_Company extends MY_Model
 
     public function __construct()
     {
+        $this->defaultDB = $this->load->database('default', true);
         $mainDB = $this->load->database('default', true);
         $this->_database_connection = 'default';
         $this->table =  $mainDB->database . '.xc_companies';
@@ -77,5 +78,14 @@ class Mdl_Company extends MY_Model
         } else {
             return false;
         }
+    }
+    public function getCompanyByUser($id)
+    {
+        $this->defaultDB->select('*');
+        $this->defaultDB->from('xc_companies');
+        $this->defaultDB->join('xc_user_companies','xc_user_companies.company_id=xc_companies.id');
+        $this->defaultDB->where_in('xc_user_companies.user_id',$id);
+        $query=$this->defaultDB->get();
+        return $query->result();
     }
 }

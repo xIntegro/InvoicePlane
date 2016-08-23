@@ -335,13 +335,11 @@
                         }
                         ?>
                     </a>
-                    <?php
-                    if ($this->session->userdata('user_type') == 1 || $this->session->userdata('userAccess') == 1) {
-                        ?>
+
                         <ul class="dropdown-menu">
                             <?php
                             $this->load->model('company/mdl_company', '', $config);
-                            $companies = $this->mdl_company->getCompany();
+                            $companies = $this->mdl_company->getCompanyByUser($this->session->userdata('user_id'));
                             foreach ($companies as $company) {
                                 ?>
                                 <li class="text-center">
@@ -354,9 +352,7 @@
 
                             ?>
                         </ul>
-                        <?php
-                    }
-                    ?>
+
                 </li>
                 <li>
                     <a href="<?php echo site_url('sessions/logout'); ?>"

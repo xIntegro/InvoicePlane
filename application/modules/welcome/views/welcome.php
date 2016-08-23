@@ -40,7 +40,7 @@
         </p>
 
         <div class="btn-group btn-group-justified">
-            <a href="/setup" class="btn btn-success">
+            <a href="/index.php/setup" class="btn btn-success">
                 <i class="fa fa-cogs"></i> Setup
             </a>
             <a href="https://wiki.xintegro.de/" class="btn btn-info">

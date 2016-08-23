@@ -197,33 +197,36 @@ class Setup extends MX_Controller
         $this->load->model('users/mdl_users');
         $this->load->model('users_company/mdl_user_company');
         $this->load->helper('country');
-    
-        $_POST['companies'] = [];
-        if ($this->mdl_users->run_validation()) {
-            //load model of company
-            $this->load->model('company/mdl_company');
-            $data = array('name' => 'xintegro', 'dbname' => $this->session->userdata('dbname'));
-            $company_id = $this->mdl_company->insert($data);
-            //get company_id
-            $this->session->set_userdata('company_id', $company_id);
-            
-            $db_array = $this->mdl_users->db_array();
-            $db_array['user_type'] = 1;
-            $companyId = $this->session->userdata('company_id');
-            
-            $user = $this->mdl_users->save(null, $db_array);
-            
-            $CompanyData[] = [
-                'user_id' => $user,
-                'company_id' => $companyId
-            ];
-            
-            $this->mdl_user_company->save($CompanyData, $user);
-            
-            $this->session->set_userdata('install_step', 'complete');
-            redirect('setup/complete');
+
+        if($this->input->post('btn_continue'))
+        {
+            $_POST['companies'] = [];
+            if ($this->mdl_users->run_validation()) {
+                //load model of company
+                $this->load->model('company/mdl_company');
+                $data = array('name' => 'xintegro', 'dbname' => $this->session->userdata('dbname'));
+                $company_id = $this->mdl_company->insert($data);
+                //get company_id
+                $this->session->set_userdata('company_id', $company_id);
+
+                $db_array = $this->mdl_users->db_array();
+                $db_array['user_type'] = 1;
+                $companyId = $this->session->userdata('company_id');
+
+                $user = $this->mdl_users->save(null, $db_array);
+
+                $CompanyData[] = [
+                    'user_id' => $user,
+                    'company_id' => $companyId
+                ];
+
+                $this->mdl_user_company->save($CompanyData, $user);
+
+                $this->session->set_userdata('install_step', 'complete');
+                redirect('setup/complete');
+            }
+
         }
-        
         $this->layout->set(
             array(
                 'countries' => get_country_list(lang('cldr')),

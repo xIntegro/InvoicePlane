@@ -40,9 +40,6 @@ class Company extends Admin_Controller
         $this->layout->set(
             array(
                 'companies' => $companies,
-                'filter_display'     => TRUE,
-                'filter_placeholder' => lang('filter_companies'),
-                'filter_method'      => 'filter_companies',
                 'users' => $users,
                 'user_types' => $this->mdl_users->user_types()
             )
@@ -55,6 +52,7 @@ class Company extends Admin_Controller
 
     public function form($id = null)
     {
+        $users = $this->mdl_users->getUsers();
         if ($this->input->post('btn_cancel')) {
             redirect('company');
         }
@@ -64,12 +62,22 @@ class Company extends Admin_Controller
                 $this->session->set_flashdata('alert_error', lang('company_already_exists'));
                 redirect('company/form');
             }
-
-            $dbname = 'xintegro_' . $this->input->post('name') . '_' . rand();
+            $companyName = preg_replace('/\s+/', '_', $this->input->post('name'));
+            $dbname = 'xintegro_' . $companyName . '_' . rand();
             $this->dbforge->create_database($dbname);
 
             $data = array('name' => $this->input->post('name'), 'dbname' => $dbname);
-            $this->mdl_company->insert($data);
+            $id = $this->mdl_company->insert($data);
+            foreach ($users as $user) {
+                if ($user->access_company == 1||$user->user_type == 1) {
+                    $data = array(
+                        'user_id' => $user->user_id,
+                        'company_id' => $id,
+
+                    );
+                    $this->mdl_user_company->create($data);
+                }
+            }
 
             //import database
             $abc = new DBSwitch_Controller($dbname);

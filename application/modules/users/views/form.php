@@ -28,6 +28,13 @@
             placeholder: "<?php echo lang('company'); ?>",
             allowClear: true
         });
+
+        $('#company').on('change', function() {
+            var selectValue = $(this).val();
+            alert(selectValue);
+            $('#changeSelect').val( selectValue);
+        });
+
     });
 </script>
 

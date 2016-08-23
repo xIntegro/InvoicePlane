@@ -40,12 +40,21 @@ class mdl_user_company extends MY_Model
         }
         $this->defaultDB->insert_batch('xc_user_companies', $data);
     }
+    public function create($data)
+    {
+        $this->defaultDB->insert('xc_user_companies', $data);
+    }
     /**
      * @param $userId
      */
     public function delete($userId)
     {
         $this->defaultDB->where('user_id', $userId);
+        $this->defaultDB->delete('xc_user_companies');
+    }
+    public function deleteUserCompany($id)
+    {
+        $this->defaultDB->where_in('user_id',$id);
         $this->defaultDB->delete('xc_user_companies');
     }
     

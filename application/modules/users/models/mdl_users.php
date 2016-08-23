@@ -48,16 +48,16 @@ class Mdl_Users extends Response_Model
         'order_by',
         'limit'
     );
-    
+
     public function __construct()
     {
-        $mainDB = $this->load->database('default', true);
+        $mainDB=$this->mainDB = $this->load->database('default', true);
         $this->_database_connection = 'default';
         $this->table = $mainDB->database . '.xc_users';
-        
+
         parent::__construct();
     }
-    
+
     public function user_types()
     {
         return array(
@@ -66,34 +66,44 @@ class Mdl_Users extends Response_Model
             '3' => lang('guest_read_only')
         );
     }
-    
+
     public function getUsers()
     {
         $result = $this->db->get($this->table);
         return $result->result();
     }
-    
+
+    public function companyUsers($companyId)
+    {
+        $this->db->select('*');
+        $this->db->from($this->table);
+        $this->db->join($this->mainDB->database.".xc_user_companies", $this->mainDB->database.".xc_user_companies.user_id = xc_users.user_id","inner");
+        $this->db->where(array($this->mainDB->database.".xc_user_companies.company_id" => $companyId));
+        $query = $this->db->get();
+        return $query->result();
+    }
+
     public function getUsersWithCompany()
     {
         $result = $this->db->get($this->table);
         return $result->result();
     }
-    
+
     public function default_select()
     {
         $this->db->select('SQL_CALC_FOUND_ROWS xc_user_custom.*, xc_users.*', false);
     }
-    
+
     public function default_join()
     {
         $this->db->join('xc_user_custom', 'xc_user_custom.user_id = xc_users.user_id', 'left');
     }
-    
+
     public function default_order_by()
     {
         $this->db->order_by('xc_users.user_name');
     }
-    
+
     public function validation_rules()
     {
         return array(
@@ -105,7 +115,7 @@ class Mdl_Users extends Response_Model
             'user_email' => array(
                 'field' => 'user_email',
                 'label' => lang('email'),
-                 'rules' => "required|valid_email|is_unique[xc_users.user_email]"
+                'rules' => "required|valid_email|is_unique[xc_users.user_email]"
             ),
             'user_name' => array(
                 'field' => 'user_name',
@@ -170,9 +180,10 @@ class Mdl_Users extends Response_Model
                 'label' => lang('company_required'),
                 'rules' => 'required'
             )
-        
+
         );
     }
+
     public function validation_rules_existing()
     {
         return array(
@@ -242,7 +253,7 @@ class Mdl_Users extends Response_Model
             )
         );
     }
-    
+
     public function validation_rules_change_password()
     {
         return array(
@@ -258,44 +269,81 @@ class Mdl_Users extends Response_Model
             )
         );
     }
-    
-    public function db_array()
-    {
-        $db_array = $_REQUEST;
-        unset($db_array['btn_continue']);
-        unset($db_array['btn_submit']);
-        unset($db_array['companies']);
-        
-        if (isset($db_array['user_password'])) {
-            unset($db_array['user_passwordv']);
-            
-            $this->load->library('crypt');
-            
-            $user_psalt = $this->crypt->salt();
-            
-            $db_array['user_psalt'] = $user_psalt;
-            $db_array['user_password'] = $this->crypt->generate_password($db_array['user_password'], $user_psalt);
-        }
-        
-        return $db_array;
-    }
-    
+
     public function save_change_password($user_id, $password)
     {
         $this->load->library('crypt');
-        
+
         $user_psalt = $this->crypt->salt();
         $user_password = $this->crypt->generate_password($password, $user_psalt);
-        
+
         $db_array = array(
             'user_psalt' => $user_psalt,
             'user_password' => $user_password
         );
-        
+
         $this->db->where('user_id', $user_id);
         $this->db->update('xc_users', $db_array);
-        
+
         $this->session->set_flashdata('alert_success', 'Password Successfully Changed');
+    }
+
+    public function save($id = null, $db_array = null)
+    {
+        if (!$db_array) {
+            $db_array = $this->db_array();
+        }
+        $datetime = date('Y-m-d H:i:s');
+        if (!$id) {
+            if ($this->date_created_field) {
+                if (is_array($db_array)) {
+                    $db_array[$this->date_created_field] = $datetime;
+
+                    if ($this->date_modified_field) {
+                        $db_array[$this->date_modified_field] = $datetime;
+                    }
+                } else {
+                    $db_array->{$this->date_created_field} = $datetime;
+
+                    if ($this->date_modified_field) {
+                        $db_array->{$this->date_modified_field} = $datetime;
+                    }
+                }
+            } elseif ($this->date_modified_field) {
+                if (is_array($db_array)) {
+                    $db_array[$this->date_modified_field] = $datetime;
+                } else {
+                    $db_array->{$this->date_modified_field} = $datetime;
+                }
+            }
+
+            $this->db->insert($this->table, $db_array);
+
+            $id = $this->db->insert_id();
+        } else {
+            if ($this->date_modified_field) {
+                if (is_array($db_array)) {
+                    $db_array[$this->date_modified_field] = $datetime;
+                } else {
+                    $db_array->{$this->date_modified_field} = $datetime;
+                }
+            }
+
+            $this->db->where($this->primary_key, $id);
+            $this->db->update($this->table, $db_array);
+
+            return $id;
+        }
+        if ($user_clients = $this->session->userdata('user_clients')) {
+            $this->load->model('users/mdl_user_clients');
+
+            foreach ($user_clients as $user_client) {
+                $this->mdl_user_clients->save(null, array('user_id' => $id, 'client_id' => $user_client));
+            }
+
+            $this->session->unset_userdata('user_clients');
+        }
+        return $id;
     }
 
 //    public function save($id = null, $db_array = null)
@@ -314,78 +362,54 @@ class Mdl_Users extends Response_Model
 //
 //        return $id;
 //    }
-    
-    
-    public function save($id = null, $db_array = null)
+
+
+    public function db_array()
     {
-        if (!$db_array) {
-            $db_array = $this->db_array();
-        }
-        $datetime = date('Y-m-d H:i:s');
-        if (!$id) {
-            if ($this->date_created_field) {
-                if (is_array($db_array)) {
-                    $db_array[$this->date_created_field] = $datetime;
-                    
-                    if ($this->date_modified_field) {
-                        $db_array[$this->date_modified_field] = $datetime;
-                    }
-                } else {
-                    $db_array->{$this->date_created_field} = $datetime;
-                    
-                    if ($this->date_modified_field) {
-                        $db_array->{$this->date_modified_field} = $datetime;
-                    }
-                }
-            } elseif ($this->date_modified_field) {
-                if (is_array($db_array)) {
-                    $db_array[$this->date_modified_field] = $datetime;
-                } else {
-                    $db_array->{$this->date_modified_field} = $datetime;
-                }
-            }
-            
-            $this->db->insert($this->table, $db_array);
-            
-            $id = $this->db->insert_id();
+        $db_array = $_REQUEST;
+        if ($db_array['access_company'] == 'on') {
+            $db_array['access_company'] = 1;
         } else {
-            if ($this->date_modified_field) {
-                if (is_array($db_array)) {
-                    $db_array[$this->date_modified_field] = $datetime;
-                } else {
-                    $db_array->{$this->date_modified_field} = $datetime;
-                }
-            }
-            
-            $this->db->where($this->primary_key, $id);
-            $this->db->update($this->table, $db_array);
-            
-            return $id;
+            $db_array['access_company'] = 0;
         }
-        if ($user_clients = $this->session->userdata('user_clients')) {
-            $this->load->model('users/mdl_user_clients');
-            
-            foreach ($user_clients as $user_client) {
-                $this->mdl_user_clients->save(null, array('user_id' => $id, 'client_id' => $user_client));
-            }
-            
-            $this->session->unset_userdata('user_clients');
+        unset($db_array['btn_continue']);
+        unset($db_array['btn_submit']);
+        unset($db_array['companies']);
+
+        if (isset($db_array['user_password'])) {
+            unset($db_array['user_passwordv']);
+
+            $this->load->library('crypt');
+
+            $user_psalt = $this->crypt->salt();
+
+            $db_array['user_psalt'] = $user_psalt;
+            $db_array['user_password'] = $this->crypt->generate_password($db_array['user_password'], $user_psalt);
         }
-        return $id;
+
+        return $db_array;
     }
-    
-    
+
     public function delete($id)
     {
         $this->db->where($this->primary_key, $id);
         $this->db->delete($this->table);
     }
-    
+
     public function getUserByEmail($email)
     {
         $this->db->where('user_email', $email);
         return $this->get('xc_users')->row();
-        
+
     }
-    
+
+    /**
+     * @param $id
+     * @return mixed
+     */
+    public function userAccessAllCompany($id)
+    {
+        $this->db->where('user_id', $id);
+        return $this->db->get('xc_users')->row();
+    }
 }

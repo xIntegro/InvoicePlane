@@ -33,7 +33,8 @@ class Users extends Admin_Controller
     public function index($page = 0)
     {
         $this->mdl_users->paginate(site_url('users/index'), $page);
-        $users = $this->mdl_users->result();
+        $companyId=$this->session->userdata('company_id');
+        $users = $this->mdl_users->companyUsers($companyId);
         
         $this->layout->set('users', $users);
         $this->layout->set('user_types', $this->mdl_users->user_types());
@@ -46,6 +47,8 @@ class Users extends Admin_Controller
      */
     public function form($id = null)
     {
+        $this->session->unset_userdata('dataUser');
+        $this->session->set_userdata(array('companyUser'=>true));
         $this->save($id);
         $this->layout->buffer('content', 'users/form');
         $this->layout->render();
@@ -56,6 +59,8 @@ class Users extends Admin_Controller
      */
     public function create($id = null)
     {
+        $this->session->unset_userdata('companyUser');
+        $this->session->set_userdata(array('dataUser'=>true));
         $this->save($id);
         $this->layout->buffer('content', 'users/new');
         $this->layout->render();
@@ -76,6 +81,7 @@ class Users extends Admin_Controller
         if ($this->mdl_users->run_validation(($id) ? 'validation_rules_existing' : 'validation_rules')) {
             $id = $this->mdl_users->save($id);
             $data = [];
+            $userData=[];
             // insert category into xc_client_category Table;
             $companies = $this->input->post('companies');
             if (!empty($companies)) {
@@ -87,12 +93,37 @@ class Users extends Admin_Controller
                 }
             }
             $this->mdl_user_company->save($data, $id);
-            
+            //check User is Able to  access all company
+            $user=$this->mdl_users->userAccessAllCompany($id);
+            if($user->access_company==1||$user->user_type==1)
+            {
+               $allCompanies= $this->mdl_company->getCompany();
+                $this->mdl_user_company->deleteUserCompany($id);
+                foreach($allCompanies as $company)
+                {
+                    $userData[]=array(
+                        'user_id'=>$id,
+                        'company_id'=>$company->id
+                    );
+                }
+                $this->mdl_user_company->save($userData, $id);
+
+            }
+
+
             $this->load->model('custom_fields/mdl_user_custom');
             
             $this->mdl_user_custom->save_custom($id, $this->input->post('custom'));
-            
-            redirect('users');
+            if($this->session->userdata('companyUser'))
+            {
+                redirect('company');
+
+            }
+            else
+            {
+                redirect('users');
+            }
+
         }
         
         if ($id and !$this->input->post('btn_submit')) {
@@ -162,6 +193,7 @@ class Users extends Admin_Controller
     {
         if ($id <> 1) {
             $this->mdl_users->delete($id);
+            $this->mdl_user_company->deleteUserCompany($id);
         }
         redirect('users');
     }
