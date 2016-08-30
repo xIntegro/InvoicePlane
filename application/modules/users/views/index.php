@@ -35,29 +35,32 @@
                     <td><?php echo $user->user_name; ?></td>
                     <td><?php echo $user_types[$user->user_type]; ?></td>
                     <td><?php echo $user->user_email; ?></td>
-                    <td>
-                        <div class="options btn-group">
-                            <a class="btn btn-sm btn-default dropdown-toggle"
-                               data-toggle="dropdown" href="#">
-                                <i class="fa fa-cog"></i> <?php echo lang('options'); ?>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li>
-                                    <a href="<?php echo site_url('users/create/' . $user->user_id); ?>">
-                                        <i class="fa fa-edit fa-margin"></i> <?php echo lang('edit'); ?>
-                                    </a>
-                                </li>
-                                <?php if ($user->user_id <> 1) { ?>
+                    <?php if ($this->session->userdata('user_type') <= $user->user_type) { ?>
+                        <td>
+                            <div class="options btn-group">
+                                <a class="btn btn-sm btn-default dropdown-toggle"
+                                   data-toggle="dropdown" href="#">
+                                    <i class="fa fa-cog"></i> <?php echo lang('options'); ?>
+                                </a>
+                                <ul class="dropdown-menu">
                                     <li>
-                                        <a href="<?php echo site_url('users/delete/' . $user->user_id); ?>"
-                                           onclick="return confirm('<?php echo lang('delete_record_warning'); ?>');">
-                                            <i class="fa fa-trash-o fa-margin"></i> <?php echo lang('delete'); ?>
+                                        <a href="<?php echo site_url('users/create/' . $user->user_id); ?>">
+                                            <i class="fa fa-edit fa-margin"></i> <?php echo lang('edit'); ?>
                                         </a>
                                     </li>
-                                <?php } ?>
-                            </ul>
-                        </div>
-                    </td>
+                                    <?php if ($user->user_id <> 1) { ?>
+                                        <li>
+                                            <a href="<?php echo site_url('users/delete/' . $user->user_id); ?>"
+                                               onclick="return confirm('<?php echo lang('delete_record_warning'); ?>');">
+                                                <i class="fa fa-trash-o fa-margin"></i> <?php echo lang('delete'); ?>
+                                            </a>
+                                        </li>
+                                    <?php } ?>
+                                </ul>
+                            </div>
+                        </td>
+                    <?php } ?>
+
                 </tr>
             <?php } ?>
             </tbody>

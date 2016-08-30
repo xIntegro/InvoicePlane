@@ -57,6 +57,13 @@
                        readonly onfocus="this.removeAttribute('readonly');" class="form-control">
                 <span class="help-block"><?php echo lang('setup_user_password_verify_info'); ?></span>
             </div>
+            <div class="form-group">
+                <label>
+                    <?php echo lang('company_name'); ?>
+                </label>
+                <input type="text" name="companyName" class="form-control" >
+                <span class="help-block"><?php echo lang('setup_user_company_info'); ?></span>
+            </div>
 
             <legend><?php echo lang('address'); ?></legend>
             <p><?php echo lang('setup_user_address_info'); ?></p>

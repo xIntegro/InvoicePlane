@@ -21,8 +21,8 @@
     <meta name="viewport" content="width=device-width">
 
     <!-- CSS: implied media=all -->
-    <link rel="stylesheet" href="/assets/default/css/welcome.css">
-     <link rel="stylesheet" href="/assets/default/css/custom.css">
+    <link rel="stylesheet" href="../assets/default/css/welcome.css">
+     <link rel="stylesheet" href="../assets/default/css/custom.css">
     <!-- end CSS-->
 
 </head>
@@ -40,7 +40,7 @@
         </p>
 
         <div class="btn-group btn-group-justified">
-            <a href="/index.php/setup" class="btn btn-success">
+            <a href="../index.php/setup" class="btn btn-success">
                 <i class="fa fa-cogs"></i> Setup
             </a>
             <a href="https://wiki.xintegro.de/" class="btn btn-info">

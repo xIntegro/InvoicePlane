@@ -204,7 +204,7 @@ class Setup extends MX_Controller
             if ($this->mdl_users->run_validation()) {
                 //load model of company
                 $this->load->model('company/mdl_company');
-                $data = array('name' => 'xintegro', 'dbname' => $this->session->userdata('dbname'));
+                $data = array('name' => $this->input->post('companyName'), 'dbname' => $this->session->userdata('dbname'));
                 $company_id = $this->mdl_company->insert($data);
                 //get company_id
                 $this->session->set_userdata('company_id', $company_id);

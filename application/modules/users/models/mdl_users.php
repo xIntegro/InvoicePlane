@@ -66,6 +66,25 @@ class Mdl_Users extends Response_Model
             '3' => lang('guest_read_only')
         );
     }
+    public function user_type()
+    {
+        if($this->session->userdata('user_type')==1)
+        {
+            return array(
+                '1' => lang('SuperAdministrator'),
+                '2' => lang('administrator'),
+                '3' => lang('guest_read_only')
+            );
+        }
+        else
+        {
+            return array(
+                '2' => lang('administrator'),
+                '3' => lang('guest_read_only')
+            );
+        }
+
+    }
 
     public function getUsers()
     {
@@ -115,7 +134,7 @@ class Mdl_Users extends Response_Model
             'user_email' => array(
                 'field' => 'user_email',
                 'label' => lang('email'),
-                'rules' => "required|valid_email|is_unique[xc_users.user_email]"
+                'rules' => "required|valid_email|callback_isEmailExist"
             ),
             'user_name' => array(
                 'field' => 'user_name',
@@ -179,7 +198,12 @@ class Mdl_Users extends Response_Model
                 'field' => 'companies[]',
                 'label' => lang('company_required'),
                 'rules' => 'required'
-            )
+            ),
+            'companyName'=>array(
+                'field'=>'companyName',
+                'label'=>lang('companyName'),
+                'rules'=>'required'
+            ),
 
         );
     }
@@ -375,6 +399,7 @@ class Mdl_Users extends Response_Model
         unset($db_array['btn_continue']);
         unset($db_array['btn_submit']);
         unset($db_array['companies']);
+        unset($db_array['companyName']);
 
         if (isset($db_array['user_password'])) {
             unset($db_array['user_passwordv']);
@@ -411,5 +436,40 @@ class Mdl_Users extends Response_Model
     {
         $this->db->where('user_id', $id);
         return $this->db->get($this->table)->row();
+    }
+
+
+    /**
+     * @param $key
+     * @return bool
+     */
+    function isEmailExist($key) {
+      $isExist=$this->mail_exists($key);
+        if($isExist)
+        {
+            $this->form_validation->set_message('isEmailExist', 'Email address is already exist.'
+            );
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
+
+    /**
+     * @param $key
+     * @return bool
+     */
+    function mail_exists($key)
+    {
+        $this->db->where('user_email',$key);
+        $query = $this->db->get($this->table);
+        if ($query->num_rows() > 0){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 }

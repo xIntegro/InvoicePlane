@@ -77,55 +77,57 @@ class Users extends Admin_Controller
         if ($this->input->post('btn_cancel')) {
             redirect('users');
         }
-        
-        if ($this->mdl_users->run_validation(($id) ? 'validation_rules_existing' : 'validation_rules')) {
-            $id = $this->mdl_users->save($id);
-            $data = [];
-            $userData=[];
-            // insert category into xc_client_category Table;
-            $companies = $this->input->post('companies');
-            if (!empty($companies)) {
-                foreach ($companies as $key => $value) {
-                    $data[] = array(
-                        'user_id' => $id,
-                        'company_id' => $value
-                    );
+        if($this->input->post('btn_submit'))
+        {
+            $_POST['companyName'] = [];
+            if ($this->mdl_users->run_validation(($id) ? 'validation_rules_existing' : 'validation_rules')) {
+                $id = $this->mdl_users->save($id);
+                $data = [];
+                $userData=[];
+                // insert category into xc_client_category Table;
+                $companies = $this->input->post('companies');
+                if (!empty($companies)) {
+                    foreach ($companies as $key => $value) {
+                        $data[] = array(
+                            'user_id' => $id,
+                            'company_id' => $value
+                        );
+                    }
                 }
-            }
-            $this->mdl_user_company->save($data, $id);
-            //check User is Able to  access all company
-            $user=$this->mdl_users->userAccessAllCompany($id);
-            if($user->access_company==1||$user->user_type==1)
-            {
-               $allCompanies= $this->mdl_company->getCompany();
-                $this->mdl_user_company->deleteUserCompany($id);
-                foreach($allCompanies as $company)
+                $this->mdl_user_company->save($data, $id);
+                //check User is Able to  access all company
+                $user=$this->mdl_users->userAccessAllCompany($id);
+                if($user->access_company==1||$user->user_type==1)
                 {
-                    $userData[]=array(
-                        'user_id'=>$id,
-                        'company_id'=>$company->id
-                    );
+                    $allCompanies= $this->mdl_company->getCompany();
+                    $this->mdl_user_company->deleteUserCompany($id);
+                    foreach($allCompanies as $company)
+                    {
+                        $userData[]=array(
+                            'user_id'=>$id,
+                            'company_id'=>$company->id
+                        );
+                    }
+                    $this->mdl_user_company->save($userData, $id);
+
                 }
-                $this->mdl_user_company->save($userData, $id);
+
+
+                $this->load->model('custom_fields/mdl_user_custom');
+
+                $this->mdl_user_custom->save_custom($id, $this->input->post('custom'));
+                if($this->session->userdata('companyUser'))
+                {
+                    redirect('company');
+
+                }
+                else
+                {
+                    redirect('users');
+                }
 
             }
-
-
-            $this->load->model('custom_fields/mdl_user_custom');
-            
-            $this->mdl_user_custom->save_custom($id, $this->input->post('custom'));
-            if($this->session->userdata('companyUser'))
-            {
-                redirect('company');
-
-            }
-            else
-            {
-                redirect('users');
-            }
-
         }
-        
         if ($id and !$this->input->post('btn_submit')) {
             if (!$this->mdl_users->prep_form($id)) {
                 show_404();
@@ -161,6 +163,7 @@ class Users extends Admin_Controller
             array(
                 'id' => $id,
                 'user_types' => $this->mdl_users->user_types(),
+                'user_type' => $this->mdl_users->user_type(),
                 'user_clients' => $this->mdl_user_clients->where('xc_user_clients.user_id', $id)->get()->result(),
                 'custom_fields' => $this->mdl_custom_fields->by_table('xc_user_custom')->get()->result(),
                 'countries' => get_country_list(lang('cldr')),
