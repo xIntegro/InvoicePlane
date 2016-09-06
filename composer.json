@@ -1,0 +1,13 @@
+{
+  "name": "xintegro",
+  "license": "",
+  "type": "project",
+  "config": {
+    "vendor-dir": "vendor"
+  },
+  "require": {
+    "symfony/dependency-injection": "^3.1"
+  },
+  "require-dev": {
+  }
+}

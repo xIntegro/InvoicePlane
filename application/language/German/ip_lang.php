@@ -564,7 +564,6 @@ $lang = array(
 	'address_information'							=>	'Addresse',
 	'home_no'										=>	'Festnetz-Nr.:',
 	'home_address'									=>	'Addresse',
-	'street_address'								=>	'Hausnummer',
 	'zip'											=>	'PLZ',
 	'email1'										=>	'Email 1',
 	'email2'										=>	'Email 2',
@@ -608,6 +607,4 @@ $lang = array(
 	'access_company'								=>	'Zugriff auf alle Firmen',
     'company_already_exists'						=>	'Firmenname existiert bereits!',
 	'filter_companies'								=>	'Filter Firmennamen'
-
-
 );

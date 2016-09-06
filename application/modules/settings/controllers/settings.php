@@ -69,7 +69,6 @@ class Settings extends Admin_Controller
 
                 $this->mdl_settings->save('invoice_logo', $upload_data['file_name']);
             }
-
             // Check for login logo upload
             if ($_FILES['login_logo']['name']) {
                 $this->load->library('upload', $upload_config);
@@ -82,6 +81,11 @@ class Settings extends Admin_Controller
                 $upload_data = $this->upload->data();
 
                 $this->mdl_settings->save('login_logo', $upload_data['file_name']);
+
+                if (!$_FILES['invoice_logo']['name']){
+                    //as fallback save the login logo as invoice logo
+                    $this->mdl_settings->save('invoice_logo', $upload_data['file_name']);
+                }
             }
 
             $this->session->set_flashdata('alert_success', lang('settings_successfully_saved'));

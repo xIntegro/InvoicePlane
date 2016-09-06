@@ -162,8 +162,6 @@
                     <ul class="dropdown-menu">
                         <li><?php echo anchor('clients/form', lang('add_client')); ?></li>
                         <li><?php echo anchor('clients/index', lang('view_clients')); ?></li>
-
-
                     </ul>
                 </li>
                 <li class="dropdown">
@@ -176,6 +174,8 @@
                         <li><?php echo anchor('persons/index', lang('view_persons')); ?></li>
                     </ul>
                 </li>
+
+
 
 
                 <li class="dropdown">

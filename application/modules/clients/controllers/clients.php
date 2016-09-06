@@ -27,8 +27,6 @@ class Clients extends Admin_Controller
         $this->load->model('categories/category_model');
         $this->load->model('mdl_client_category');
         $this->load->model('client_persons/mdl_client_persons');
-
-
     }
 
     public function index()
@@ -86,16 +84,20 @@ class Clients extends Admin_Controller
             $id = $this->mdl_clients->save($id);
 
             // insert category into xc_client_category Table;
-            $category = $this->input->post('category');
-            if (!empty($category)) {
-                foreach ($category as $key => $value) {
-                    $data[] = array(
-                        'client_id' => $id,
-                        'category_id' => $value
+            $category=$this->input->post('category');
+            if(!empty($category))
+            {
+                foreach ($category as $key => $value)
+                {
+                    $data[]=array(
+                        'client_id'=>$id,
+                        'category_id'=>$value
                     );
                 }
-                $this->mdl_client_category->Update($id, $data);
-            } else {
+                $this->mdl_client_category->Update($id,$data);
+            }
+            else
+            {
                 $this->mdl_client_category->delete($id);
             }
             $this->load->model('custom_fields/mdl_client_custom');
@@ -116,8 +118,7 @@ class Clients extends Admin_Controller
             $client_custom = $this->mdl_client_custom->where('client_id', $id)->get();
 
             //get category for particular client
-            $client_category = $this->mdl_client_category->get_category($id);
-
+            $client_category=$this->mdl_client_category->get_category($id);
 
             if ($client_custom->num_rows()) {
                 $client_custom = $client_custom->row();
@@ -144,7 +145,7 @@ class Clients extends Admin_Controller
         $this->layout->set('custom_fields', $this->mdl_custom_fields->by_table('xc_client_custom')->get()->result());
         $this->layout->set('countries', get_country_list(lang('cldr')));
         $this->layout->set('selected_country',
-            $this->mdl_clients->form_value('client_country') ?: $this->mdl_settings->setting('default_country'));
+        $this->mdl_clients->form_value('client_country') ?: $this->mdl_settings->setting('default_country'));
 
         $this->layout->buffer('content', 'clients/form');
         $this->layout->render();
@@ -159,23 +160,22 @@ class Clients extends Admin_Controller
         $this->load->model('custom_fields/mdl_custom_fields');
         $this->load->model('client_persons/mdl_client_persons');
 
-        $client = $this->mdl_clients->with_total()->with_total_balance()->with_total_paid()->where('xc_clients.client_id',
-            $client_id)->get()->row();
-        $persons = $this->mdl_client_persons->get_person_detail($client_id);
+        $client = $this->mdl_clients->with_total()->with_total_balance()->with_total_paid()->where('xc_clients.client_id', $client_id)->get()->row();
+        $persons=$this->mdl_client_persons->get_person_detail($client_id);
 
         if (!$client) {
             show_404();
         }
 
         $this->layout->set(array(
-                'client' => $client,
-                'client_notes' => $this->mdl_client_notes->where('client_id', $client_id)->get()->result(),
-                'client_persons' => $persons,
-                'invoices' => $this->mdl_invoices->by_client($client_id)->limit(20)->get()->result(),
-                'quotes' => $this->mdl_quotes->by_client($client_id)->limit(20)->get()->result(),
-                'payments' => $this->mdl_payments->by_client($client_id)->limit(20)->get()->result(),
-                'custom_fields' => $this->mdl_custom_fields->by_table('xc_client_custom')->get()->result(),
-                'quote_statuses' => $this->mdl_quotes->statuses(),
+                'client'           => $client,
+                'client_notes'     => $this->mdl_client_notes->where('client_id', $client_id)->get()->result(),
+                'client_persons'    => $persons,
+                'invoices'         => $this->mdl_invoices->by_client($client_id)->limit(20)->get()->result(),
+                'quotes'           => $this->mdl_quotes->by_client($client_id)->limit(20)->get()->result(),
+                'payments'         => $this->mdl_payments->by_client($client_id)->limit(20)->get()->result(),
+                'custom_fields'    => $this->mdl_custom_fields->by_table('xc_client_custom')->get()->result(),
+                'quote_statuses'   => $this->mdl_quotes->statuses(),
                 'invoice_statuses' => $this->mdl_invoices->statuses(),
 
             )
@@ -271,6 +271,4 @@ class Clients extends Admin_Controller
         $this->layout->buffer('content', 'clients/client_person');
         $this->layout->render();
     }
-
-
 }

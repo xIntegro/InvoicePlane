@@ -12,3 +12,5 @@
 .idea
 .sass-cache
 adminer.php
+.DS_Store
+application/.DS_Store
