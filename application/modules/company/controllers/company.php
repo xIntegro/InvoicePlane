@@ -62,7 +62,7 @@ class Company extends Admin_Controller
                 $this->session->set_flashdata('alert_error', lang('company_already_exists'));
                 redirect('company/form');
             }
-            $companyName = preg_replace('/\s+/', '_', $this->input->post('name'));
+            $companyName = preg_replace('/[^A-Za-z0-9]/', '_', $this->input->post('name'));
             $dbname = 'xintegro_' . $companyName . '_' . rand();
             $this->dbforge->create_database($dbname);
 
