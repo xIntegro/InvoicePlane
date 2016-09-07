@@ -116,16 +116,21 @@ class Setup extends MX_Controller
                 redirect('setup/upgrade_tables');
             }
         }
-        
         if ($this->input->post('db_hostname')) {
-            $this->write_database_config($this->input->post('db_hostname'), $this->input->post('db_username'),
-                $this->input->post('db_password'), $this->input->post('db_database'));
-            
-            $this->session->set_userdata('dbName', $this->input->post('db_database'));
-            
-            
+            $isValidConnection=$this->checkValidDbConnection($this->input->post('db_hostname'),$this->input->post('db_username'),$this->input->post('db_password'),$this->input->post('db_database'));
+            if(!$isValidConnection['success'])
+            {
+                $this->layout->set('database', $isValidConnection);
+            }
+            else
+            {
+                $this->write_database_config($this->input->post('db_hostname'), $this->input->post('db_username'),
+                    $this->input->post('db_password'), $this->input->post('db_database'));
+
+                $this->session->set_userdata('dbName', $this->input->post('db_database'));
+            }
         }
-        
+
         $this->layout->set('database', $this->check_database());
         $this->layout->set('errors', $this->errors);
         $this->layout->buffer('content', 'setup/configure_database');
@@ -336,6 +341,37 @@ class Setup extends MX_Controller
             );
         }
         
+        return array(
+            'message' => lang('database_properly_configured'),
+            'success' => 1
+        );
+    }
+
+    private function checkValidDbConnection($hostName, $userName, $password, $dataBase)
+    {
+        $this->load->library('lib_mysql');
+        $can_connect = $this->lib_mysql->connect($hostName, $userName, $password);
+
+        if (!$can_connect) {
+            $this->errors += 1;
+
+            return array(
+                'message' => lang('cannot_connect_database_server'),
+                'success' => 0
+            );
+        }
+
+        $can_select_db = $this->lib_mysql->select_db($can_connect, $dataBase);
+
+        if (!$can_select_db) {
+            $this->errors += 1;
+
+            return array(
+                'message' => lang('cannot_select_specified_database'),
+                'success' => 0
+            );
+        }
+
         return array(
             'message' => lang('database_properly_configured'),
             'success' => 1
