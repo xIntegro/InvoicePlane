@@ -11,7 +11,7 @@
             <?php if (!$database['success']) { ?>
 
                 <?php if ($database['message'] and $_POST) { ?>
-                    <p><span class="label label-danger"><?php echo lang('failure'); ?></span>
+                    <p style="color: red"><span class="label label-danger"><?php echo lang('failure'); ?></span>
                         <?php echo $database['message']; ?>
                     </p>
                 <?php } ?>
