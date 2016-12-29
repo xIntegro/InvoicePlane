@@ -531,6 +531,7 @@ $lang = array(
     'not_started'                                  => 'Not started', 
     'in_progress'                                  => 'In progress', 
     'complete'                                     => 'Complete', 
-    'invoiced'                                     => 'Invoiced', 
-
+    'invoiced'                                     => 'Invoiced',
+    //Continuous Bills
+    'continuous_bill_menu'                         => 'Continuous Bills',
 );

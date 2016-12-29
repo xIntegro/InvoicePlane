@@ -546,4 +546,6 @@ $lang = array(
     'in_progress'                                  => 'In Bearbeitung',
     'complete'                                     => 'Abgeschlossen',
     'invoiced'                                     => 'Berechnet',
+    //Continuous Bills
+    'continuous_bill_menu'                         => 'Dauerrechungen',
 );

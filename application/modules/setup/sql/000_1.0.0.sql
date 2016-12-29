@@ -409,3 +409,18 @@ CREATE TABLE `xc_versions` (
 )
   ENGINE = MyISAM
   DEFAULT CHARSET = utf8;
+
+CREATE TABLE `xc_invoices_continuous` (
+  `invoice_continuous_id` INT(11) NOT NULL AUTO_INCREMENT,
+  `invoice_id`           INT(11) NOT NULL,
+  `recur_start_date`     DATE    NOT NULL,
+  `recur_end_date`       DATE    NOT NULL,
+  `recur_frequency`      CHAR(2) NOT NULL,
+  `recur_next_date`      DATE    NOT NULL,
+  `recur_notes_one`      DATE    NOT NULL,
+  `recur_notes_two`      DATE    NOT NULL,
+  PRIMARY KEY (`invoice_continuous_id`),
+  KEY `invoice_id` (`invoice_id`)
+)
+  ENGINE = MyISAM
+  DEFAULT CHARSET = utf8;

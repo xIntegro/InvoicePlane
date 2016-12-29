@@ -173,6 +173,7 @@
                         <li><a href="#" class="create-invoice"><?php echo lang('create_invoice'); ?></a></li>
                         <li><?php echo anchor('invoices/index', lang('view_invoices')); ?></li>
                         <li><?php echo anchor('invoices/recurring/index', lang('view_recurring_invoices')); ?></li>
+                        <li><?php echo anchor('invoices/continuous/index', lang('continuous_bill_menu')); ?></li>
                     </ul>
                 </li>
 
